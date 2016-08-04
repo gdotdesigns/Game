@@ -12,6 +12,9 @@ public class Game extends ApplicationAdapter {
 	public static final int WIDTH=480;
 	public static final int HEIGHT=800;
 	public static final String TITLE = "Game";
+	private static final int MAX_FPS = 30;
+    private static final int MAX_FRAMES_SKIPPED=5;
+    private static final int FRAME_PERIOD =1000/MAX_FPS;
 
 
 	@Override
