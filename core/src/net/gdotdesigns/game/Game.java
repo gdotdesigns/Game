@@ -9,7 +9,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class Game extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
-	
+	public static final int WIDTH=480;
+	public static final int HEIGHT=800;
+	public static final String TITLE = "Game";
+
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
