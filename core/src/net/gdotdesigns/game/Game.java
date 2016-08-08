@@ -19,8 +19,8 @@ import net.gdotdesigns.game.States.MenuState;
 
 public class Game extends ApplicationAdapter {
 
-    public static final int WIDTH=480;
-	public static final int HEIGHT=800;
+    public static final int WIDTH=960;
+	public static final int HEIGHT=540;
 
 	public static final String TITLE = "Game";
 
@@ -28,8 +28,8 @@ public class Game extends ApplicationAdapter {
     private static final int MAX_FRAMES_SKIPPED=5;
     private static final int FRAME_PERIOD =1000/MAX_FPS;
 
-	private final float WORLD_WIDTH=100;
-	private final float WORLD_HEIGHT=200;
+	private final float WORLD_WIDTH=960;
+	private final float WORLD_HEIGHT=540;
 
     //private GameStateManager gsm;
     private SpriteBatch batch;
@@ -73,7 +73,7 @@ public class Game extends ApplicationAdapter {
 		batch.setProjectionMatrix(cam.combined);
 		batch.begin();
 		elapsedTime+=Gdx.graphics.getDeltaTime();
-		batch.draw(animation.getKeyFrame(elapsedTime,true),0,0,0,0,34,43,10,10,90);
+		batch.draw(animation.getKeyFrame(elapsedTime,true),0,0,0,0,34,43,10,10,0);
 		batch.end();
 	}
 	
