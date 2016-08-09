@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -24,56 +25,55 @@ public class Game extends ApplicationAdapter {
 
 	public static final String TITLE = "Game";
 
-	private static final int MAX_FPS = 30;
-    private static final int MAX_FRAMES_SKIPPED=5;
-    private static final int FRAME_PERIOD =1000/MAX_FPS;
 
-	private final float WORLD_WIDTH=960;
-	private final float WORLD_HEIGHT=540;
 
-    //private GameStateManager gsm;
+
     private SpriteBatch batch;
 	private TextureAtlas textureAtlas;
 	private Animation animation;
 	private float elapsedTime;
 	private OrthographicCamera cam;
 	private Viewport vp;
+	private TextureRegion currentframe;
+	private float width;
+	private float height;
+	private float aspectRatio;
 
 
 	@Override
 	public void create () {
-		float aspectRatio =(float)Gdx.graphics.getHeight()/(float)Gdx.graphics.getWidth();
-		cam =new OrthographicCamera(aspectRatio*100,aspectRatio*200);
+		aspectRatio =(float)Gdx.graphics.getHeight()/(float)Gdx.graphics.getWidth();
+		cam =new OrthographicCamera();
 		//cam.position.set(cam.viewportWidth/2,cam.viewportHeight/2,0);
 		vp=new ScreenViewport(cam);
 		vp.apply();
 		batch = new SpriteBatch();
-		//GLTexture.setEnforcePotImages(false);
 		textureAtlas = new TextureAtlas("greenguy.txt");
 		animation = new Animation(1/6f,textureAtlas.getRegions());
-        //gsm = new GameStateManager();
         Gdx.gl.glClearColor(0, 0,0, 1);
+		currentframe = new TextureRegion();
 
-        //gsm.push(new MenuState(gsm));
+
+
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		//super.resize(width, height);
+		super.resize(width, height);
 		vp.update(width,height);
-		cam.position.set(cam.viewportWidth/2,cam.viewportHeight/2,0);
+		//cam.position.set(cam.viewportWidth/2,cam.viewportHeight/2,0);
 	}
 
 	@Override
 	public void render () {
-
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        //gsm.update(Gdx.graphics.getDeltaTime());
-		//gsm.render(batch);
 		batch.setProjectionMatrix(cam.combined);
 		batch.begin();
 		elapsedTime+=Gdx.graphics.getDeltaTime();
-		batch.draw(animation.getKeyFrame(elapsedTime,true),0,0,0,0,34,43,10,10,0);
+		currentframe = animation.getKeyFrame(elapsedTime,true);
+		width = currentframe.getRegionWidth();
+		height= currentframe.getRegionHeight();
+		batch.draw(currentframe,0,0,0,0,width,height,1,1,0);
 		batch.end();
 	}
 	
