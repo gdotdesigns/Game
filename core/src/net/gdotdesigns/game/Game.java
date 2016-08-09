@@ -25,6 +25,7 @@ public class Game extends ApplicationAdapter {
 
 	public static final String TITLE = "Game";
 
+	public static final int VP_HEIGHT=200;
 
 
 
@@ -38,15 +39,20 @@ public class Game extends ApplicationAdapter {
 	private float width;
 	private float height;
 	private float aspectRatio;
+	private float ppu;
+	private float vp_width;
 
 
 	@Override
 	public void create () {
+		ppu=Gdx.graphics.getHeight()/VP_HEIGHT;
+		vp_width=Gdx.graphics.getWidth()/ppu;
 		aspectRatio =(float)Gdx.graphics.getHeight()/(float)Gdx.graphics.getWidth();
-		cam =new OrthographicCamera();
-		//cam.position.set(cam.viewportWidth/2,cam.viewportHeight/2,0);
-		vp=new ScreenViewport(cam);
-		vp.apply();
+		cam =new OrthographicCamera(vp_width,VP_HEIGHT);
+		//cam.position.set(0,0);
+		cam.update();
+		//vp=new ScreenViewport(cam);
+		//vp.apply();
 		batch = new SpriteBatch();
 		textureAtlas = new TextureAtlas("greenguy.txt");
 		animation = new Animation(1/6f,textureAtlas.getRegions());
@@ -60,8 +66,7 @@ public class Game extends ApplicationAdapter {
 	@Override
 	public void resize(int width, int height) {
 		super.resize(width, height);
-		vp.update(width,height);
-		//cam.position.set(cam.viewportWidth/2,cam.viewportHeight/2,0);
+		//vp.update(width,height);
 	}
 
 	@Override
@@ -73,7 +78,8 @@ public class Game extends ApplicationAdapter {
 		currentframe = animation.getKeyFrame(elapsedTime,true);
 		width = currentframe.getRegionWidth();
 		height= currentframe.getRegionHeight();
-		batch.draw(currentframe,0,0,0,0,width,height,1,1,0);
+		//batch.draw(currentframe,0,0,0,0,width,height,1,1,0);
+		batch.draw(currentframe,-width/2,-height/2);
 		batch.end();
 	}
 	
