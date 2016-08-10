@@ -25,7 +25,7 @@ public class Game extends ApplicationAdapter {
 
 	public static final String TITLE = "Game";
 
-	public static final float VP_HEIGHT=4f;
+	private static final float VP_HEIGHT=4f;
 
 
 
@@ -38,22 +38,12 @@ public class Game extends ApplicationAdapter {
 	private TextureRegion currentframe;
 	private float width;
 	private float height;
-	private float aspectRatio;
-	private float ppu;
-    private float ppu2;
-	private float vp_width;
+
+
 
 	@Override
 	public void create () {
-		ppu=Gdx.graphics.getHeight()/VP_HEIGHT;
-        ppu2=Gdx.graphics.getWidth()/VP_HEIGHT;
-		vp_width=Gdx.graphics.getWidth()/ppu;
-		aspectRatio =(float)Gdx.graphics.getHeight()/(float)Gdx.graphics.getWidth();
-		//cam =new OrthographicCamera(vp_width,VP_HEIGHT);
-        //cam =new OrthographicCamera(200*ppu2,200*ppu);
-        cam =new OrthographicCamera();
-		//cam.position.set(0,0);
-		//cam.setToOrtho(false);
+		cam =new OrthographicCamera();
 		cam.update();
 		//vp=new ScreenViewport(cam);
 		//vp.apply();
@@ -63,9 +53,6 @@ public class Game extends ApplicationAdapter {
         Gdx.gl.glClearColor(0, 0,0, 1);
 		currentframe = new TextureRegion();
         batch.setProjectionMatrix(cam.combined);
-
-
-
 	}
 
 	@Override
@@ -84,9 +71,7 @@ public class Game extends ApplicationAdapter {
 		currentframe = animation.getKeyFrame(elapsedTime,true);
 		width = currentframe.getRegionWidth();
 		height= currentframe.getRegionHeight();
-		//batch.draw(currentframe,0,0,0,0,width,height,1,1,0);
-		//batch.draw(currentframe,-width/2,-height/2,50f,50f);
-        batch.draw(currentframe,0,0,1.8f,1.8f);
+        batch.draw(currentframe,0,0,1f,1f);
 		batch.end();
 	}
 	
