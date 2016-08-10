@@ -68,7 +68,7 @@ public class Game extends ApplicationAdapter {
 	public void render () {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
-		batch.draw(backgroundTexture,0,0,10,10);
+		batch.draw(backgroundTexture,0,0,16,9);
 		elapsedTime+=Gdx.graphics.getDeltaTime();
 		currentframe = animation.getKeyFrame(elapsedTime,true);
         batch.draw(currentframe,0,0,SPRITE_WIDTH,SPRITE_HEIGHT);
