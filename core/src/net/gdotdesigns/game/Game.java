@@ -20,14 +20,14 @@ import net.gdotdesigns.game.States.MenuState;
 
 public class Game extends ApplicationAdapter {
 
-    public static final int WIDTH=960;
+	public static final int WIDTH=960;
 	public static final int HEIGHT=540;
 
 	public static final String TITLE = "Game";
 
-	private static final float VP_HEIGHT=4f;
-
-
+	private static final float VP_HEIGHT=10f;
+	private static final float SPRITE_WIDTH=1f;
+	private static final float SPRITE_HEIGHT=1f;
 
     private SpriteBatch batch;
 	private TextureAtlas textureAtlas;
@@ -36,8 +36,8 @@ public class Game extends ApplicationAdapter {
 	private OrthographicCamera cam;
 	private Viewport vp;
 	private TextureRegion currentframe;
-	private float width;
-	private float height;
+	private static Texture backgroundTexture;
+
 
 
 
@@ -52,6 +52,7 @@ public class Game extends ApplicationAdapter {
 		animation = new Animation(1/6f,textureAtlas.getRegions());
         Gdx.gl.glClearColor(0, 0,0, 1);
 		currentframe = new TextureRegion();
+		backgroundTexture = new Texture("Aspect.jpg");
         batch.setProjectionMatrix(cam.combined);
 	}
 
@@ -67,11 +68,10 @@ public class Game extends ApplicationAdapter {
 	public void render () {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
+		batch.draw(backgroundTexture,0,0,10,10);
 		elapsedTime+=Gdx.graphics.getDeltaTime();
 		currentframe = animation.getKeyFrame(elapsedTime,true);
-		width = currentframe.getRegionWidth();
-		height= currentframe.getRegionHeight();
-        batch.draw(currentframe,0,0,1f,1f);
+        batch.draw(currentframe,0,0,SPRITE_WIDTH,SPRITE_HEIGHT);
 		batch.end();
 	}
 	
