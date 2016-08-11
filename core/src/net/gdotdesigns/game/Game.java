@@ -25,9 +25,9 @@ public class Game extends ApplicationAdapter {
 
 	public static final String TITLE = "Game";
 
-	private static final float VP_HEIGHT=10f;
-	private static final float SPRITE_WIDTH=1f;
-	private static final float SPRITE_HEIGHT=1f;
+	private static final float WORLD_HEIGHT=10f;
+	private static final float TEXTURE_WIDTH=1f;
+	private static final float TEXTURE_HEIGHT=1f;
 
     private SpriteBatch batch;
 	private TextureAtlas textureAtlas;
@@ -60,7 +60,7 @@ public class Game extends ApplicationAdapter {
 	public void resize(int width, int height) {
 		super.resize(width, height);
 		//vp.update(width,height);
-        cam.setToOrtho(false, VP_HEIGHT * width / (float)height, VP_HEIGHT);
+        cam.setToOrtho(false, WORLD_HEIGHT * width / (float)height, WORLD_HEIGHT);
         batch.setProjectionMatrix(cam.combined);
 	}
 
@@ -71,7 +71,7 @@ public class Game extends ApplicationAdapter {
 		batch.draw(backgroundTexture,0,0,16,9);
 		elapsedTime+=Gdx.graphics.getDeltaTime();
 		currentframe = animation.getKeyFrame(elapsedTime,true);
-        batch.draw(currentframe,0,0,SPRITE_WIDTH,SPRITE_HEIGHT);
+        batch.draw(currentframe,0,0,TEXTURE_WIDTH,TEXTURE_HEIGHT);
 		batch.end();
 	}
 	
