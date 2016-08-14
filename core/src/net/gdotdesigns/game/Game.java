@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -20,8 +21,10 @@ import net.gdotdesigns.game.States.MenuState;
 
 public class Game extends ApplicationAdapter {
 
-	public static final int WIDTH=960;
-	public static final int HEIGHT=540;
+	//public static final int WIDTH=960;
+	//public static final int HEIGHT=540;
+	public static final int WIDTH=1920;
+	public static final int HEIGHT=1080;
 
 	public static final String TITLE = "Game";
 
@@ -45,7 +48,7 @@ public class Game extends ApplicationAdapter {
 	public void create () {
 		cam =new OrthographicCamera();
 		cam.update();
-		//vp=new ScreenViewport(cam);
+		//vp=new FillViewport(16,9,cam);
 		//vp.apply();
 		batch = new SpriteBatch();
 		textureAtlas = new TextureAtlas("greenguy.txt");
@@ -53,14 +56,14 @@ public class Game extends ApplicationAdapter {
         Gdx.gl.glClearColor(0, 0,0, 1);
 		currentframe = new TextureRegion();
 		backgroundTexture = new Texture("Aspect.jpg");
-        batch.setProjectionMatrix(cam.combined);
 	}
 
 	@Override
 	public void resize(int width, int height) {
 		super.resize(width, height);
 		//vp.update(width,height);
-        cam.setToOrtho(false, WORLD_HEIGHT * width / (float)height, WORLD_HEIGHT);
+        cam.setToOrtho(false, WORLD_HEIGHT * (float)width / (float)height, WORLD_HEIGHT);
+        cam.update();
         batch.setProjectionMatrix(cam.combined);
 	}
 
@@ -68,7 +71,7 @@ public class Game extends ApplicationAdapter {
 	public void render () {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
-		batch.draw(backgroundTexture,0,0,16,9);
+		batch.draw(backgroundTexture,(cam.viewportWidth/2-(16/2f)),(cam.viewportHeight/2-(9/2f)),16,9);
 		elapsedTime+=Gdx.graphics.getDeltaTime();
 		currentframe = animation.getKeyFrame(elapsedTime,true);
         batch.draw(currentframe,0,0,TEXTURE_WIDTH,TEXTURE_HEIGHT);
