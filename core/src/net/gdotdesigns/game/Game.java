@@ -28,7 +28,7 @@ public class Game extends ApplicationAdapter {
 
 	public static final String TITLE = "Game";
 
-	private static final float WORLD_HEIGHT=10f;
+	private static final float WORLD_HEIGHT=9f;
 	private static final float TEXTURE_WIDTH=1f;
 	private static final float TEXTURE_HEIGHT=1f;
 
@@ -55,7 +55,7 @@ public class Game extends ApplicationAdapter {
 		animation = new Animation(1/6f,textureAtlas.getRegions());
         Gdx.gl.glClearColor(0, 0,0, 1);
 		currentframe = new TextureRegion();
-		backgroundTexture = new Texture("Aspect.jpg");
+		backgroundTexture = new Texture("background.png");
 	}
 
 	@Override
