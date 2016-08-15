@@ -33,7 +33,7 @@ public class Game extends ApplicationAdapter {
 	public static final String TITLE = "Game";
 
 	private static final float WORLD_HEIGHT=9f;
-	private static final float TEXTURE_WIDTH=2f*1.305f;
+	private static final float TEXTURE_WIDTH=2f;
 	private static final float TEXTURE_HEIGHT=2f;
 	public static final float BACKGROUND_WIDTH=16;
 	public static final float BACKGROUND_HEIGHT=9;
@@ -120,7 +120,7 @@ public class Game extends ApplicationAdapter {
         elapsedTime+=Gdx.graphics.getDeltaTime();
 		//batch.draw(backgroundTexture,viewportCenterWidth-(BACKGROUND_WIDTH/2f),viewportCenterHeight-(BACKGROUND_HEIGHT/2f),BACKGROUND_WIDTH,BACKGROUND_HEIGHT);
 		currentframe = animation.getKeyFrame(elapsedTime,true);
-        batch.draw(currentframe,-TEXTURE_WIDTH/2,-TEXTURE_HEIGHT/2,TEXTURE_WIDTH,TEXTURE_HEIGHT);
+        batch.draw(currentframe,-TEXTURE_WIDTH/2,-TEXTURE_HEIGHT/2,TEXTURE_WIDTH*1.305f,TEXTURE_HEIGHT);
 		batch.end();
 	}
 
