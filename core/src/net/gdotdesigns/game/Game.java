@@ -42,7 +42,7 @@ public class Game extends ApplicationAdapter {
 	private static final float TEXTURE_HEIGHT=2f;
 	public static final float BACKGROUND_WIDTH=16;
 	public static final float BACKGROUND_HEIGHT=9;
-    public static final float GRAVITY = -.1f;
+    public static final float GRAVITY = 0f;
 
     private  World world;
     private  Body body;
@@ -103,10 +103,10 @@ public class Game extends ApplicationAdapter {
             world = new World(new Vector2(0,GRAVITY),true);
             bodyDef = new BodyDef();
             bodyDef.type = BodyDef.BodyType.DynamicBody;
-            bodyDef.position.set(-TEXTURE_WIDTH/2,-TEXTURE_HEIGHT/2);
+            bodyDef.position.set(-TEXTURE_WIDTH*1.305f/2,-TEXTURE_HEIGHT/2);
             body=world.createBody(bodyDef);
             shape=new PolygonShape();
-            shape.setAsBox(TEXTURE_WIDTH*1.305f,TEXTURE_HEIGHT);
+            shape.setAsBox(TEXTURE_WIDTH*1.305f/2,TEXTURE_HEIGHT/2);
             fixtureDef=new FixtureDef();
             fixtureDef.shape=shape;
             fixtureDef.density=1f;
@@ -160,8 +160,7 @@ public class Game extends ApplicationAdapter {
         elapsedTime+=Gdx.graphics.getDeltaTime();
 		currentframe = animation.getKeyFrame(elapsedTime,true);
         sprite.setRegion(currentframe);
-        //batch.draw(currentframe,sprite.getX(),sprite.getY(),TEXTURE_WIDTH*1.305f,TEXTURE_HEIGHT);
-        batch.draw(sprite,body.getPosition().x-sprite.getWidth()/2,body.getPosition().y-sprite.getHeight()/2,sprite.getOriginX(),sprite.getOriginY(),TEXTURE_WIDTH*1.305f,TEXTURE_HEIGHT,1,1,body.getAngle());
+        batch.draw(sprite,body.getPosition().x,body.getPosition().y,sprite.getOriginX(),sprite.getOriginY(),TEXTURE_WIDTH*1.305f,TEXTURE_HEIGHT,1,1,body.getAngle());
 		batch.end();
         debugRenderer.render(world,debugMatrix);
 	}
