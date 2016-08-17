@@ -36,7 +36,7 @@ public class Game extends ApplicationAdapter {
 	public static final int HEIGHT=1080;
     public static final String TITLE = "Game";
 	private static final float WORLD_HEIGHT=9f;
-	private static final float TEXTURE_WIDTH=2f;
+	private static final float TEXTURE_WIDTH=2f*1.305f;
 	private static final float TEXTURE_HEIGHT=2f;
 	public static final float BACKGROUND_WIDTH=16;
 	public static final float BACKGROUND_HEIGHT=9;
@@ -88,6 +88,7 @@ public class Game extends ApplicationAdapter {
 	@Override
 	public void create () {
 		cam =new OrthographicCamera();
+        cam.setToOrtho(false, WORLD_HEIGHT * (float)Gdx.graphics.getWidth() / (float)Gdx.graphics.getHeight(), WORLD_HEIGHT);
 		cam.update();
 		//vp=new FillViewport(16,9,cam);
 		//vp.apply();
@@ -101,7 +102,16 @@ public class Game extends ApplicationAdapter {
         createWorld();
 }
 
-        private void createWorld() {
+    public void updateSprite() {
+        sprite.setSize(TEXTURE_WIDTH,TEXTURE_HEIGHT);
+        sprite.setOriginCenter();
+        sprite.setPosition(body.getPosition().x-TEXTURE_WIDTH/2f,body.getPosition().y-TEXTURE_HEIGHT/2f);
+        sprite.setScale(1f,1f);
+        sprite.setRotation((float) Math.toDegrees(body.getAngle()));
+
+    }
+
+    private void createWorld() {
             Box2D.init();
             world = new World(new Vector2(0,GRAVITY),true);
             bodyDef = new BodyDef();
@@ -109,7 +119,7 @@ public class Game extends ApplicationAdapter {
             bodyDef.position.set(0,0);
             body=world.createBody(bodyDef);
             shape=new PolygonShape();
-            shape.setAsBox(TEXTURE_WIDTH*1.305f/2,TEXTURE_HEIGHT/2);
+            shape.setAsBox(TEXTURE_WIDTH/2,TEXTURE_HEIGHT/2);
             fixtureDef=new FixtureDef();
             fixtureDef.shape=shape;
             fixtureDef.density=1f;
@@ -121,10 +131,11 @@ public class Game extends ApplicationAdapter {
             groundBodyDef.position.set(0.0f,0.0f);
             groundFictureDef=new FixtureDef();
             groundShape= new EdgeShape();
-            groundShape.set(-16f,-2f,16f,-2f);
+            groundShape.set(-cam.viewportWidth,-2f,cam.viewportWidth,-2f);
             groundFictureDef.shape=groundShape;
             groundBody=world.createBody(groundBodyDef);
             groundBody.createFixture(groundFictureDef);
+
             debugRenderer=new Box2DDebugRenderer();
         }
 
@@ -147,7 +158,7 @@ public class Game extends ApplicationAdapter {
             parallaxLayer6 = new ParallaxLayer(backgroundTexture6,new Vector2(0,0));
             parallaxLayer7 = new ParallaxLayer(backgroundTexture7,new Vector2(0f,0));
             ParallaxLayer[] parallaxArray = {parallaxLayer7,parallaxLayer6,parallaxLayer5,parallaxLayer4,parallaxLayer3,parallaxLayer2,parallaxLayer1};
-            parallaxBackground = new ParallaxBackground(parallaxArray,cam,batch,new Vector2(1,0));
+            parallaxBackground = new ParallaxBackground(parallaxArray,cam,batch,new Vector2(2,0));
         }
 
     @Override
@@ -165,18 +176,18 @@ public class Game extends ApplicationAdapter {
 	public void render () {
         world.step(1f/60f,6,2);
         body.applyTorque(torque,true);
-        sprite.setPosition(body.getPosition().x-TEXTURE_WIDTH*1.305f/2,body.getPosition().y-TEXTURE_HEIGHT/2);
-        sprite.setRotation((float) Math.toDegrees(body.getAngle()));
-        System.out.println(sprite.getOriginX());
+        updateSprite();
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         parallaxBackground.render(Gdx.graphics.getDeltaTime());
         debugMatrix=batch.getProjectionMatrix().cpy().scale(1f,1f,0);
+
 		batch.begin();
         elapsedTime+=Gdx.graphics.getDeltaTime();
 		currentframe = animation.getKeyFrame(elapsedTime,true);
         sprite.setRegion(currentframe);
-        batch.draw(sprite,sprite.getX(),sprite.getY(),TEXTURE_WIDTH*1.305f/2,TEXTURE_HEIGHT/2,TEXTURE_WIDTH*1.305f,TEXTURE_HEIGHT,1,1,sprite.getRotation());
+        batch.draw(sprite,sprite.getX(),sprite.getY(),sprite.getOriginX(),sprite.getOriginY(),sprite.getWidth(),sprite.getHeight(),sprite.getScaleX(),sprite.getScaleY(),sprite.getRotation());
 		batch.end();
+
         debugRenderer.render(world,debugMatrix);
 	}
 
