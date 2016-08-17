@@ -12,10 +12,12 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -51,7 +53,7 @@ public class Game extends ApplicationAdapter {
     private FixtureDef groundFictureDef;
     private  Box2DDebugRenderer debugRenderer;
     private  Matrix4 debugMatrix;
-    private  float torque = -10.0f;
+    private  float torque = -9.0f;
 
     private SpriteBatch batch;
     private Sprite sprite;
@@ -100,6 +102,7 @@ public class Game extends ApplicationAdapter {
 }
 
         private void createWorld() {
+            Box2D.init();
             world = new World(new Vector2(0,GRAVITY),true);
             bodyDef = new BodyDef();
             bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -110,7 +113,7 @@ public class Game extends ApplicationAdapter {
             fixtureDef=new FixtureDef();
             fixtureDef.shape=shape;
             fixtureDef.density=1f;
-            fixtureDef.restitution=1f;
+            fixtureDef.restitution=1.1f;
             body.createFixture(fixtureDef);
 
             groundBodyDef = new BodyDef();
@@ -163,7 +166,7 @@ public class Game extends ApplicationAdapter {
         world.step(1f/60f,6,2);
         body.applyTorque(torque,true);
         sprite.setPosition(body.getPosition().x-TEXTURE_WIDTH*1.305f/2,body.getPosition().y-TEXTURE_HEIGHT/2);
-        sprite.setOriginCenter();
+        sprite.setRotation((float) Math.toDegrees(body.getAngle()));
         System.out.println(sprite.getOriginX());
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         parallaxBackground.render(Gdx.graphics.getDeltaTime());
@@ -172,7 +175,7 @@ public class Game extends ApplicationAdapter {
         elapsedTime+=Gdx.graphics.getDeltaTime();
 		currentframe = animation.getKeyFrame(elapsedTime,true);
         sprite.setRegion(currentframe);
-        batch.draw(sprite,sprite.getX(),sprite.getY(),TEXTURE_WIDTH*1.305f/2,TEXTURE_HEIGHT/2,TEXTURE_WIDTH*1.305f,TEXTURE_HEIGHT,1,1,body.getAngle());
+        batch.draw(sprite,sprite.getX(),sprite.getY(),TEXTURE_WIDTH*1.305f/2,TEXTURE_HEIGHT/2,TEXTURE_WIDTH*1.305f,TEXTURE_HEIGHT,1,1,sprite.getRotation());
 		batch.end();
         debugRenderer.render(world,debugMatrix);
 	}
