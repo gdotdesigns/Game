@@ -17,14 +17,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.viewport.FillViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import net.gdotdesigns.game.States.GameStateManager;
@@ -42,16 +38,20 @@ public class Game extends ApplicationAdapter {
 	private static final float TEXTURE_HEIGHT=2f;
 	public static final float BACKGROUND_WIDTH=16;
 	public static final float BACKGROUND_HEIGHT=9;
-    public static final float GRAVITY = 0f;
+    public static final float GRAVITY = -9.8f;
 
     private  World world;
     private  Body body;
+    private  Body groundBody;
     private  BodyDef bodyDef;
+    private BodyDef groundBodyDef;
     private  PolygonShape shape;
+    private EdgeShape groundShape;
     private  FixtureDef fixtureDef;
+    private FixtureDef groundFictureDef;
     private  Box2DDebugRenderer debugRenderer;
     private  Matrix4 debugMatrix;
-    private  float torque = 0.0f;
+    private  float torque = -10.0f;
 
     private SpriteBatch batch;
     private Sprite sprite;
@@ -60,8 +60,8 @@ public class Game extends ApplicationAdapter {
     private OrthographicCamera cam;
     private Viewport vp;
 	private float elapsedTime;
-    //private float viewportCenterWidth;
-    //private float viewportCenterHeight;
+    private float viewportCenterWidth;
+    private float viewportCenterHeight;
     private TextureRegion currentframe;
 
     //TODO Put these files into a texture atlas.
@@ -103,14 +103,25 @@ public class Game extends ApplicationAdapter {
             world = new World(new Vector2(0,GRAVITY),true);
             bodyDef = new BodyDef();
             bodyDef.type = BodyDef.BodyType.DynamicBody;
-            bodyDef.position.set(-TEXTURE_WIDTH*1.305f/2,-TEXTURE_HEIGHT/2);
+            bodyDef.position.set(0,0);
             body=world.createBody(bodyDef);
             shape=new PolygonShape();
             shape.setAsBox(TEXTURE_WIDTH*1.305f/2,TEXTURE_HEIGHT/2);
             fixtureDef=new FixtureDef();
             fixtureDef.shape=shape;
             fixtureDef.density=1f;
+            fixtureDef.restitution=1f;
             body.createFixture(fixtureDef);
+
+            groundBodyDef = new BodyDef();
+            groundBodyDef.type= BodyDef.BodyType.StaticBody;
+            groundBodyDef.position.set(0.0f,0.0f);
+            groundFictureDef=new FixtureDef();
+            groundShape= new EdgeShape();
+            groundShape.set(-16f,-2f,16f,-2f);
+            groundFictureDef.shape=groundShape;
+            groundBody=world.createBody(groundBodyDef);
+            groundBody.createFixture(groundFictureDef);
             debugRenderer=new Box2DDebugRenderer();
         }
 
@@ -143,16 +154,17 @@ public class Game extends ApplicationAdapter {
         cam.setToOrtho(false, WORLD_HEIGHT * (float)width / (float)height, WORLD_HEIGHT);
         cam.update();
         batch.setProjectionMatrix(cam.combined);
-        //viewportCenterWidth=cam.viewportWidth/2;
-        //viewportCenterHeight=cam.viewportHeight/2;
+        viewportCenterWidth=cam.viewportWidth/2;
+        viewportCenterHeight=cam.viewportHeight/2;
 	}
 
 	@Override
 	public void render () {
         world.step(1f/60f,6,2);
         body.applyTorque(torque,true);
-        //sprite.setPosition(body.getPosition().x-sprite.getWidth()/2,body.getPosition().y-sprite.getHeight()/2);
-
+        sprite.setPosition(body.getPosition().x-TEXTURE_WIDTH*1.305f/2,body.getPosition().y-TEXTURE_HEIGHT/2);
+        sprite.setOriginCenter();
+        System.out.println(sprite.getOriginX());
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         parallaxBackground.render(Gdx.graphics.getDeltaTime());
         debugMatrix=batch.getProjectionMatrix().cpy().scale(1f,1f,0);
@@ -160,7 +172,7 @@ public class Game extends ApplicationAdapter {
         elapsedTime+=Gdx.graphics.getDeltaTime();
 		currentframe = animation.getKeyFrame(elapsedTime,true);
         sprite.setRegion(currentframe);
-        batch.draw(sprite,body.getPosition().x,body.getPosition().y,sprite.getOriginX(),sprite.getOriginY(),TEXTURE_WIDTH*1.305f,TEXTURE_HEIGHT,1,1,body.getAngle());
+        batch.draw(sprite,sprite.getX(),sprite.getY(),TEXTURE_WIDTH*1.305f/2,TEXTURE_HEIGHT/2,TEXTURE_WIDTH*1.305f,TEXTURE_HEIGHT,1,1,body.getAngle());
 		batch.end();
         debugRenderer.render(world,debugMatrix);
 	}
@@ -172,5 +184,6 @@ public class Game extends ApplicationAdapter {
 		textureAtlas.dispose();
         shape.dispose();
         world.dispose();
+        groundShape.dispose();
 	}
 }

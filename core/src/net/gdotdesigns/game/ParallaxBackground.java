@@ -5,6 +5,7 @@ package net.gdotdesigns.game;
  */
 
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
@@ -29,7 +30,7 @@ public class ParallaxBackground {
     }
 
     public void render(float delta){
-       this.camera.position.add(speed.x*delta,speed.y*delta, 0);
+       camera.position.add(speed.x*delta,speed.y*delta, 0);
         camera.update();
         for(ParallaxLayer layer:layers){
             batch.setProjectionMatrix(camera.projection);
