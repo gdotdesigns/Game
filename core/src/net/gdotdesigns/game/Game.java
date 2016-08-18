@@ -62,9 +62,8 @@ public class Game extends ApplicationAdapter {
     private OrthographicCamera cam;
     private Viewport vp;
 	private float elapsedTime;
-    private float viewportCenterWidth;
-    private float viewportCenterHeight;
     private TextureRegion currentframe;
+
 
     //TODO Put these files into a texture atlas.
     private  Texture backgroundTexture1;
@@ -102,7 +101,9 @@ public class Game extends ApplicationAdapter {
         createWorld();
 }
 
-    public void updateSprite() {
+    public void update(float dt) {
+        world.step(1f/60f,6,2);
+        body.applyTorque(torque,true);
         sprite.setSize(TEXTURE_WIDTH,TEXTURE_HEIGHT);
         sprite.setOriginCenter();
         sprite.setPosition(body.getPosition().x-TEXTURE_WIDTH/2f,body.getPosition().y-TEXTURE_HEIGHT/2f);
@@ -112,8 +113,13 @@ public class Game extends ApplicationAdapter {
     }
 
     private void createWorld() {
+         ArrayList<Body> dynamicBody = new ArrayList<Body>();
+         ArrayList<Body> staticBody = new ArrayList<Body>();
+
             Box2D.init();
             world = new World(new Vector2(0,GRAVITY),true);
+
+
             bodyDef = new BodyDef();
             bodyDef.type = BodyDef.BodyType.DynamicBody;
             bodyDef.position.set(0,0);
@@ -168,25 +174,20 @@ public class Game extends ApplicationAdapter {
         cam.setToOrtho(false, WORLD_HEIGHT * (float)width / (float)height, WORLD_HEIGHT);
         cam.update();
         batch.setProjectionMatrix(cam.combined);
-        viewportCenterWidth=cam.viewportWidth/2;
-        viewportCenterHeight=cam.viewportHeight/2;
 	}
 
 	@Override
 	public void render () {
-        world.step(1f/60f,6,2);
-        body.applyTorque(torque,true);
-        updateSprite();
+        elapsedTime+=Gdx.graphics.getDeltaTime();
+        update(elapsedTime);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         parallaxBackground.render(Gdx.graphics.getDeltaTime());
         debugMatrix=batch.getProjectionMatrix().cpy().scale(1f,1f,0);
-
 		batch.begin();
-        elapsedTime+=Gdx.graphics.getDeltaTime();
-		currentframe = animation.getKeyFrame(elapsedTime,true);
+        currentframe = animation.getKeyFrame(elapsedTime,true);
         sprite.setRegion(currentframe);
-        batch.draw(sprite,sprite.getX(),sprite.getY(),sprite.getOriginX(),sprite.getOriginY(),sprite.getWidth(),sprite.getHeight(),sprite.getScaleX(),sprite.getScaleY(),sprite.getRotation());
-		batch.end();
+		sprite.draw(batch);
+        batch.end();
 
         debugRenderer.render(world,debugMatrix);
 	}
