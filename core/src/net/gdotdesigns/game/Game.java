@@ -99,6 +99,11 @@ public class Game extends ApplicationAdapter {
         Gdx.gl.glClearColor(0, 0,0, 1);
         loadBackground();
         createWorld();
+
+        public Body createBody(float bodyloc_x,float bodyloc_y,float bodysize_x,float bodysize_y,boolean isStatic){
+        Body body;
+return body;
+    }
 }
 
     public void update(float dt) {

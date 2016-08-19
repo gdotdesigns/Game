@@ -5,11 +5,10 @@ package net.gdotdesigns.game;
  */
 
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
-public class ParallaxBackground {
+public class ParallaxBackground{
 
     private ParallaxLayer[] layers;
     private Camera camera;
@@ -27,6 +26,7 @@ public class ParallaxBackground {
         this.speed.set(speed);
         this.camera = camera;
         this.batch=batch;
+
     }
 
     public void render(float delta){
@@ -34,7 +34,7 @@ public class ParallaxBackground {
         camera.update();
         for(ParallaxLayer layer:layers){
             batch.setProjectionMatrix(camera.projection);
-
+            camera.update();
             batch.begin();
             float currentX = - camera.position.x*layer.parallaxRatio.x % (Game.BACKGROUND_WIDTH) ;
 
@@ -45,7 +45,7 @@ public class ParallaxBackground {
                 if( speed.y < 0 )currentY += - (Game.BACKGROUND_HEIGHT);
                 do{
                     batch.draw(layer.texture,
-                            -this.camera.viewportWidth/2+currentX,
+                           -this.camera.viewportWidth/2+currentX,
                             -this.camera.viewportHeight/2 + currentY,Game.BACKGROUND_WIDTH, Game.BACKGROUND_HEIGHT);
                     currentY += (Game.BACKGROUND_HEIGHT);
                 }while( currentY < camera.viewportHeight);
