@@ -38,13 +38,17 @@ public class Game extends ApplicationAdapter {
 	private static final float WORLD_HEIGHT=9f;
 	private static final float TEXTURE_WIDTH=2f*1.305f;
 	private static final float TEXTURE_HEIGHT=2f;
-	public static final float BACKGROUND_WIDTH=16;
-	public static final float BACKGROUND_HEIGHT=9;
+	public static final float BACKGROUND_WIDTH=16f;
+	public static final float BACKGROUND_HEIGHT=9f;
     public static final float GRAVITY = -9.8f;
 
     private  World world;
     private  Body body;
+    private  Body body2;
     private  Body groundBody;
+    private  Body leftWallBody;
+    private  Body rightWallBody;
+    private  Body topWallBody;
     private  BodyDef bodyDef;
     private BodyDef groundBodyDef;
     private  PolygonShape shape;
@@ -99,12 +103,45 @@ public class Game extends ApplicationAdapter {
         Gdx.gl.glClearColor(0, 0,0, 1);
         loadBackground();
         createWorld();
+        body=createDynamicBody(0,0,TEXTURE_WIDTH/2f,TEXTURE_HEIGHT/2f,1f,1.1f);
+        groundBody=createStaticBody(0,0,-cam.viewportWidth/2f,-2f,cam.viewportWidth/2f,-2f);
+        leftWallBody=createStaticBody(0,0,-cam.viewportWidth/2f,-cam.viewportHeight/2f,-cam.viewportWidth/2f,cam.viewportHeight/2f);
+        rightWallBody=createStaticBody(0,0,cam.viewportWidth/2f,-cam.viewportHeight/2f,cam.viewportWidth/2f,cam.viewportHeight/2f);
+        topWallBody=createStaticBody(0,0,-cam.viewportWidth/2f,cam.viewportHeight/2f,cam.viewportWidth/2f,cam.viewportHeight/2f);
 
-        public Body createBody(float bodyloc_x,float bodyloc_y,float bodysize_x,float bodysize_y,boolean isStatic){
-        Body body;
-return body;
-    }
+
 }
+
+    public Body createDynamicBody(float bodyloc_x,float bodyloc_y,float shapesize_x,float shapesize_y,float density,float restitution){
+        Body body;
+        bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.position.set(bodyloc_x,bodyloc_y);
+        body=world.createBody(bodyDef);
+        shape=new PolygonShape();
+        shape.setAsBox(shapesize_x,shapesize_y);
+        fixtureDef=new FixtureDef();
+        fixtureDef.shape=shape;
+        fixtureDef.density=density;
+        fixtureDef.restitution=restitution;
+        body.createFixture(fixtureDef);
+        return body;
+        }
+
+
+    public Body createStaticBody(float bodyloc_x,float bodyloc_y,float shapesize_x1,float shapesize_y1,float shapesize_x2,float shapesize_y2) {
+        Body body;
+        bodyDef = new BodyDef();
+        bodyDef.type= BodyDef.BodyType.StaticBody;
+        bodyDef.position.set(bodyloc_x,bodyloc_y);
+        body=world.createBody(bodyDef);
+        groundShape= new EdgeShape();
+        groundShape.set(shapesize_x1,shapesize_y1,shapesize_x2,shapesize_y2);
+        groundFictureDef=new FixtureDef();
+        groundFictureDef.shape=groundShape;
+        body.createFixture(groundFictureDef);
+        return body;
+    }
 
     public void update(float dt) {
         world.step(1f/60f,6,2);
@@ -120,34 +157,9 @@ return body;
     private void createWorld() {
          ArrayList<Body> dynamicBody = new ArrayList<Body>();
          ArrayList<Body> staticBody = new ArrayList<Body>();
-
-            Box2D.init();
-            world = new World(new Vector2(0,GRAVITY),true);
-
-
-            bodyDef = new BodyDef();
-            bodyDef.type = BodyDef.BodyType.DynamicBody;
-            bodyDef.position.set(0,0);
-            body=world.createBody(bodyDef);
-            shape=new PolygonShape();
-            shape.setAsBox(TEXTURE_WIDTH/2,TEXTURE_HEIGHT/2);
-            fixtureDef=new FixtureDef();
-            fixtureDef.shape=shape;
-            fixtureDef.density=1f;
-            fixtureDef.restitution=1.1f;
-            body.createFixture(fixtureDef);
-
-            groundBodyDef = new BodyDef();
-            groundBodyDef.type= BodyDef.BodyType.StaticBody;
-            groundBodyDef.position.set(0.0f,0.0f);
-            groundFictureDef=new FixtureDef();
-            groundShape= new EdgeShape();
-            groundShape.set(-cam.viewportWidth,-2f,cam.viewportWidth,-2f);
-            groundFictureDef.shape=groundShape;
-            groundBody=world.createBody(groundBodyDef);
-            groundBody.createFixture(groundFictureDef);
-
-            debugRenderer=new Box2DDebugRenderer();
+        Box2D.init();
+        world = new World(new Vector2(0,GRAVITY),true);
+        debugRenderer=new Box2DDebugRenderer();
         }
 
     public void loadBackground() {
@@ -193,8 +205,7 @@ return body;
         sprite.setRegion(currentframe);
 		sprite.draw(batch);
         batch.end();
-
-        debugRenderer.render(world,debugMatrix);
+        //debugRenderer.render(world,debugMatrix);
 	}
 
 	
