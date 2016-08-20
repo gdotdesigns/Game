@@ -36,8 +36,8 @@ public class Game extends ApplicationAdapter {
 	public static final int HEIGHT=1080;
     public static final String TITLE = "Game";
 	private static final float WORLD_HEIGHT=9f;
-	private static final float TEXTURE_WIDTH=2f*1.305f;
-	private static final float TEXTURE_HEIGHT=2f;
+    private static final float BIRD_HEIGHT=2f;
+	private static final float BIRD_WIDTH=BIRD_HEIGHT*1.305f;
 	public static final float BACKGROUND_WIDTH=16f;
 	public static final float BACKGROUND_HEIGHT=9f;
     public static final float GRAVITY = -9.8f;
@@ -103,11 +103,7 @@ public class Game extends ApplicationAdapter {
         Gdx.gl.glClearColor(0, 0,0, 1);
         loadBackground();
         createWorld();
-        body=createDynamicBody(0,0,TEXTURE_WIDTH/2f,TEXTURE_HEIGHT/2f,1f,1.1f);
-        groundBody=createStaticBody(0,0,-cam.viewportWidth/2f,-2f,cam.viewportWidth/2f,-2f);
-        leftWallBody=createStaticBody(0,0,-cam.viewportWidth/2f,-cam.viewportHeight/2f,-cam.viewportWidth/2f,cam.viewportHeight/2f);
-        rightWallBody=createStaticBody(0,0,cam.viewportWidth/2f,-cam.viewportHeight/2f,cam.viewportWidth/2f,cam.viewportHeight/2f);
-        topWallBody=createStaticBody(0,0,-cam.viewportWidth/2f,cam.viewportHeight/2f,cam.viewportWidth/2f,cam.viewportHeight/2f);
+
 
 
 }
@@ -146,9 +142,9 @@ public class Game extends ApplicationAdapter {
     public void update(float dt) {
         world.step(1f/60f,6,2);
         body.applyTorque(torque,true);
-        sprite.setSize(TEXTURE_WIDTH,TEXTURE_HEIGHT);
+        sprite.setSize(BIRD_WIDTH,BIRD_HEIGHT);
         sprite.setOriginCenter();
-        sprite.setPosition(body.getPosition().x-TEXTURE_WIDTH/2f,body.getPosition().y-TEXTURE_HEIGHT/2f);
+        sprite.setPosition(body.getPosition().x-BIRD_WIDTH/2f,body.getPosition().y-BIRD_HEIGHT/2f);
         sprite.setScale(1f,1f);
         sprite.setRotation((float) Math.toDegrees(body.getAngle()));
 
@@ -159,6 +155,11 @@ public class Game extends ApplicationAdapter {
          ArrayList<Body> staticBody = new ArrayList<Body>();
         Box2D.init();
         world = new World(new Vector2(0,GRAVITY),true);
+        body=createDynamicBody(0,0,BIRD_WIDTH/2f,BIRD_HEIGHT/2f,1f,1.1f);
+        groundBody=createStaticBody(0,0,-cam.viewportWidth/2f,-2f,cam.viewportWidth/2f,-2f);
+        leftWallBody=createStaticBody(0,0,-cam.viewportWidth/2f,-cam.viewportHeight/2f,-cam.viewportWidth/2f,cam.viewportHeight/2f);
+        rightWallBody=createStaticBody(0,0,cam.viewportWidth/2f,-cam.viewportHeight/2f,cam.viewportWidth/2f,cam.viewportHeight/2f);
+        topWallBody=createStaticBody(0,0,-cam.viewportWidth/2f,cam.viewportHeight/2f,cam.viewportWidth/2f,cam.viewportHeight/2f);
         debugRenderer=new Box2DDebugRenderer();
         }
 
