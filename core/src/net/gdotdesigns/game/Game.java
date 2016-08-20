@@ -2,6 +2,7 @@ package net.gdotdesigns.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GLTexture;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -30,7 +31,7 @@ import net.gdotdesigns.game.States.MenuState;
 
 import java.util.ArrayList;
 
-public class Game extends ApplicationAdapter {
+public class Game extends ApplicationAdapter implements InputProcessor{
 
 	public static final int WIDTH=1920;
 	public static final int HEIGHT=1080;
@@ -52,7 +53,7 @@ public class Game extends ApplicationAdapter {
     private  BodyDef bodyDef;
     private BodyDef groundBodyDef;
     private  PolygonShape shape;
-    private EdgeShape groundShape;
+    private EdgeShape staticShape;
     private  FixtureDef fixtureDef;
     private FixtureDef groundFictureDef;
     private  Box2DDebugRenderer debugRenderer;
@@ -67,6 +68,7 @@ public class Game extends ApplicationAdapter {
     private Viewport vp;
 	private float elapsedTime;
     private TextureRegion currentframe;
+
 
 
     //TODO Put these files into a texture atlas.
@@ -101,6 +103,7 @@ public class Game extends ApplicationAdapter {
         currentframe = new TextureRegion();
         sprite = new Sprite();
         Gdx.gl.glClearColor(0, 0,0, 1);
+        Gdx.input.setInputProcessor(this);
         loadBackground();
         createWorld();
 
@@ -131,17 +134,16 @@ public class Game extends ApplicationAdapter {
         bodyDef.type= BodyDef.BodyType.StaticBody;
         bodyDef.position.set(bodyloc_x,bodyloc_y);
         body=world.createBody(bodyDef);
-        groundShape= new EdgeShape();
-        groundShape.set(shapesize_x1,shapesize_y1,shapesize_x2,shapesize_y2);
+        staticShape= new EdgeShape();
+        staticShape.set(shapesize_x1,shapesize_y1,shapesize_x2,shapesize_y2);
         groundFictureDef=new FixtureDef();
-        groundFictureDef.shape=groundShape;
+        groundFictureDef.shape=staticShape;
         body.createFixture(groundFictureDef);
         return body;
     }
 
     public void update(float dt) {
         world.step(1f/60f,6,2);
-        body.applyTorque(torque,true);
         sprite.setSize(BIRD_WIDTH,BIRD_HEIGHT);
         sprite.setOriginCenter();
         sprite.setPosition(body.getPosition().x-BIRD_WIDTH/2f,body.getPosition().y-BIRD_HEIGHT/2f);
@@ -155,7 +157,7 @@ public class Game extends ApplicationAdapter {
          ArrayList<Body> staticBody = new ArrayList<Body>();
         Box2D.init();
         world = new World(new Vector2(0,GRAVITY),true);
-        body=createDynamicBody(0,0,BIRD_WIDTH/2f,BIRD_HEIGHT/2f,1f,1.1f);
+        body=createDynamicBody(0,0,BIRD_WIDTH/2f,BIRD_HEIGHT/2f,1f,.8f);
         groundBody=createStaticBody(0,0,-cam.viewportWidth/2f,-2f,cam.viewportWidth/2f,-2f);
         leftWallBody=createStaticBody(0,0,-cam.viewportWidth/2f,-cam.viewportHeight/2f,-cam.viewportWidth/2f,cam.viewportHeight/2f);
         rightWallBody=createStaticBody(0,0,cam.viewportWidth/2f,-cam.viewportHeight/2f,cam.viewportWidth/2f,cam.viewportHeight/2f);
@@ -216,6 +218,55 @@ public class Game extends ApplicationAdapter {
 		textureAtlas.dispose();
         shape.dispose();
         world.dispose();
-        groundShape.dispose();
-	}
+        staticShape.dispose();
+        backgroundTexture1.dispose();
+        backgroundTexture2.dispose();
+        backgroundTexture3.dispose();
+        backgroundTexture4.dispose();
+        backgroundTexture5.dispose();
+        backgroundTexture6.dispose();
+        backgroundTexture7.dispose();
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        body.applyTorque(torque,true);
+        body.applyAngularImpulse(torque,false);
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
+    }
 }
