@@ -30,7 +30,7 @@ public class ParallaxBackground{
     }
 
     public void render(float delta){
-       camera.position.add(speed.x*delta,speed.y*delta, 0);
+       camera.position.add(speed.x*delta,speed.y*delta,0);
         camera.update();
         for(ParallaxLayer layer:layers){
             batch.setProjectionMatrix(camera.projection);
@@ -52,6 +52,7 @@ public class ParallaxBackground{
                 currentX += ( Game.BACKGROUND_WIDTH);
             }while( currentX < camera.viewportWidth);
             batch.end();
+
         }
     }
 }

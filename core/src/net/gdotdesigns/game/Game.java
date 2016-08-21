@@ -31,7 +31,7 @@ import net.gdotdesigns.game.States.MenuState;
 
 import java.util.ArrayList;
 
-public class Game extends ApplicationAdapter implements InputProcessor{
+public class Game extends ApplicationAdapter{
 
 	public static final int WIDTH=1920;
 	public static final int HEIGHT=1080;
@@ -41,10 +41,10 @@ public class Game extends ApplicationAdapter implements InputProcessor{
 	private static final float BIRD_WIDTH=BIRD_HEIGHT*1.305f;
 	public static final float BACKGROUND_WIDTH=16f;
 	public static final float BACKGROUND_HEIGHT=9f;
-    public static final float GRAVITY = -9.8f;
+    public static final float GRAVITY = 0f;
 
-    private  World world;
-    private  Body body;
+    public  World world;
+    public static Body body;
     private  Body body2;
     private  Body groundBody;
     private  Body leftWallBody;
@@ -58,13 +58,13 @@ public class Game extends ApplicationAdapter implements InputProcessor{
     private FixtureDef groundFictureDef;
     private  Box2DDebugRenderer debugRenderer;
     private  Matrix4 debugMatrix;
-    private  float torque = -9.0f;
+    public static float torque = -9.0f;
 
     private SpriteBatch batch;
     private Sprite sprite;
 	private TextureAtlas textureAtlas;
 	private Animation animation;
-    private OrthographicCamera cam;
+    public OrthographicCamera cam;
     private Viewport vp;
 	private float elapsedTime;
     private TextureRegion currentframe;
@@ -103,9 +103,10 @@ public class Game extends ApplicationAdapter implements InputProcessor{
         currentframe = new TextureRegion();
         sprite = new Sprite();
         Gdx.gl.glClearColor(0, 0,0, 1);
-        Gdx.input.setInputProcessor(this);
         loadBackground();
         createWorld();
+        Inputs inputs  = new Inputs(cam,world);
+        Gdx.input.setInputProcessor(inputs);
 
 
 
@@ -226,47 +227,5 @@ public class Game extends ApplicationAdapter implements InputProcessor{
         backgroundTexture5.dispose();
         backgroundTexture6.dispose();
         backgroundTexture7.dispose();
-    }
-
-    @Override
-    public boolean keyDown(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        body.applyTorque(torque,true);
-        body.applyAngularImpulse(torque,false);
-        return false;
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(int amount) {
-        return false;
     }
 }
