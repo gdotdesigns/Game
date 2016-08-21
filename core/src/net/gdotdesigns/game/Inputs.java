@@ -31,11 +31,10 @@ public class Inputs implements InputProcessor{
     private QueryCallback queryCallback = new QueryCallback() {
         @Override
         public boolean reportFixture(Fixture fixture) {
-            System.out.println(vec3);
+
             if (!fixture.testPoint(vec3.x, vec3.y)){
                 return true;}
-            game.body.applyTorque(game.torque, true);
-            game.body.applyAngularImpulse(game.torque, false);
+            game.body.applyAngularImpulse(50f, false);
                 return false;
 
         }

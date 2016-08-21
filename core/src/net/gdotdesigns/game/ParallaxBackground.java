@@ -5,13 +5,14 @@ package net.gdotdesigns.game;
  */
 
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 public class ParallaxBackground{
 
     private ParallaxLayer[] layers;
-    private Camera camera;
+    private Camera camera ;
     private SpriteBatch batch;
     private Vector2 speed = new Vector2();
 
@@ -21,19 +22,18 @@ public class ParallaxBackground{
     // * @param height The screenHeight
      * @param speed A Vector2 attribute to point out the x and y speed
      */
-    public ParallaxBackground(ParallaxLayer[] layers,Camera camera,SpriteBatch batch,Vector2 speed){
+    public ParallaxBackground(ParallaxLayer[] layers,SpriteBatch batch,Vector2 speed,float worldHeight,float worldWidth){
         this.layers = layers;
         this.speed.set(speed);
-        this.camera = camera;
         this.batch=batch;
-
+        camera = new OrthographicCamera(worldHeight,worldWidth);
     }
 
     public void render(float delta){
        camera.position.add(speed.x*delta,speed.y*delta,0);
         camera.update();
         for(ParallaxLayer layer:layers){
-            batch.setProjectionMatrix(camera.projection);
+            //batch.setProjectionMatrix(camera.projection);
             camera.update();
             batch.begin();
             float currentX = - camera.position.x*layer.parallaxRatio.x % (Game.BACKGROUND_WIDTH) ;

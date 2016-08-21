@@ -41,7 +41,7 @@ public class Game extends ApplicationAdapter{
 	private static final float BIRD_WIDTH=BIRD_HEIGHT*1.305f;
 	public static final float BACKGROUND_WIDTH=16f;
 	public static final float BACKGROUND_HEIGHT=9f;
-    public static final float GRAVITY = 0f;
+    public static final float GRAVITY = -9.8f;
 
     public  World world;
     public static Body body;
@@ -59,6 +59,7 @@ public class Game extends ApplicationAdapter{
     private  Box2DDebugRenderer debugRenderer;
     private  Matrix4 debugMatrix;
     public static float torque = -9.0f;
+    private float worldWidth;
 
     private SpriteBatch batch;
     private Sprite sprite;
@@ -92,8 +93,9 @@ public class Game extends ApplicationAdapter{
 
 	@Override
 	public void create () {
-		cam =new OrthographicCamera();
-        cam.setToOrtho(false, WORLD_HEIGHT * (float)Gdx.graphics.getWidth() / (float)Gdx.graphics.getHeight(), WORLD_HEIGHT);
+        worldWidth = WORLD_HEIGHT * (float)Gdx.graphics.getWidth() / (float)Gdx.graphics.getHeight();
+		cam =new OrthographicCamera(worldWidth, WORLD_HEIGHT);
+        //cam.setToOrtho(false, WORLD_HEIGHT * (float)Gdx.graphics.getWidth() / (float)Gdx.graphics.getHeight(), WORLD_HEIGHT);
 		cam.update();
 		//vp=new FillViewport(16,9,cam);
 		//vp.apply();
@@ -185,14 +187,15 @@ public class Game extends ApplicationAdapter{
             parallaxLayer6 = new ParallaxLayer(backgroundTexture6,new Vector2(0,0));
             parallaxLayer7 = new ParallaxLayer(backgroundTexture7,new Vector2(0f,0));
             ParallaxLayer[] parallaxArray = {parallaxLayer7,parallaxLayer6,parallaxLayer5,parallaxLayer4,parallaxLayer3,parallaxLayer2,parallaxLayer1};
-            parallaxBackground = new ParallaxBackground(parallaxArray,cam,batch,new Vector2(2,0));
+            parallaxBackground = new ParallaxBackground(parallaxArray,batch,new Vector2(2,0),worldWidth,WORLD_HEIGHT);
         }
 
     @Override
 	public void resize(int width, int height) {
 		super.resize(width, height);
 		//vp.update(width,height);
-        cam.setToOrtho(false, WORLD_HEIGHT * (float)width / (float)height, WORLD_HEIGHT);
+        //cam.setToOrtho(false, WORLD_HEIGHT * (float)width / (float)height, WORLD_HEIGHT);
+        //cam =new OrthographicCamera(WORLD_HEIGHT * (float)Gdx.graphics.getWidth() / (float)Gdx.graphics.getHeight(), WORLD_HEIGHT);
         cam.update();
         batch.setProjectionMatrix(cam.combined);
 	}
