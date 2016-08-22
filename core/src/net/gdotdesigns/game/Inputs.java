@@ -24,11 +24,7 @@ public class Inputs implements InputProcessor{
     public Inputs(Camera camera, World world){
         this.camera = camera;
         this.world = world;
-
     }
-
-
-
 
     private QueryCallback queryCallback = new QueryCallback() {
         @Override
