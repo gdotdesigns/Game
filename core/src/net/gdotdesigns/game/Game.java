@@ -24,6 +24,8 @@ import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Pools;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import net.gdotdesigns.game.States.GameStateManager;
@@ -60,6 +62,7 @@ public class Game extends ApplicationAdapter{
     private  Matrix4 debugMatrix;
     public static float torque = -9.0f;
     private float worldWidth;
+    private Array<Sprite> sprites;
 
     private SpriteBatch batch;
     private Sprite sprite;
@@ -95,6 +98,8 @@ public class Game extends ApplicationAdapter{
 	public void create () {
         worldWidth = WORLD_HEIGHT * (float)Gdx.graphics.getWidth() / (float)Gdx.graphics.getHeight();
 		cam =new OrthographicCamera(worldWidth, WORLD_HEIGHT);
+        sprite = new Sprite();
+        sprites = new Array<Sprite>();
         //cam.setToOrtho(false, WORLD_HEIGHT * (float)Gdx.graphics.getWidth() / (float)Gdx.graphics.getHeight(), WORLD_HEIGHT);
 		cam.update();
 		//vp=new FillViewport(16,9,cam);
@@ -103,10 +108,11 @@ public class Game extends ApplicationAdapter{
 		textureAtlas = new TextureAtlas("monster.txt");
 		animation = new Animation(1/7f,textureAtlas.getRegions());
         currentframe = new TextureRegion();
-        sprite = new Sprite();
         Gdx.gl.glClearColor(0, 0,0, 1);
         loadBackground();
         createWorld();
+        newSprite(body);
+        newSprite(body2);
         Inputs inputs  = new Inputs(cam,world);
         Gdx.input.setInputProcessor(inputs);
 
@@ -127,6 +133,7 @@ public class Game extends ApplicationAdapter{
         fixtureDef.density=density;
         fixtureDef.restitution=restitution;
         body.createFixture(fixtureDef);
+        body.setFixedRotation(true);
         return body;
         }
 
@@ -147,20 +154,21 @@ public class Game extends ApplicationAdapter{
 
     public void update(float dt) {
         world.step(1f/60f,6,2);
-        sprite.setSize(BIRD_WIDTH,BIRD_HEIGHT);
-        sprite.setOriginCenter();
-        sprite.setPosition(body.getPosition().x-BIRD_WIDTH/2f,body.getPosition().y-BIRD_HEIGHT/2f);
-        sprite.setScale(1f,1f);
-        sprite.setRotation((float) Math.toDegrees(body.getAngle()));
+        Sprite tmp = (Sprite)body.getUserData();
+            tmp.setPosition(body.getPosition().x - BIRD_WIDTH / 2f, body.getPosition().y - BIRD_HEIGHT / 2f);
+            tmp.setRotation((float) Math.toDegrees(body.getAngle()));
+
+        Sprite tmp2 = (Sprite)body2.getUserData();
+            tmp2.setPosition(body2.getPosition().x - BIRD_WIDTH / 2f, body2.getPosition().y - BIRD_HEIGHT / 2f);
+            tmp2.setRotation((float) Math.toDegrees(body.getAngle()));
 
     }
 
     private void createWorld() {
-         ArrayList<Body> dynamicBody = new ArrayList<Body>();
-         ArrayList<Body> staticBody = new ArrayList<Body>();
         Box2D.init();
         world = new World(new Vector2(0,GRAVITY),true);
         body=createDynamicBody(0,0,BIRD_WIDTH/2f,BIRD_HEIGHT/2f,1f,.8f);
+        body2=createDynamicBody(-BIRD_WIDTH*2f,0,BIRD_WIDTH/2f,BIRD_HEIGHT/2f,1f,.8f);
         groundBody=createStaticBody(0,0,-cam.viewportWidth/2f,-2f,cam.viewportWidth/2f,-2f);
         leftWallBody=createStaticBody(0,0,-cam.viewportWidth/2f,-cam.viewportHeight/2f,-cam.viewportWidth/2f,cam.viewportHeight/2f);
         rightWallBody=createStaticBody(0,0,cam.viewportWidth/2f,-cam.viewportHeight/2f,cam.viewportWidth/2f,cam.viewportHeight/2f);
@@ -187,7 +195,7 @@ public class Game extends ApplicationAdapter{
             parallaxLayer6 = new ParallaxLayer(backgroundTexture6,new Vector2(0,0));
             parallaxLayer7 = new ParallaxLayer(backgroundTexture7,new Vector2(0f,0));
             ParallaxLayer[] parallaxArray = {parallaxLayer7,parallaxLayer6,parallaxLayer5,parallaxLayer4,parallaxLayer3,parallaxLayer2,parallaxLayer1};
-            parallaxBackground = new ParallaxBackground(parallaxArray,batch,new Vector2(2,0),worldWidth,WORLD_HEIGHT);
+            parallaxBackground = new ParallaxBackground(parallaxArray,batch,new Vector2(5,0),worldWidth,WORLD_HEIGHT);
         }
 
     @Override
@@ -209,11 +217,31 @@ public class Game extends ApplicationAdapter{
         debugMatrix=batch.getProjectionMatrix().cpy().scale(1f,1f,0);
 		batch.begin();
         currentframe = animation.getKeyFrame(elapsedTime,true);
-        sprite.setRegion(currentframe);
-		sprite.draw(batch);
+        //sprite.setRegion(currentframe);
+        for(Sprite sprite:sprites){
+            sprite.setRegion(currentframe);
+        }
+		//sprite.draw(batch);
+        drawSprite(batch);
         batch.end();
         //debugRenderer.render(world,debugMatrix);
 	}
+
+    public void newSprite(Body body){
+        Sprite newSprite = Pools.obtain(Sprite.class);
+        newSprite.setSize(BIRD_WIDTH, BIRD_HEIGHT);
+        newSprite.setOriginCenter();
+        newSprite.setScale(1f, 1f);
+        body.setUserData(newSprite);
+        sprites.add(newSprite);
+    }
+
+    public void drawSprite(SpriteBatch batch){
+        for(Sprite sprite: sprites){
+            sprite.draw(batch);
+        }
+    }
+
 
 	
 	@Override
@@ -230,5 +258,6 @@ public class Game extends ApplicationAdapter{
         backgroundTexture5.dispose();
         backgroundTexture6.dispose();
         backgroundTexture7.dispose();
+
     }
 }
