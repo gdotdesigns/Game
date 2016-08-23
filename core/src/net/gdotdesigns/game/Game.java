@@ -2,18 +2,14 @@ package net.gdotdesigns.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.GLTexture;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.PolygonRegion;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -27,11 +23,8 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pools;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
 import net.gdotdesigns.game.States.GameStateManager;
 import net.gdotdesigns.game.States.MenuState;
-
-import java.util.ArrayList;
 
 public class Game extends ApplicationAdapter{
 
@@ -72,6 +65,7 @@ public class Game extends ApplicationAdapter{
     private Viewport vp;
 	private float elapsedTime;
     private TextureRegion currentframe;
+    private Array<Body> tmpBodies= new Array<Body>();
 
 
 
@@ -152,16 +146,16 @@ public class Game extends ApplicationAdapter{
         return body;
     }
 
-    public void update(float dt) {
+    public void update(float elapsedTime) {
         world.step(1f/60f,6,2);
-        Sprite tmp = (Sprite)body.getUserData();
-            tmp.setPosition(body.getPosition().x - BIRD_WIDTH / 2f, body.getPosition().y - BIRD_HEIGHT / 2f);
-            tmp.setRotation((float) Math.toDegrees(body.getAngle()));
-
-        Sprite tmp2 = (Sprite)body2.getUserData();
-            tmp2.setPosition(body2.getPosition().x - BIRD_WIDTH / 2f, body2.getPosition().y - BIRD_HEIGHT / 2f);
-            tmp2.setRotation((float) Math.toDegrees(body.getAngle()));
-
+        world.getBodies(tmpBodies);
+        for(Body body:tmpBodies){
+            if (body.getUserData() != null || body.getUserData() instanceof Sprite){
+                Sprite sprite = (Sprite) body.getUserData();
+                sprite.setPosition(body.getPosition().x - BIRD_WIDTH / 2f, body.getPosition().y - BIRD_HEIGHT / 2f);
+                sprite.setRotation((float) Math.toDegrees(body.getAngle()));
+            }
+        }
     }
 
     private void createWorld() {
@@ -243,7 +237,6 @@ public class Game extends ApplicationAdapter{
     }
 
 
-	
 	@Override
 	public void dispose () {
 		batch.dispose();

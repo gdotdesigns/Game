@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
-public class ParallaxBackground{
+public class ParallaxBackground {
 
     private ParallaxLayer[] layers;
     private Camera camera ;
@@ -27,13 +27,14 @@ public class ParallaxBackground{
         this.speed.set(speed);
         this.batch=batch;
         camera = new OrthographicCamera(worldHeight,worldWidth);
+
     }
 
     public void render(float delta){
        camera.position.add(speed.x*delta,speed.y*delta,0);
         camera.update();
         for(ParallaxLayer layer:layers){
-            //batch.setProjectionMatrix(camera.projection);
+            batch.setProjectionMatrix(camera.projection);
             camera.update();
             batch.begin();
             float currentX = - camera.position.x*layer.parallaxRatio.x % (Game.BACKGROUND_WIDTH) ;
