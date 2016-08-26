@@ -109,6 +109,7 @@ public class Game extends ApplicationAdapter{
         newSprite(body2);
         Inputs inputs  = new Inputs(cam,world);
         Gdx.input.setInputProcessor(inputs);
+        world.setContactListener(new EntityCollision());
 
 
 
