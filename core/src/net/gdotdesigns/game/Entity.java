@@ -10,7 +10,7 @@ import com.badlogic.gdx.physics.box2d.World;
 /**
  * Created by Todd on 8/22/2016.
  */
-public class Entity {
+public class Entity extends EntityManager {
 
     Body body;
     BodyDef bodyDef;
@@ -23,8 +23,9 @@ public class Entity {
     float shapesize_x,shapesize_y;
     float density;
     float restitution;
+    Game game;
 
-    public Entity(float bodyloc_x,float bodyloc_y,float shapesize_x,float shapesize_y,float density, float restitution, World world, Sprite sprite){
+    public Entity(float bodyloc_x, float bodyloc_y, float shapesize_x, float shapesize_y, float density, float restitution, World world){
         this.bodyloc_x = bodyloc_x;
         this.bodyloc_y =bodyloc_y;
         this.shapesize_x= shapesize_x;
@@ -32,8 +33,9 @@ public class Entity {
         this.density=density;
         this.restitution=restitution;
         this.world=world;
-        this.sprite=sprite;
         createBody();
+        game = new Game();
+        this.sprite=game.newSprite();
     }
 
     private void createBody() {
@@ -50,5 +52,9 @@ public class Entity {
         fixtureDef.restitution=restitution;
         body.createFixture(fixtureDef);
         body.setFixedRotation(true);
+    }
+
+    public  void update(float dt){
+
     }
 }

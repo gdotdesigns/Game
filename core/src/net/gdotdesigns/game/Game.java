@@ -23,8 +23,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pools;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import net.gdotdesigns.game.States.GameStateManager;
-import net.gdotdesigns.game.States.MenuState;
 
 public class Game extends ApplicationAdapter{
 
@@ -55,7 +53,9 @@ public class Game extends ApplicationAdapter{
     private  Matrix4 debugMatrix;
     public static float torque = -9.0f;
     private float worldWidth;
-    private Array<Sprite> sprites;
+    public static Array<Sprite> sprites;
+    private Entity entity1;
+    private Entity entity2;
 
     private SpriteBatch batch;
     private Sprite sprite;
@@ -105,8 +105,11 @@ public class Game extends ApplicationAdapter{
         Gdx.gl.glClearColor(0, 0,0, 1);
         loadBackground();
         createWorld();
-        newSprite(body);
-        newSprite(body2);
+        //newSprite(body);
+        //newSprite(body2);
+        entity1 =new Entity(0,0,BIRD_WIDTH/2f,BIRD_HEIGHT/2f,1f,.8f,world);
+        entity2 =new Entity(-BIRD_WIDTH*2f,0,BIRD_WIDTH/2f,BIRD_HEIGHT/2f,1f,.8f,world);
+
         Inputs inputs  = new Inputs(cam,world);
         Gdx.input.setInputProcessor(inputs);
         world.setContactListener(new EntityCollision());
@@ -152,9 +155,9 @@ public class Game extends ApplicationAdapter{
         world.getBodies(tmpBodies);
         for(Body body:tmpBodies){
             if (body.getUserData() != null || body.getUserData() instanceof Sprite){
-                Sprite sprite = (Sprite) body.getUserData();
-                sprite.setPosition(body.getPosition().x - BIRD_WIDTH / 2f, body.getPosition().y - BIRD_HEIGHT / 2f);
-                sprite.setRotation((float) Math.toDegrees(body.getAngle()));
+                //Sprite sprite = (Sprite) body.getUserData();
+                //sprite.setPosition(body.getPosition().x - BIRD_WIDTH / 2f, body.getPosition().y - BIRD_HEIGHT / 2f);
+                //sprite.setRotation((float) Math.toDegrees(body.getAngle()));
             }
         }
     }
@@ -162,8 +165,8 @@ public class Game extends ApplicationAdapter{
     private void createWorld() {
         Box2D.init();
         world = new World(new Vector2(0,GRAVITY),true);
-        body=createDynamicBody(0,0,BIRD_WIDTH/2f,BIRD_HEIGHT/2f,1f,.8f);
-        body2=createDynamicBody(-BIRD_WIDTH*2f,0,BIRD_WIDTH/2f,BIRD_HEIGHT/2f,1f,.8f);
+        //body=createDynamicBody(0,0,BIRD_WIDTH/2f,BIRD_HEIGHT/2f,1f,.8f);
+        //body2=createDynamicBody(-BIRD_WIDTH*2f,0,BIRD_WIDTH/2f,BIRD_HEIGHT/2f,1f,.8f);
         groundBody=createStaticBody(0,0,-cam.viewportWidth/2f,-2f,cam.viewportWidth/2f,-2f);
         leftWallBody=createStaticBody(0,0,-cam.viewportWidth/2f,-cam.viewportHeight/2f,-cam.viewportWidth/2f,cam.viewportHeight/2f);
         rightWallBody=createStaticBody(0,0,cam.viewportWidth/2f,-cam.viewportHeight/2f,cam.viewportWidth/2f,cam.viewportHeight/2f);
@@ -222,13 +225,14 @@ public class Game extends ApplicationAdapter{
         //debugRenderer.render(world,debugMatrix);
 	}
 
-    public void newSprite(Body body){
+    public Sprite newSprite(){
         Sprite newSprite = Pools.obtain(Sprite.class);
         newSprite.setSize(BIRD_WIDTH, BIRD_HEIGHT);
         newSprite.setOriginCenter();
         newSprite.setScale(1f, 1f);
-        body.setUserData(newSprite);
+        //body.setUserData(newSprite);
         sprites.add(newSprite);
+            return newSprite;
     }
 
     public void drawSprite(SpriteBatch batch){
