@@ -54,11 +54,10 @@ public class Game extends ApplicationAdapter{
     public static float torque = -9.0f;
     private float worldWidth;
     public static Array<Sprite> sprites;
-    private Entity entity1;
-    private Entity entity2;
+    private Player player1;
+    private Player player2;
 
     private SpriteBatch batch;
-    private Sprite sprite;
 	private TextureAtlas textureAtlas;
 	private Animation animation;
     public OrthographicCamera cam;
@@ -90,51 +89,32 @@ public class Game extends ApplicationAdapter{
 
 	@Override
 	public void create () {
-        worldWidth = WORLD_HEIGHT * (float)Gdx.graphics.getWidth() / (float)Gdx.graphics.getHeight();
-		cam =new OrthographicCamera(worldWidth, WORLD_HEIGHT);
-        sprite = new Sprite();
+        worldWidth = WORLD_HEIGHT * (float) Gdx.graphics.getWidth() / (float) Gdx.graphics.getHeight();
+        cam = new OrthographicCamera(worldWidth, WORLD_HEIGHT);
         sprites = new Array<Sprite>();
         //cam.setToOrtho(false, WORLD_HEIGHT * (float)Gdx.graphics.getWidth() / (float)Gdx.graphics.getHeight(), WORLD_HEIGHT);
-		cam.update();
-		//vp=new FillViewport(16,9,cam);
-		//vp.apply();
-		batch = new SpriteBatch();
-		textureAtlas = new TextureAtlas("monster.txt");
-		animation = new Animation(1/7f,textureAtlas.getRegions());
+        cam.update();
+        //vp=new FillViewport(16,9,cam);
+        //vp.apply();
+        batch = new SpriteBatch();
+
+        textureAtlas = new TextureAtlas("monster.txt");
+        animation = new Animation(1 / 7f, textureAtlas.getRegions());
         currentframe = new TextureRegion();
-        Gdx.gl.glClearColor(0, 0,0, 1);
+
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         loadBackground();
         createWorld();
+
         //newSprite(body);
         //newSprite(body2);
-        entity1 =new Entity(0,0,BIRD_WIDTH/2f,BIRD_HEIGHT/2f,1f,.8f,world);
-        entity2 =new Entity(-BIRD_WIDTH*2f,0,BIRD_WIDTH/2f,BIRD_HEIGHT/2f,1f,.8f,world);
+        EntityManager.add(new Player(0, 0, BIRD_WIDTH / 2f, BIRD_HEIGHT / 2f, 1f, .8f, world));
+        EntityManager.add(new Player(-BIRD_WIDTH * 2f, 0, BIRD_WIDTH / 2f, BIRD_HEIGHT / 2f, 1f, .8f, world));
 
-        Inputs inputs  = new Inputs(cam,world);
+        Inputs inputs = new Inputs(cam, world);
         Gdx.input.setInputProcessor(inputs);
         world.setContactListener(new EntityCollision());
-
-
-
-}
-
-    public Body createDynamicBody(float bodyloc_x,float bodyloc_y,float shapesize_x,float shapesize_y,float density,float restitution){
-        Body body;
-        bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(bodyloc_x,bodyloc_y);
-        body=world.createBody(bodyDef);
-        shape=new PolygonShape();
-        shape.setAsBox(shapesize_x,shapesize_y);
-        fixtureDef=new FixtureDef();
-        fixtureDef.shape=shape;
-        fixtureDef.density=density;
-        fixtureDef.restitution=restitution;
-        body.createFixture(fixtureDef);
-        body.setFixedRotation(true);
-        return body;
-        }
-
+    }
 
     public Body createStaticBody(float bodyloc_x,float bodyloc_y,float shapesize_x1,float shapesize_y1,float shapesize_x2,float shapesize_y2) {
         Body body;
@@ -210,19 +190,25 @@ public class Game extends ApplicationAdapter{
 	public void render () {
         elapsedTime+=Gdx.graphics.getDeltaTime();
         update(elapsedTime);
+        EntityManager.update(Gdx.graphics.getDeltaTime());
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         parallaxBackground.render(Gdx.graphics.getDeltaTime());
         debugMatrix=batch.getProjectionMatrix().cpy().scale(1f,1f,0);
 		batch.begin();
         currentframe = animation.getKeyFrame(elapsedTime,true);
+
+        EntityManager.render(batch);
+
         //sprite.setRegion(currentframe);
+
         for(Sprite sprite:sprites){
             sprite.setRegion(currentframe);
         }
 		//sprite.draw(batch);
         drawSprite(batch);
         batch.end();
-        //debugRenderer.render(world,debugMatrix);
+
+        debugRenderer.render(world,debugMatrix);
 	}
 
     public Sprite newSprite(){
@@ -246,7 +232,7 @@ public class Game extends ApplicationAdapter{
 	public void dispose () {
 		batch.dispose();
 		textureAtlas.dispose();
-        shape.dispose();
+        //shape.dispose();
         world.dispose();
         staticShape.dispose();
         backgroundTexture1.dispose();
