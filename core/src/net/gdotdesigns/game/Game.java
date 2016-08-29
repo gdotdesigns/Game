@@ -108,8 +108,8 @@ public class Game extends ApplicationAdapter{
 
         //newSprite(body);
         //newSprite(body2);
-        EntityManager.add(new Player(0, 0, BIRD_WIDTH / 2f, BIRD_HEIGHT / 2f, 1f, .8f, world));
-        EntityManager.add(new Player(-BIRD_WIDTH * 2f, 0, BIRD_WIDTH / 2f, BIRD_HEIGHT / 2f, 1f, .8f, world));
+        EntityManager.add(new Player(0, 0, BIRD_WIDTH / 2f, BIRD_HEIGHT / 2f, 1f, .8f, world,textureAtlas));
+        EntityManager.add(new Player(-BIRD_WIDTH * 2f, 0, BIRD_WIDTH / 2f, BIRD_HEIGHT / 2f, 1f, .8f, world,textureAtlas));
 
         Inputs inputs = new Inputs(cam, world);
         Gdx.input.setInputProcessor(inputs);
@@ -201,11 +201,11 @@ public class Game extends ApplicationAdapter{
 
         //sprite.setRegion(currentframe);
 
-        for(Sprite sprite:sprites){
-            sprite.setRegion(currentframe);
-        }
+        //for(Sprite sprite:sprites){
+            //sprite.setRegion(currentframe);
+       // }
 		//sprite.draw(batch);
-        drawSprite(batch);
+        //drawSprite(batch);
         batch.end();
 
         debugRenderer.render(world,debugMatrix);

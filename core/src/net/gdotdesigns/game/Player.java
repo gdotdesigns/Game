@@ -1,7 +1,11 @@
 package net.gdotdesigns.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -17,6 +21,9 @@ public class Player extends Entity {
     FixtureDef fixtureDef;
     PolygonShape shape;
     World world;
+    TextureAtlas textureAtlas;
+    TextureRegion currentFrame;
+    Animation animation;
     Sprite sprite;
     float bodyloc_x;
     float bodyloc_y;
@@ -24,8 +31,9 @@ public class Player extends Entity {
     float density;
     float restitution;
     Game game;
+    float elapsedTime;
 
-    public Player(float bodyloc_x, float bodyloc_y, float shapesize_x, float shapesize_y, float density, float restitution, World world){
+    public Player(float bodyloc_x, float bodyloc_y, float shapesize_x, float shapesize_y, float density, float restitution, World world, TextureAtlas textureAtlas){
         this.bodyloc_x = bodyloc_x;
         this.bodyloc_y =bodyloc_y;
         this.shapesize_x= shapesize_x;
@@ -33,6 +41,9 @@ public class Player extends Entity {
         this.density=density;
         this.restitution=restitution;
         this.world=world;
+        this.textureAtlas = textureAtlas;
+        animation = new Animation(1 / 7f, textureAtlas.getRegions());
+        sprite=new Sprite();
         createDynamicBody();
     }
 
@@ -54,18 +65,21 @@ public class Player extends Entity {
 
     @Override
     public void update(float deltaTime) {
+        elapsedTime+= Gdx.graphics.getDeltaTime();
+        currentFrame = animation.getKeyFrame(elapsedTime,true);
+        sprite.setRegion(currentFrame);
 
-        //currentframe = animation.getKeyFrame(elapsedTime,true);
 
     }
 
     @Override
     public void render(SpriteBatch spriteBatch) {
-
+        sprite.draw(spriteBatch);
     }
 
     @Override
     public void dispose() {
         shape.dispose();
+        textureAtlas.dispose();
     }
 }
