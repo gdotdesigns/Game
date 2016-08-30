@@ -37,35 +37,24 @@ public class Game extends ApplicationAdapter{
     public static final float GRAVITY = -9.8f;
 
     public  World world;
-    public static Body body;
-    private  Body body2;
     private  Body groundBody;
     private  Body leftWallBody;
     private  Body rightWallBody;
     private  Body topWallBody;
     private  BodyDef bodyDef;
-    private BodyDef groundBodyDef;
-    private  PolygonShape shape;
+
     private EdgeShape staticShape;
-    private  FixtureDef fixtureDef;
     private FixtureDef groundFictureDef;
     private  Box2DDebugRenderer debugRenderer;
     private  Matrix4 debugMatrix;
     public static float torque = -9.0f;
     private float worldWidth;
-    public static Array<Sprite> sprites;
-    private Player player1;
-    private Player player2;
 
     private SpriteBatch batch;
 	private TextureAtlas textureAtlas;
-	private Animation animation;
     public OrthographicCamera cam;
     private Viewport vp;
 	private float elapsedTime;
-    private TextureRegion currentframe;
-    private Array<Body> tmpBodies= new Array<Body>();
-
 
 
     //TODO Put these files into a texture atlas.
@@ -91,7 +80,6 @@ public class Game extends ApplicationAdapter{
 	public void create () {
         worldWidth = WORLD_HEIGHT * (float) Gdx.graphics.getWidth() / (float) Gdx.graphics.getHeight();
         cam = new OrthographicCamera(worldWidth, WORLD_HEIGHT);
-        sprites = new Array<Sprite>();
         //cam.setToOrtho(false, WORLD_HEIGHT * (float)Gdx.graphics.getWidth() / (float)Gdx.graphics.getHeight(), WORLD_HEIGHT);
         cam.update();
         //vp=new FillViewport(16,9,cam);
@@ -99,15 +87,11 @@ public class Game extends ApplicationAdapter{
         batch = new SpriteBatch();
 
         textureAtlas = new TextureAtlas("monster.txt");
-        animation = new Animation(1 / 7f, textureAtlas.getRegions());
-        currentframe = new TextureRegion();
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         loadBackground();
         createWorld();
 
-        //newSprite(body);
-        //newSprite(body2);
         EntityManager.add(new Player(0, 0, BIRD_WIDTH / 2f, BIRD_HEIGHT / 2f, 1f, .8f, world,textureAtlas));
         EntityManager.add(new Player(-BIRD_WIDTH * 2f, 0, BIRD_WIDTH / 2f, BIRD_HEIGHT / 2f, 1f, .8f, world,textureAtlas));
 
@@ -132,21 +116,11 @@ public class Game extends ApplicationAdapter{
 
     public void update(float elapsedTime) {
         world.step(1f/60f,6,2);
-        world.getBodies(tmpBodies);
-        for(Body body:tmpBodies){
-            if (body.getUserData() != null || body.getUserData() instanceof Sprite){
-                //Sprite sprite = (Sprite) body.getUserData();
-                //sprite.setPosition(body.getPosition().x - BIRD_WIDTH / 2f, body.getPosition().y - BIRD_HEIGHT / 2f);
-                //sprite.setRotation((float) Math.toDegrees(body.getAngle()));
-            }
-        }
     }
 
     private void createWorld() {
         Box2D.init();
         world = new World(new Vector2(0,GRAVITY),true);
-        //body=createDynamicBody(0,0,BIRD_WIDTH/2f,BIRD_HEIGHT/2f,1f,.8f);
-        //body2=createDynamicBody(-BIRD_WIDTH*2f,0,BIRD_WIDTH/2f,BIRD_HEIGHT/2f,1f,.8f);
         groundBody=createStaticBody(0,0,-cam.viewportWidth/2f,-2f,cam.viewportWidth/2f,-2f);
         leftWallBody=createStaticBody(0,0,-cam.viewportWidth/2f,-cam.viewportHeight/2f,-cam.viewportWidth/2f,cam.viewportHeight/2f);
         rightWallBody=createStaticBody(0,0,cam.viewportWidth/2f,-cam.viewportHeight/2f,cam.viewportWidth/2f,cam.viewportHeight/2f);
@@ -195,19 +169,8 @@ public class Game extends ApplicationAdapter{
         parallaxBackground.render(Gdx.graphics.getDeltaTime());
         debugMatrix=batch.getProjectionMatrix().cpy().scale(1f,1f,0);
 		batch.begin();
-        currentframe = animation.getKeyFrame(elapsedTime,true);
-
         EntityManager.render(batch);
-
-        //sprite.setRegion(currentframe);
-
-        //for(Sprite sprite:sprites){
-            //sprite.setRegion(currentframe);
-       // }
-		//sprite.draw(batch);
-        //drawSprite(batch);
         batch.end();
-
         debugRenderer.render(world,debugMatrix);
 	}
 
@@ -216,15 +179,7 @@ public class Game extends ApplicationAdapter{
         newSprite.setSize(BIRD_WIDTH, BIRD_HEIGHT);
         newSprite.setOriginCenter();
         newSprite.setScale(1f, 1f);
-        //body.setUserData(newSprite);
-        sprites.add(newSprite);
             return newSprite;
-    }
-
-    public void drawSprite(SpriteBatch batch){
-        for(Sprite sprite: sprites){
-            sprite.draw(batch);
-        }
     }
 
 
@@ -232,7 +187,6 @@ public class Game extends ApplicationAdapter{
 	public void dispose () {
 		batch.dispose();
 		textureAtlas.dispose();
-        //shape.dispose();
         world.dispose();
         staticShape.dispose();
         backgroundTexture1.dispose();

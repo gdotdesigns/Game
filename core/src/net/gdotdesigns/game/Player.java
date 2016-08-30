@@ -16,6 +16,8 @@ import com.badlogic.gdx.physics.box2d.World;
  * Created by Todd on 8/22/2016.
  */
 public class Player extends Entity {
+    private static final float BIRD_HEIGHT=2f;
+    private static final float BIRD_WIDTH=BIRD_HEIGHT*1.305f;
     Body body;
     BodyDef bodyDef;
     FixtureDef fixtureDef;
@@ -30,7 +32,6 @@ public class Player extends Entity {
     float shapesize_x,shapesize_y;
     float density;
     float restitution;
-    Game game;
     float elapsedTime;
 
     public Player(float bodyloc_x, float bodyloc_y, float shapesize_x, float shapesize_y, float density, float restitution, World world, TextureAtlas textureAtlas){
@@ -44,6 +45,9 @@ public class Player extends Entity {
         this.textureAtlas = textureAtlas;
         animation = new Animation(1 / 7f, textureAtlas.getRegions());
         sprite=new Sprite();
+        sprite.setSize(BIRD_WIDTH,BIRD_HEIGHT);
+        sprite.setOriginCenter();
+        sprite.setScale(1f,1f);
         createDynamicBody();
     }
 
@@ -68,7 +72,8 @@ public class Player extends Entity {
         elapsedTime+= Gdx.graphics.getDeltaTime();
         currentFrame = animation.getKeyFrame(elapsedTime,true);
         sprite.setRegion(currentFrame);
-
+        sprite.setPosition(body.getPosition().x-BIRD_WIDTH/2f,body.getPosition().y-BIRD_HEIGHT/2f);
+        sprite.setRotation((float) Math.toDegrees(body.getAngle()));
 
     }
 
