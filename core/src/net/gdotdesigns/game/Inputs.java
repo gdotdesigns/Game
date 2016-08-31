@@ -34,6 +34,8 @@ public class Inputs implements InputProcessor{
                 return true;}
             body=fixture.getBody();
             body.setLinearVelocity(0f,5f);
+            body.setAngularVelocity(0f);
+            body.setFixedRotation(true);
             return false;
 
         }

@@ -86,5 +86,6 @@ public class Player extends Entity {
     public void dispose() {
         shape.dispose();
         textureAtlas.dispose();
+        world.dispose();
     }
 }

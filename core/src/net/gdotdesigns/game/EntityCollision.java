@@ -1,5 +1,6 @@
 package net.gdotdesigns.game;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
@@ -15,9 +16,13 @@ public class EntityCollision implements ContactListener {
         Body bodyA = contact.getFixtureA().getBody();
         Body bodyB = contact.getFixtureB().getBody();
 
-        if(bodyA.getUserData() instanceof Player || bodyB.getUserData() instanceof Player){
+        if (bodyA.getUserData() instanceof Player && bodyB.getUserData() instanceof Player) {
+            return;
+        } else {
             Body player = bodyA.getUserData() instanceof Player ? bodyA : bodyB;
-            Body object = player == bodyA ? bodyB : bodyA;
+            //Body object = player == bodyA ? bodyB : bodyA;
+            player.setAngularVelocity(-5f);
+            player.setLinearVelocity(0f, (float) MathUtils.random(1f, 10f));
         }
 
     }
