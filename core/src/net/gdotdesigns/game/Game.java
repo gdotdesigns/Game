@@ -111,6 +111,7 @@ public class Game extends ApplicationAdapter{
         groundFictureDef=new FixtureDef();
         groundFictureDef.shape=staticShape;
         body.createFixture(groundFictureDef);
+        body.setUserData(staticShape);
         return body;
     }
 
