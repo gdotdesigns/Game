@@ -5,11 +5,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -18,11 +15,7 @@ import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Pools;
-import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class Game extends ApplicationAdapter{
 
@@ -37,23 +30,20 @@ public class Game extends ApplicationAdapter{
     public static final float GRAVITY = -9.8f;
 
     public  World world;
-    private  Body groundBody;
-    private  Body leftWallBody;
-    private  Body rightWallBody;
-    private  Body topWallBody;
-    private  BodyDef bodyDef;
+    public   Body groundBody;
+    public   Body leftWallBody;
+    public  Body rightWallBody;
+    public  static Body topWallBody;
 
     private EdgeShape staticShape;
-    private FixtureDef groundFictureDef;
     private  Box2DDebugRenderer debugRenderer;
-    private  Matrix4 debugMatrix;
-    public static float torque = -9.0f;
+    //public static float torque = -9.0f;
     private float worldWidth;
 
     private SpriteBatch batch;
 	private TextureAtlas textureAtlas;
     public OrthographicCamera cam;
-    private Viewport vp;
+    //private Viewport vp;
 	private float elapsedTime;
 
 
@@ -67,13 +57,6 @@ public class Game extends ApplicationAdapter{
     private  Texture backgroundTexture7;
 
     private  ParallaxBackground parallaxBackground;
-    private  ParallaxLayer parallaxLayer1;
-    private  ParallaxLayer parallaxLayer2;
-    private  ParallaxLayer parallaxLayer3;
-    private  ParallaxLayer parallaxLayer4;
-    private  ParallaxLayer parallaxLayer5;
-    private  ParallaxLayer parallaxLayer6;
-    private  ParallaxLayer parallaxLayer7;
 
 
 	@Override
@@ -102,16 +85,16 @@ public class Game extends ApplicationAdapter{
 
     public Body createStaticBody(float bodyloc_x,float bodyloc_y,float shapesize_x1,float shapesize_y1,float shapesize_x2,float shapesize_y2) {
         Body body;
-        bodyDef = new BodyDef();
+        BodyDef bodyDef = new BodyDef();
         bodyDef.type= BodyDef.BodyType.StaticBody;
         bodyDef.position.set(bodyloc_x,bodyloc_y);
         body=world.createBody(bodyDef);
         staticShape= new EdgeShape();
         staticShape.set(shapesize_x1,shapesize_y1,shapesize_x2,shapesize_y2);
-        groundFictureDef=new FixtureDef();
+        FixtureDef groundFictureDef=new FixtureDef();
         groundFictureDef.shape=staticShape;
         body.createFixture(groundFictureDef);
-        body.setUserData(this);
+        body.setUserData(body);
         return body;
     }
 
@@ -126,7 +109,6 @@ public class Game extends ApplicationAdapter{
         leftWallBody=createStaticBody(0,0,-cam.viewportWidth/2f,-cam.viewportHeight/2f,-cam.viewportWidth/2f,cam.viewportHeight/2f);
         rightWallBody=createStaticBody(0,0,cam.viewportWidth/2f,-cam.viewportHeight/2f,cam.viewportWidth/2f,cam.viewportHeight/2f);
         topWallBody=createStaticBody(0,0,-cam.viewportWidth/2f,cam.viewportHeight/2f,cam.viewportWidth/2f,cam.viewportHeight/2f);
-        topWallBody.setUserData("topWallBody");
         debugRenderer=new Box2DDebugRenderer();
         }
 
@@ -141,13 +123,13 @@ public class Game extends ApplicationAdapter{
             backgroundTexture7 = new Texture("layer_07_1920 x 1080.png");
 
 
-            parallaxLayer1 = new ParallaxLayer(backgroundTexture1,new Vector2(2f,0));
-            parallaxLayer2 = new ParallaxLayer(backgroundTexture2,new Vector2(1f,0));
-            parallaxLayer3 = new ParallaxLayer(backgroundTexture3,new Vector2(.90f,0));
-            parallaxLayer4 = new ParallaxLayer(backgroundTexture4,new Vector2(.80f,0));
-            parallaxLayer5 = new ParallaxLayer(backgroundTexture5,new Vector2(.75f,0));
-            parallaxLayer6 = new ParallaxLayer(backgroundTexture6,new Vector2(0,0));
-            parallaxLayer7 = new ParallaxLayer(backgroundTexture7,new Vector2(0f,0));
+            ParallaxLayer parallaxLayer1 = new ParallaxLayer(backgroundTexture1,new Vector2(2f,0));
+            ParallaxLayer parallaxLayer2 = new ParallaxLayer(backgroundTexture2,new Vector2(1f,0));
+            ParallaxLayer parallaxLayer3 = new ParallaxLayer(backgroundTexture3,new Vector2(.90f,0));
+            ParallaxLayer parallaxLayer4 = new ParallaxLayer(backgroundTexture4,new Vector2(.80f,0));
+            ParallaxLayer parallaxLayer5 = new ParallaxLayer(backgroundTexture5,new Vector2(.75f,0));
+            ParallaxLayer parallaxLayer6 = new ParallaxLayer(backgroundTexture6,new Vector2(0,0));
+            ParallaxLayer parallaxLayer7 = new ParallaxLayer(backgroundTexture7,new Vector2(0f,0));
             ParallaxLayer[] parallaxArray = {parallaxLayer7,parallaxLayer6,parallaxLayer5,parallaxLayer4,parallaxLayer3,parallaxLayer2,parallaxLayer1};
             parallaxBackground = new ParallaxBackground(parallaxArray,batch,new Vector2(5,0),worldWidth,WORLD_HEIGHT);
         }
@@ -169,20 +151,12 @@ public class Game extends ApplicationAdapter{
         EntityManager.update(Gdx.graphics.getDeltaTime());
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         parallaxBackground.render(Gdx.graphics.getDeltaTime());
-        debugMatrix=batch.getProjectionMatrix().cpy().scale(1f,1f,0);
+        Matrix4 debugMatrix=batch.getProjectionMatrix().cpy().scale(1f,1f,0);
 		batch.begin();
         EntityManager.render(batch);
         batch.end();
         debugRenderer.render(world,debugMatrix);
 	}
-
-    public Sprite newSprite(){
-        Sprite newSprite = Pools.obtain(Sprite.class);
-        newSprite.setSize(BIRD_WIDTH, BIRD_HEIGHT);
-        newSprite.setOriginCenter();
-        newSprite.setScale(1f, 1f);
-            return newSprite;
-    }
 
 
 	@Override

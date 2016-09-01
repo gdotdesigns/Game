@@ -2,13 +2,10 @@ package net.gdotdesigns.game;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
-import com.badlogic.gdx.physics.box2d.Shape;
-
 /**
  * Created by Todd on 8/24/2016.
  */
@@ -24,7 +21,7 @@ public class EntityCollision implements ContactListener {
             Body player = bodyA.getUserData() instanceof Player ? bodyA : bodyB;
             Body object = player == bodyA ? bodyB : bodyA;
 
-        if (object.getUserData()=="topWallBody") {
+        if (object.getUserData()==Game.topWallBody) {
             player.setAngularVelocity(0f);
             player.setLinearVelocity(0f, 0f);
         }
