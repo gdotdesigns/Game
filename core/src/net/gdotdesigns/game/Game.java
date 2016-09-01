@@ -111,7 +111,7 @@ public class Game extends ApplicationAdapter{
         groundFictureDef=new FixtureDef();
         groundFictureDef.shape=staticShape;
         body.createFixture(groundFictureDef);
-        body.setUserData(staticShape);
+        body.setUserData(this);
         return body;
     }
 
@@ -126,6 +126,7 @@ public class Game extends ApplicationAdapter{
         leftWallBody=createStaticBody(0,0,-cam.viewportWidth/2f,-cam.viewportHeight/2f,-cam.viewportWidth/2f,cam.viewportHeight/2f);
         rightWallBody=createStaticBody(0,0,cam.viewportWidth/2f,-cam.viewportHeight/2f,cam.viewportWidth/2f,cam.viewportHeight/2f);
         topWallBody=createStaticBody(0,0,-cam.viewportWidth/2f,cam.viewportHeight/2f,cam.viewportWidth/2f,cam.viewportHeight/2f);
+        topWallBody.setUserData("topWallBody");
         debugRenderer=new Box2DDebugRenderer();
         }
 
