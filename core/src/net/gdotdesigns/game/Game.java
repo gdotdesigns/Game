@@ -35,7 +35,6 @@ public class Game extends ApplicationAdapter{
     public  Body rightWallBody;
     public  static Body topWallBody;
 
-    private EdgeShape staticShape;
     private  Box2DDebugRenderer debugRenderer;
     //public static float torque = -9.0f;
     private float worldWidth;
@@ -44,7 +43,6 @@ public class Game extends ApplicationAdapter{
 	private TextureAtlas textureAtlas;
     public OrthographicCamera cam;
     //private Viewport vp;
-	private float elapsedTime;
 
 
     //TODO Put these files into a texture atlas.
@@ -89,16 +87,17 @@ public class Game extends ApplicationAdapter{
         bodyDef.type= BodyDef.BodyType.StaticBody;
         bodyDef.position.set(bodyloc_x,bodyloc_y);
         body=world.createBody(bodyDef);
-        staticShape= new EdgeShape();
+        EdgeShape staticShape= new EdgeShape();
         staticShape.set(shapesize_x1,shapesize_y1,shapesize_x2,shapesize_y2);
         FixtureDef groundFictureDef=new FixtureDef();
         groundFictureDef.shape=staticShape;
         body.createFixture(groundFictureDef);
         body.setUserData(body);
+        staticShape.dispose();
         return body;
     }
 
-    public void update(float elapsedTime) {
+    public void update() {
         world.step(1f/60f,6,2);
     }
 
@@ -146,13 +145,14 @@ public class Game extends ApplicationAdapter{
 
 	@Override
 	public void render () {
-        elapsedTime+=Gdx.graphics.getDeltaTime();
-        update(elapsedTime);
-        EntityManager.update(Gdx.graphics.getDeltaTime());
+        float deltaTime = Gdx.graphics.getDeltaTime();
+        update();
+        EntityManager.update(deltaTime);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        parallaxBackground.render(Gdx.graphics.getDeltaTime());
+
         Matrix4 debugMatrix=batch.getProjectionMatrix().cpy().scale(1f,1f,0);
 		batch.begin();
+        parallaxBackground.render(deltaTime);
         EntityManager.render(batch);
         batch.end();
         debugRenderer.render(world,debugMatrix);
@@ -161,10 +161,10 @@ public class Game extends ApplicationAdapter{
 
 	@Override
 	public void dispose () {
+        EntityManager.dispose();
 		batch.dispose();
 		textureAtlas.dispose();
         world.dispose();
-        staticShape.dispose();
         backgroundTexture1.dispose();
         backgroundTexture2.dispose();
         backgroundTexture3.dispose();

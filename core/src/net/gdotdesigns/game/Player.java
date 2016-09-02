@@ -1,6 +1,5 @@
 package net.gdotdesigns.game;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -65,11 +64,12 @@ public class Player extends Entity {
         fixtureDef.restitution=restitution;
         body.createFixture(fixtureDef);
         body.setFixedRotation(true);
+        shape.dispose();
     }
 
     @Override
     public void update(float deltaTime) {
-        elapsedTime+= Gdx.graphics.getDeltaTime();
+        elapsedTime+= deltaTime;
         currentFrame = animation.getKeyFrame(elapsedTime,true);
         sprite.setRegion(currentFrame);
         sprite.setPosition(body.getPosition().x-BIRD_WIDTH/2f,body.getPosition().y-BIRD_HEIGHT/2f);
@@ -84,8 +84,7 @@ public class Player extends Entity {
 
     @Override
     public void dispose() {
-        shape.dispose();
         textureAtlas.dispose();
-        world.dispose();
+        //world.dispose();
     }
 }

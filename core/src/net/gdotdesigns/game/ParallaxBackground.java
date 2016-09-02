@@ -22,11 +22,11 @@ public class ParallaxBackground {
     // * @param height The screenHeight
      * @param speed A Vector2 attribute to point out the x and y speed
      */
-    public ParallaxBackground(ParallaxLayer[] layers,SpriteBatch batch,Vector2 speed,float worldHeight,float worldWidth){
+    public ParallaxBackground(ParallaxLayer[] layers,SpriteBatch batch,Vector2 speed,float worldWidth,float worldHeight){
         this.layers = layers;
         this.speed.set(speed);
         this.batch=batch;
-        camera = new OrthographicCamera(worldHeight,worldWidth);
+        camera = new OrthographicCamera(worldWidth,worldHeight);
 
     }
 
@@ -36,9 +36,8 @@ public class ParallaxBackground {
         for(ParallaxLayer layer:layers){
             batch.setProjectionMatrix(camera.projection);
             camera.update();
-            batch.begin();
+            //batch.begin();
             float currentX = - camera.position.x*layer.parallaxRatio.x % (Game.BACKGROUND_WIDTH) ;
-
 
             if( speed.x < 0 )currentX += -(Game.BACKGROUND_WIDTH);
             do{
@@ -52,7 +51,7 @@ public class ParallaxBackground {
                 }while( currentY < camera.viewportHeight);
                 currentX += ( Game.BACKGROUND_WIDTH);
             }while( currentX < camera.viewportWidth);
-            batch.end();
+            //batch.end();
 
         }
     }
