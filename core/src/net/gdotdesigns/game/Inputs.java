@@ -13,7 +13,6 @@ import com.badlogic.gdx.physics.box2d.World;
  */
 public class Inputs implements InputProcessor{
 
-    Game game = new Game();
     Vector3 vec3 = new Vector3();
     Camera camera;
     World world;
@@ -35,7 +34,6 @@ public class Inputs implements InputProcessor{
             body=fixture.getBody();
             body.setLinearVelocity(0f,5f);
             body.setAngularVelocity(0f);
-            body.setFixedRotation(true);
             return false;
 
         }
