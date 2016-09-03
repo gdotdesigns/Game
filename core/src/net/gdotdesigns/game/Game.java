@@ -30,9 +30,9 @@ public class Game extends ApplicationAdapter{
     public static final float GRAVITY = -9.8f;
 
     public  World world;
-    public   Body groundBody;
-    public   Body leftWallBody;
-    public  Body rightWallBody;
+    public  static Body groundBody;
+    public  static Body leftWallBody;
+    public  static Body rightWallBody;
     public  static Body topWallBody;
 
     private  Box2DDebugRenderer debugRenderer;
@@ -152,7 +152,7 @@ public class Game extends ApplicationAdapter{
 
         Matrix4 debugMatrix=batch.getProjectionMatrix().cpy().scale(1f,1f,0);
 		batch.begin();
-        parallaxBackground.render(deltaTime);
+        //parallaxBackground.render(deltaTime);
         EntityManager.render(batch);
         batch.end();
         debugRenderer.render(world,debugMatrix);
