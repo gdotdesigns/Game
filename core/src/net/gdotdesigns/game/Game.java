@@ -43,17 +43,6 @@ public class Game extends ApplicationAdapter{
 	private TextureAtlas textureAtlas;
     public OrthographicCamera cam;
     //private Viewport vp;
-
-
-    //TODO Put these files into a texture atlas.
-    private  Texture backgroundTexture1;
-    private  Texture backgroundTexture2;
-    private  Texture backgroundTexture3;
-    private  Texture backgroundTexture4;
-    private  Texture backgroundTexture5;
-    private  Texture backgroundTexture6;
-    private  Texture backgroundTexture7;
-
     private  ParallaxBackground parallaxBackground;
 
 
@@ -66,8 +55,7 @@ public class Game extends ApplicationAdapter{
         //vp=new FillViewport(16,9,cam);
         //vp.apply();
         batch = new SpriteBatch();
-
-        textureAtlas = new TextureAtlas("monster.txt");
+        textureAtlas = new TextureAtlas("Game.txt");
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         loadBackground();
@@ -112,23 +100,13 @@ public class Game extends ApplicationAdapter{
         }
 
     public void loadBackground() {
-            //TODO Put these files into a texture atlas.
-            backgroundTexture1 = new Texture("layer_01_1920 x 1080.png");
-            backgroundTexture2 = new Texture("layer_02_1920 x 1080.png");
-            backgroundTexture3 = new Texture("layer_03_1920 x 1080.png");
-            backgroundTexture4 = new Texture("layer_04_1920 x 1080.png");
-            backgroundTexture5 = new Texture("layer_05_1920 x 1080.png");
-            backgroundTexture6 = new Texture("layer_06_1920 x 1080.png");
-            backgroundTexture7 = new Texture("layer_07_1920 x 1080.png");
-
-
-            ParallaxLayer parallaxLayer1 = new ParallaxLayer(backgroundTexture1,new Vector2(2f,0));
-            ParallaxLayer parallaxLayer2 = new ParallaxLayer(backgroundTexture2,new Vector2(1f,0));
-            ParallaxLayer parallaxLayer3 = new ParallaxLayer(backgroundTexture3,new Vector2(.90f,0));
-            ParallaxLayer parallaxLayer4 = new ParallaxLayer(backgroundTexture4,new Vector2(.80f,0));
-            ParallaxLayer parallaxLayer5 = new ParallaxLayer(backgroundTexture5,new Vector2(.75f,0));
-            ParallaxLayer parallaxLayer6 = new ParallaxLayer(backgroundTexture6,new Vector2(0,0));
-            ParallaxLayer parallaxLayer7 = new ParallaxLayer(backgroundTexture7,new Vector2(0f,0));
+            ParallaxLayer parallaxLayer1 = new ParallaxLayer(textureAtlas.findRegion("layer_01_1920 x 1080"),new Vector2(2f,0));
+            ParallaxLayer parallaxLayer2 = new ParallaxLayer(textureAtlas.findRegion("layer_02_1920 x 1080"),new Vector2(1f,0));
+            ParallaxLayer parallaxLayer3 = new ParallaxLayer(textureAtlas.findRegion("layer_03_1920 x 1080"),new Vector2(.90f,0));
+            ParallaxLayer parallaxLayer4 = new ParallaxLayer(textureAtlas.findRegion("layer_04_1920 x 1080"),new Vector2(.80f,0));
+            ParallaxLayer parallaxLayer5 = new ParallaxLayer(textureAtlas.findRegion("layer_05_1920 x 1080"),new Vector2(.75f,0));
+            ParallaxLayer parallaxLayer6 = new ParallaxLayer(textureAtlas.findRegion("layer_06_1920 x 1080"),new Vector2(0,0));
+            ParallaxLayer parallaxLayer7 = new ParallaxLayer(textureAtlas.findRegion("layer_07_1920 x 1080"),new Vector2(0f,0));
             ParallaxLayer[] parallaxArray = {parallaxLayer7,parallaxLayer6,parallaxLayer5,parallaxLayer4,parallaxLayer3,parallaxLayer2,parallaxLayer1};
             parallaxBackground = new ParallaxBackground(parallaxArray,batch,new Vector2(5,0),worldWidth,WORLD_HEIGHT);
         }
@@ -152,7 +130,7 @@ public class Game extends ApplicationAdapter{
 
         Matrix4 debugMatrix=batch.getProjectionMatrix().cpy().scale(1f,1f,0);
 		batch.begin();
-        //parallaxBackground.render(deltaTime);
+        parallaxBackground.render(deltaTime);
         EntityManager.render(batch);
         batch.end();
         debugRenderer.render(world,debugMatrix);
@@ -165,13 +143,5 @@ public class Game extends ApplicationAdapter{
 		batch.dispose();
 		textureAtlas.dispose();
         world.dispose();
-        backgroundTexture1.dispose();
-        backgroundTexture2.dispose();
-        backgroundTexture3.dispose();
-        backgroundTexture4.dispose();
-        backgroundTexture5.dispose();
-        backgroundTexture6.dispose();
-        backgroundTexture7.dispose();
-
     }
 }

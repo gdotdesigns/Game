@@ -36,7 +36,7 @@ public class ParallaxBackground {
         for(ParallaxLayer layer:layers){
             batch.setProjectionMatrix(camera.projection);
             camera.update();
-            //batch.begin();
+           // batch.begin();
             float currentX = - camera.position.x*layer.parallaxRatio.x % (Game.BACKGROUND_WIDTH) ;
 
             if( speed.x < 0 )currentX += -(Game.BACKGROUND_WIDTH);
@@ -44,9 +44,10 @@ public class ParallaxBackground {
                 float currentY = - camera.position.y*layer.parallaxRatio.y % (Game.BACKGROUND_HEIGHT) ;
                 if( speed.y < 0 )currentY += - (Game.BACKGROUND_HEIGHT);
                 do{
-                    batch.draw(layer.texture,
+                    batch.draw(layer.region,
                            -this.camera.viewportWidth/2+currentX,
                             -this.camera.viewportHeight/2 + currentY,Game.BACKGROUND_WIDTH, Game.BACKGROUND_HEIGHT);
+
                     currentY += (Game.BACKGROUND_HEIGHT);
                 }while( currentY < camera.viewportHeight);
                 currentX += ( Game.BACKGROUND_WIDTH);

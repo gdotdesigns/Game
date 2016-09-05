@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 
 /**
  * Created by Todd on 8/22/2016.
@@ -42,7 +43,12 @@ public class Player extends Entity {
         this.restitution=restitution;
         this.world=world;
         this.textureAtlas = textureAtlas;
-        animation = new Animation(1 / 7f, textureAtlas.getRegions());
+        Array<TextureRegion> bird = new Array<TextureRegion>();
+        bird.add(textureAtlas.findRegion("0"));
+        bird.add(textureAtlas.findRegion("1"));
+        bird.add(textureAtlas.findRegion("2"));
+        bird.add(textureAtlas.findRegion("3"));
+        animation = new Animation(1 / 7f, bird);
         sprite=new Sprite();
         sprite.setSize(BIRD_WIDTH,BIRD_HEIGHT);
         sprite.setOriginCenter();
