@@ -32,9 +32,11 @@ public class Inputs implements InputProcessor{
             if (!fixture.testPoint(vec3.x, vec3.y)){
                 return true;}
             body=fixture.getBody();
-            body.setLinearVelocity(0f,5f);
-            body.setAngularVelocity(0f);
-            return false;
+            if(!(body.getUserData() instanceof Enemy)) {
+                body.setLinearVelocity(0f, 5f);
+                body.setAngularVelocity(0f);
+            }
+                return false;
 
         }
 

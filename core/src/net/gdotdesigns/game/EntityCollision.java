@@ -15,20 +15,30 @@ public class EntityCollision implements ContactListener {
         Body bodyA = contact.getFixtureA().getBody();
         Body bodyB = contact.getFixtureB().getBody();
 
-        if (bodyA.getUserData() instanceof Player && bodyB.getUserData() instanceof Player) {
-            return;
-        }
+        //do something if player and enemy collide
+        if (bodyA.getUserData() instanceof Player && bodyB.getUserData() instanceof Enemy ||
+                bodyA.getUserData() instanceof Enemy && bodyB.getUserData() instanceof Player) {
             Body player = bodyA.getUserData() instanceof Player ? bodyA : bodyB;
-            Body object = player == bodyA ? bodyB : bodyA;
+            Body enemy = player == bodyA ? bodyB : bodyA;
 
-        if (object.getUserData()==Game.topWallBody) {
-            player.setAngularVelocity(0f);
-            player.setLinearVelocity(0f, 0f);
         }
 
-        else{
-            player.setAngularVelocity(-5f);
-            player.setLinearVelocity(0f,MathUtils.random(1f,10f));
+
+        //do something if player collides with ground
+        else if(bodyA.getUserData() instanceof Player && bodyB.getUserData() == Game.groundBody ||
+                bodyA.getUserData() == Game.groundBody && bodyB.getUserData() instanceof Player){
+            Body player = bodyA.getUserData() instanceof Player ? bodyA : bodyB;
+            //player.setLinearVelocity(0f,MathUtils.random(1f,10f));
+            //player.setAngularVelocity(0f);
+            //player.setLinearVelocity(0f, 0f);
+        }
+
+
+        //do something if enemy collides with ground
+        else if(bodyA.getUserData() instanceof Enemy && bodyB.getUserData() == Game.groundBody||
+                bodyA.getUserData() == Game.groundBody && bodyB.getUserData() instanceof Player){
+            Body enemy = bodyA.getUserData() instanceof Enemy ? bodyA : bodyB;
+            Body ground = enemy == bodyA ? bodyB : bodyA;
         }
 
     }

@@ -5,19 +5,20 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Pool;
 
 /**
- * Created by Todd on 8/22/2016.
+ * Created by Todd on 9/9/2016.
  */
-public class Player extends Entity {
-    private static final float BIRD_HEIGHT=2f;
-    private static final float BIRD_WIDTH=BIRD_HEIGHT*1.305f;
+public class Enemy extends Entity implements Pool.Poolable{
+
     Body body;
     BodyDef bodyDef;
     FixtureDef fixtureDef;
@@ -33,8 +34,11 @@ public class Player extends Entity {
     float density;
     float restitution;
     float elapsedTime;
+    float timeToFlap = MathUtils.random(0.6f,1.1f);
+    float flapTimer;
 
-    public Player(float bodyloc_x, float bodyloc_y, float shapesize_x, float shapesize_y, float density, float restitution, World world, TextureAtlas textureAtlas){
+
+    public Enemy(float bodyloc_x, float bodyloc_y, float shapesize_x, float shapesize_y, float density, float restitution, World world, TextureAtlas textureAtlas){
         this.bodyloc_x = bodyloc_x;
         this.bodyloc_y =bodyloc_y;
         this.shapesize_x= shapesize_x;
@@ -70,12 +74,20 @@ public class Player extends Entity {
         fixtureDef.restitution=restitution;
         body.createFixture(fixtureDef);
         body.setFixedRotation(true);
+        body.setLinearVelocity(-5f, 0f);
         shape.dispose();
     }
 
     @Override
     public void update(float deltaTime) {
+
+        flapTimer+= deltaTime;
         elapsedTime+= deltaTime;
+        if(flapTimer>=timeToFlap){
+            body.setLinearVelocity(-5f,5f);
+            flapTimer=0;
+            timeToFlap = MathUtils.random(0.6f,1.1f);
+        }
         currentFrame = animation.getKeyFrame(elapsedTime,true);
         sprite.setRegion(currentFrame);
         sprite.setPosition(body.getPosition().x-shapesize_x/2f,body.getPosition().y-shapesize_y/2f);
@@ -91,6 +103,10 @@ public class Player extends Entity {
     @Override
     public void dispose() {
         textureAtlas.dispose();
-        //world.dispose();
+    }
+
+    @Override
+    public void reset() {
+
     }
 }

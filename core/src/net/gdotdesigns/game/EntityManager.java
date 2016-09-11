@@ -11,7 +11,7 @@ public class EntityManager {
     private static Array<Entity> myEntityList = new Array<Entity>();
 
 
-    public static void add (Entity newEntity){
+    public static void addEntity (Entity newEntity){
         myEntityList.add(newEntity);
     }
 

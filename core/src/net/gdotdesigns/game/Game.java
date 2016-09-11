@@ -23,8 +23,10 @@ public class Game extends ApplicationAdapter{
 	public static final int HEIGHT=1080;
     public static final String TITLE = "Game";
 	private static final float WORLD_HEIGHT=9f;
-    private static final float BIRD_HEIGHT=2f;
+    private static final float BIRD_HEIGHT=1.5f;
 	private static final float BIRD_WIDTH=BIRD_HEIGHT*1.305f;
+    public static final float ENEMY_BIRD_HEIGHT=1.5f;
+    public static final float ENEMY_BIRD_WIDTH=BIRD_HEIGHT*1.305f;
 	public static final float BACKGROUND_WIDTH=16f;
 	public static final float BACKGROUND_HEIGHT=9f;
     public static final float GRAVITY = -9.8f;
@@ -45,6 +47,8 @@ public class Game extends ApplicationAdapter{
     //private Viewport vp;
     private  ParallaxBackground parallaxBackground;
 
+    private EnemyPool enemyPool;
+
 
 	@Override
 	public void create () {
@@ -60,13 +64,15 @@ public class Game extends ApplicationAdapter{
         Gdx.gl.glClearColor(0, 0, 0, 1);
         loadBackground();
         createWorld();
-
-        EntityManager.add(new Player(0, 0, BIRD_WIDTH / 2f, BIRD_HEIGHT / 2f, 1f, .8f, world,textureAtlas));
-        EntityManager.add(new Player(-BIRD_WIDTH * 2f, 0, BIRD_WIDTH / 2f, BIRD_HEIGHT / 2f, 1f, .8f, world,textureAtlas));
+        enemyPool = new EnemyPool(5,5,world,textureAtlas);
+        EntityManager.addEntity(new Player(-BIRD_WIDTH*3f, 0, BIRD_WIDTH, BIRD_HEIGHT, 1f, .8f, world,textureAtlas));
+        EntityManager.addEntity(enemyPool.obtain());
 
         Inputs inputs = new Inputs(cam, world);
         Gdx.input.setInputProcessor(inputs);
         world.setContactListener(new EntityCollision());
+
+
     }
 
     public Body createStaticBody(float bodyloc_x,float bodyloc_y,float shapesize_x1,float shapesize_y1,float shapesize_x2,float shapesize_y2) {
@@ -85,16 +91,17 @@ public class Game extends ApplicationAdapter{
         return body;
     }
 
-    public void update() {
+    public void update(float deltaTime) {
         world.step(1f/60f,6,2);
+        EntityManager.update(deltaTime);
     }
 
     private void createWorld() {
         Box2D.init();
         world = new World(new Vector2(0,GRAVITY),true);
         groundBody=createStaticBody(0,0,-cam.viewportWidth/2f,-2f,cam.viewportWidth/2f,-2f);
-        leftWallBody=createStaticBody(0,0,-cam.viewportWidth/2f,-cam.viewportHeight/2f,-cam.viewportWidth/2f,cam.viewportHeight/2f);
-        rightWallBody=createStaticBody(0,0,cam.viewportWidth/2f,-cam.viewportHeight/2f,cam.viewportWidth/2f,cam.viewportHeight/2f);
+        //leftWallBody=createStaticBody(0,0,-cam.viewportWidth/2f,-cam.viewportHeight/2f,-cam.viewportWidth/2f,cam.viewportHeight/2f);
+        //rightWallBody=createStaticBody(0,0,cam.viewportWidth/2f,-cam.viewportHeight/2f,cam.viewportWidth/2f,cam.viewportHeight/2f);
         topWallBody=createStaticBody(0,0,-cam.viewportWidth/2f,cam.viewportHeight/2f,cam.viewportWidth/2f,cam.viewportHeight/2f);
         debugRenderer=new Box2DDebugRenderer();
         }
@@ -124,10 +131,8 @@ public class Game extends ApplicationAdapter{
 	@Override
 	public void render () {
         float deltaTime = Gdx.graphics.getDeltaTime();
-        update();
-        EntityManager.update(deltaTime);
+        update(deltaTime);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         Matrix4 debugMatrix=batch.getProjectionMatrix().cpy().scale(1f,1f,0);
 		batch.begin();
         parallaxBackground.render(deltaTime);
