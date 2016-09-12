@@ -93,6 +93,8 @@ public class Game extends ApplicationAdapter{
 
     public void update(float deltaTime) {
         world.step(1f/60f,6,2);
+        EntityManager.destroyEntity(world);
+        EntityManager.clearRemoveEntityList();
         EntityManager.update(deltaTime);
     }
 

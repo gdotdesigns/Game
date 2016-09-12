@@ -74,6 +74,11 @@ public class Player extends Entity {
     }
 
     @Override
+    public Body getBody() {
+        return body;
+    }
+
+    @Override
     public void update(float deltaTime) {
         elapsedTime+= deltaTime;
         currentFrame = animation.getKeyFrame(elapsedTime,true);

@@ -8,6 +8,8 @@ import com.badlogic.gdx.physics.box2d.Body;
  */
 public abstract class Entity {
 
+    public abstract Body getBody();
+
     public abstract void update(float deltaTime);
 
     public abstract void render(SpriteBatch spriteBatch);

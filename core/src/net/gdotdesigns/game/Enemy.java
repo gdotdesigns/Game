@@ -79,6 +79,11 @@ public class Enemy extends Entity implements Pool.Poolable{
     }
 
     @Override
+    public Body getBody() {
+        return body;
+    }
+
+    @Override
     public void update(float deltaTime) {
 
         flapTimer+= deltaTime;

@@ -1,6 +1,7 @@
 package net.gdotdesigns.game;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
 /**
@@ -9,11 +10,34 @@ import com.badlogic.gdx.utils.Array;
 public class EntityManager {
 
     private static Array<Entity> myEntityList = new Array<Entity>();
+    private static Array<Entity> removeEntityList = new Array<Entity>();
 
 
     public static void addEntity (Entity newEntity){
 
         myEntityList.add(newEntity);
+    }
+
+    public static void removeEntity(Entity oldEntity){
+
+        removeEntityList.add(oldEntity);
+    }
+
+    public static void destroyEntity(World world){
+
+        for(Entity e: removeEntityList){
+
+            world.destroyBody(e.getBody());
+        }
+    }
+
+    public static void clearRemoveEntityList(){
+
+        removeEntityList.clear();
+    }
+
+    public static void removeFromActiveList(Entity entity){
+        myEntityList.removeValue(entity,true);
     }
 
 
@@ -36,6 +60,7 @@ public class EntityManager {
     }
 
     public static void dispose(){
+
         for(Entity e : myEntityList){
 
             e.dispose();
