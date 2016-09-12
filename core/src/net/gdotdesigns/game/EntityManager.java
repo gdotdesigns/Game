@@ -12,6 +12,7 @@ public class EntityManager {
 
 
     public static void addEntity (Entity newEntity){
+
         myEntityList.add(newEntity);
     }
 

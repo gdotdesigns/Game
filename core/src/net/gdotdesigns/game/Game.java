@@ -64,7 +64,7 @@ public class Game extends ApplicationAdapter{
         Gdx.gl.glClearColor(0, 0, 0, 1);
         loadBackground();
         createWorld();
-        enemyPool = new EnemyPool(5,5,world,textureAtlas);
+        enemyPool = new EnemyPool(1,1,world,textureAtlas);
         EntityManager.addEntity(new Player(-BIRD_WIDTH*3f, 0, BIRD_WIDTH, BIRD_HEIGHT, 1f, .8f, world,textureAtlas));
         EntityManager.addEntity(enemyPool.obtain());
 
