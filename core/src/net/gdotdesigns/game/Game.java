@@ -67,6 +67,8 @@ public class Game extends ApplicationAdapter{
         enemyPool = new EnemyPool(1,1,world,textureAtlas);
         EntityManager.addEntity(new Player(-BIRD_WIDTH*3f, 0, BIRD_WIDTH, BIRD_HEIGHT, 1f, .8f, world,textureAtlas));
         EntityManager.addEntity(enemyPool.obtain());
+        EntityManager.addEntity(enemyPool.obtain());
+        EntityManager.addEntity(enemyPool.obtain());
 
         Inputs inputs = new Inputs(cam, world);
         Gdx.input.setInputProcessor(inputs);
@@ -101,7 +103,7 @@ public class Game extends ApplicationAdapter{
     private void createWorld() {
         Box2D.init();
         world = new World(new Vector2(0,GRAVITY),true);
-        groundBody=createStaticBody(0,0,-cam.viewportWidth/2f,-2f,cam.viewportWidth/2f,-2f);
+        groundBody=createStaticBody(0,0,-cam.viewportWidth/2f,-cam.viewportHeight/2f,cam.viewportWidth/2f,-cam.viewportHeight/2f);
         //leftWallBody=createStaticBody(0,0,-cam.viewportWidth/2f,-cam.viewportHeight/2f,-cam.viewportWidth/2f,cam.viewportHeight/2f);
         //rightWallBody=createStaticBody(0,0,cam.viewportWidth/2f,-cam.viewportHeight/2f,cam.viewportWidth/2f,cam.viewportHeight/2f);
         topWallBody=createStaticBody(0,0,-cam.viewportWidth/2f,cam.viewportHeight/2f,cam.viewportWidth/2f,cam.viewportHeight/2f);

@@ -24,6 +24,6 @@ public class EnemyPool extends Pool<Enemy> {
 
     @Override
     protected Enemy newObject() {
-        return new Enemy(Game.ENEMY_BIRD_WIDTH*5f, 0, Game.ENEMY_BIRD_WIDTH, Game.ENEMY_BIRD_HEIGHT, 1f, .8f, world,textureAtlas);
+        return new Enemy(Game.ENEMY_BIRD_WIDTH*5f, 0, Game.ENEMY_BIRD_WIDTH, Game.ENEMY_BIRD_HEIGHT, 1f, .8f, world,textureAtlas,this);
     }
 }

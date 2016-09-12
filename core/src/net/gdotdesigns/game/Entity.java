@@ -10,6 +10,8 @@ public abstract class Entity {
 
     public abstract Body getBody();
 
+    public abstract void freeEntity();
+
     public abstract void update(float deltaTime);
 
     public abstract void render(SpriteBatch spriteBatch);

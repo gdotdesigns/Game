@@ -28,6 +28,7 @@ public class EntityManager {
         for(Entity e: removeEntityList){
 
             world.destroyBody(e.getBody());
+            e.freeEntity();
         }
     }
 
