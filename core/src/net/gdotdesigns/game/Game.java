@@ -16,6 +16,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.TimeUtils;
 
 public class Game extends ApplicationAdapter{
 
@@ -48,6 +49,8 @@ public class Game extends ApplicationAdapter{
     private  ParallaxBackground parallaxBackground;
 
     private EnemyPool enemyPool;
+    private float lastEnemySpawnTime;
+    private float elapsedTime;
 
 
 	@Override
@@ -64,11 +67,8 @@ public class Game extends ApplicationAdapter{
         Gdx.gl.glClearColor(0, 0, 0, 1);
         loadBackground();
         createWorld();
-        enemyPool = new EnemyPool(1,1,world,textureAtlas);
+        enemyPool = new EnemyPool(5,5,world,textureAtlas);
         EntityManager.addEntity(new Player(-BIRD_WIDTH*3f, 0, BIRD_WIDTH, BIRD_HEIGHT, 1f, .8f, world,textureAtlas));
-        EntityManager.addEntity(enemyPool.obtain());
-        EntityManager.addEntity(enemyPool.obtain());
-        EntityManager.addEntity(enemyPool.obtain());
 
         Inputs inputs = new Inputs(cam, world);
         Gdx.input.setInputProcessor(inputs);
@@ -94,10 +94,20 @@ public class Game extends ApplicationAdapter{
     }
 
     public void update(float deltaTime) {
+        elapsedTime+=deltaTime;
         world.step(1f/60f,6,2);
         EntityManager.destroyEntity(world);
         EntityManager.clearRemoveEntityList();
+        if(elapsedTime - deltaTime > 1){
+            spawnEnemy(deltaTime);
+        }
         EntityManager.update(deltaTime);
+    }
+
+    public void spawnEnemy(float deltaTime){
+        EntityManager.addEntity(enemyPool.obtain());
+        lastEnemySpawnTime = deltaTime;
+        elapsedTime=0;
     }
 
     private void createWorld() {
