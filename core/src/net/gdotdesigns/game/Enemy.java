@@ -92,7 +92,10 @@ public class Enemy extends Entity implements Pool.Poolable{
 
     @Override
     public void update(float deltaTime) {
-
+        currentFrame = animation.getKeyFrame(elapsedTime,true);
+        sprite.setRegion(currentFrame);
+        sprite.setPosition(body.getPosition().x-shapesize_x/2f,body.getPosition().y-shapesize_y/2f);
+        sprite.setRotation((float) Math.toDegrees(body.getAngle()));
         flapTimer+= deltaTime;
         elapsedTime+= deltaTime;
         if(flapTimer>=timeToFlap){
@@ -100,10 +103,7 @@ public class Enemy extends Entity implements Pool.Poolable{
             flapTimer=0;
             timeToFlap = MathUtils.random(0.6f,1.1f);
         }
-        currentFrame = animation.getKeyFrame(elapsedTime,true);
-        sprite.setRegion(currentFrame);
-        sprite.setPosition(body.getPosition().x-shapesize_x/2f,body.getPosition().y-shapesize_y/2f);
-        sprite.setRotation((float) Math.toDegrees(body.getAngle()));
+
 
     }
 
@@ -119,5 +119,8 @@ public class Enemy extends Entity implements Pool.Poolable{
 
     @Override
     public void reset() {
+        body.setUserData(null);
+        body=null;
+        createDynamicBody();
     }
 }
