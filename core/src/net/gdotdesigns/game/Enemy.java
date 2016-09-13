@@ -39,7 +39,7 @@ public class Enemy extends Entity implements Pool.Poolable{
     float flapTimer;
 
 
-    public Enemy(float bodyloc_x, float bodyloc_y, float shapesize_x, float shapesize_y, float density, float restitution, World world, TextureAtlas textureAtlas,EnemyPool pool){
+    public void init(float bodyloc_x, float bodyloc_y, float shapesize_x, float shapesize_y, float density, float restitution, World world, TextureAtlas textureAtlas,EnemyPool pool){
         this.bodyloc_x = bodyloc_x;
         this.bodyloc_y =bodyloc_y;
         this.shapesize_x= shapesize_x;
@@ -99,7 +99,7 @@ public class Enemy extends Entity implements Pool.Poolable{
         flapTimer+= deltaTime;
         elapsedTime+= deltaTime;
         if(flapTimer>=timeToFlap){
-            body.setLinearVelocity(-5f,5f);
+            body.setLinearVelocity(-5f,7f);
             flapTimer=0;
             timeToFlap = MathUtils.random(0.6f,1.1f);
         }
@@ -121,6 +121,5 @@ public class Enemy extends Entity implements Pool.Poolable{
     public void reset() {
         body.setUserData(null);
         body=null;
-        createDynamicBody();
     }
 }

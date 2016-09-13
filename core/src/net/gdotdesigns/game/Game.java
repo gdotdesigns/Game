@@ -4,7 +4,6 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Matrix4;
@@ -16,7 +15,6 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.TimeUtils;
 
 public class Game extends ApplicationAdapter{
 
@@ -98,14 +96,18 @@ public class Game extends ApplicationAdapter{
         world.step(1f/60f,6,2);
         EntityManager.destroyEntity(world);
         EntityManager.clearRemoveEntityList();
+
         if(elapsedTime - deltaTime > 1){
             spawnEnemy(deltaTime);
         }
         EntityManager.update(deltaTime);
+
     }
 
     public void spawnEnemy(float deltaTime){
-        EntityManager.addEntity(enemyPool.obtain());
+        Enemy enemy = enemyPool.obtain();
+        enemy.init(Game.ENEMY_BIRD_WIDTH*5f, 0, Game.ENEMY_BIRD_WIDTH, Game.ENEMY_BIRD_HEIGHT, 1f, .8f, world,textureAtlas,enemyPool);
+        EntityManager.addEntity(enemy);
         lastEnemySpawnTime = deltaTime;
         elapsedTime=0;
     }
