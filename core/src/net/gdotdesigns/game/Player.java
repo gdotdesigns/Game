@@ -25,6 +25,7 @@ public class Player extends Entity {
     World world;
     TextureAtlas textureAtlas;
     TextureRegion currentFrame;
+    Array<TextureRegion> playerBird;
     Animation animation;
     Sprite sprite;
     float bodyloc_x;
@@ -34,7 +35,7 @@ public class Player extends Entity {
     float restitution;
     float elapsedTime;
 
-    public Player(float bodyloc_x, float bodyloc_y, float shapesize_x, float shapesize_y, float density, float restitution, World world, TextureAtlas textureAtlas){
+    public Player(float bodyloc_x, float bodyloc_y, float shapesize_x, float shapesize_y, float density, float restitution, World world, Array<TextureRegion> playerBird){
         this.bodyloc_x = bodyloc_x;
         this.bodyloc_y =bodyloc_y;
         this.shapesize_x= shapesize_x;
@@ -42,13 +43,8 @@ public class Player extends Entity {
         this.density=density;
         this.restitution=restitution;
         this.world=world;
-        this.textureAtlas = textureAtlas;
-        Array<TextureRegion> bird = new Array<TextureRegion>();
-        bird.add(textureAtlas.findRegion("0"));
-        bird.add(textureAtlas.findRegion("1"));
-        bird.add(textureAtlas.findRegion("2"));
-        bird.add(textureAtlas.findRegion("3"));
-        animation = new Animation(1 / 7f, bird);
+        this.playerBird=playerBird;
+        animation = new Animation(1 / 7f, playerBird);
         sprite=new Sprite();
         sprite.setSize(shapesize_x,shapesize_y);
         sprite.setOriginCenter();
@@ -100,7 +96,6 @@ public class Player extends Entity {
 
     @Override
     public void dispose() {
-        textureAtlas.dispose();
         //world.dispose();
     }
 }

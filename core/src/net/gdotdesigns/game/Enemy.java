@@ -27,6 +27,7 @@ public class Enemy extends Entity implements Pool.Poolable{
     EnemyPool pool;
     TextureAtlas textureAtlas;
     TextureRegion currentFrame;
+    Array<TextureRegion> bird;
     Animation animation;
     Sprite sprite;
     float bodyloc_x;
@@ -39,7 +40,7 @@ public class Enemy extends Entity implements Pool.Poolable{
     float flapTimer;
 
 
-    public void init(float bodyloc_x, float bodyloc_y, float shapesize_x, float shapesize_y, float density, float restitution, World world, TextureAtlas textureAtlas,EnemyPool pool){
+    public void init(float bodyloc_x, float bodyloc_y, float shapesize_x, float shapesize_y, float density, float restitution, World world, Array<TextureRegion> bird,EnemyPool pool){
         this.bodyloc_x = bodyloc_x;
         this.bodyloc_y =bodyloc_y;
         this.shapesize_x= shapesize_x;
@@ -48,12 +49,7 @@ public class Enemy extends Entity implements Pool.Poolable{
         this.restitution=restitution;
         this.world=world;
         this.pool=pool;
-        this.textureAtlas = textureAtlas;
-        Array<TextureRegion> bird = new Array<TextureRegion>();
-        bird.add(textureAtlas.findRegion("0"));
-        bird.add(textureAtlas.findRegion("1"));
-        bird.add(textureAtlas.findRegion("2"));
-        bird.add(textureAtlas.findRegion("3"));
+        this.bird=bird;
         animation = new Animation(1 / 7f, bird);
         sprite=new Sprite();
         sprite.setSize(shapesize_x,shapesize_y);
@@ -114,12 +110,11 @@ public class Enemy extends Entity implements Pool.Poolable{
 
     @Override
     public void dispose() {
-        textureAtlas.dispose();
     }
 
     @Override
     public void reset() {
-        body.setUserData(null);
-        body=null;
+        //body.setUserData(null);
+        //body=null;
     }
 }

@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -15,6 +16,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 
 public class Game extends ApplicationAdapter{
 
@@ -42,6 +44,7 @@ public class Game extends ApplicationAdapter{
 
     private SpriteBatch batch;
 	private TextureAtlas textureAtlas;
+    private Array<TextureRegion> enemyBird;
     public OrthographicCamera cam;
     //private Viewport vp;
     private  ParallaxBackground parallaxBackground;
@@ -60,13 +63,32 @@ public class Game extends ApplicationAdapter{
         //vp=new FillViewport(16,9,cam);
         //vp.apply();
         batch = new SpriteBatch();
-        textureAtlas = new TextureAtlas("Game.txt");
+        textureAtlas = new TextureAtlas("GameAssets.txt");
+
+        enemyBird = new Array<TextureRegion>();
+        TextureRegion region1 = textureAtlas.findRegion("frame-1");
+        TextureRegion region2 = textureAtlas.findRegion("frame-2");
+        TextureRegion region3 = textureAtlas.findRegion("frame-3");
+        TextureRegion region4 = textureAtlas.findRegion("frame-4");
+        region1.flip(true,false);
+        region2.flip(true,false);
+        region3.flip(true,false);
+        region4.flip(true,false);
+        enemyBird.add(region1);
+        enemyBird.add(region2);
+        enemyBird.add(region3);
+        enemyBird.add(region4);
+        Array<TextureRegion> playerBird = new Array<TextureRegion>();
+        playerBird.add(textureAtlas.findRegion("0"));
+        playerBird.add(textureAtlas.findRegion("1"));
+        playerBird.add(textureAtlas.findRegion("2"));
+        playerBird.add(textureAtlas.findRegion("3"));
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         loadBackground();
         createWorld();
         enemyPool = new EnemyPool(4,4,world,textureAtlas);
-        EntityManager.addEntity(new Player(-BIRD_WIDTH*3f, 0, BIRD_WIDTH, BIRD_HEIGHT, 1f, .8f, world,textureAtlas));
+        EntityManager.addEntity(new Player(-BIRD_WIDTH*3f, 0, BIRD_WIDTH, BIRD_HEIGHT, 1f, .8f, world,playerBird));
 
         Inputs inputs = new Inputs(cam, world);
         Gdx.input.setInputProcessor(inputs);
@@ -97,7 +119,7 @@ public class Game extends ApplicationAdapter{
         EntityManager.destroyEntity(world);
         EntityManager.clearRemoveEntityList();
 
-        if(elapsedTime - deltaTime > 1){
+        if(elapsedTime - deltaTime > .8){
             spawnEnemy(deltaTime);
         }
         EntityManager.update(deltaTime);
@@ -106,7 +128,7 @@ public class Game extends ApplicationAdapter{
 
     public void spawnEnemy(float deltaTime){
         Enemy enemy = enemyPool.obtain();
-        enemy.init(Game.ENEMY_BIRD_WIDTH*5f, 0, Game.ENEMY_BIRD_WIDTH, Game.ENEMY_BIRD_HEIGHT, 1f, .8f, world,textureAtlas,enemyPool);
+        enemy.init(Game.ENEMY_BIRD_WIDTH*5f, 0, Game.ENEMY_BIRD_WIDTH, Game.ENEMY_BIRD_HEIGHT, 1f, .8f, world, enemyBird,enemyPool);
         EntityManager.addEntity(enemy);
         lastEnemySpawnTime = deltaTime;
         elapsedTime=0;
@@ -154,7 +176,7 @@ public class Game extends ApplicationAdapter{
         parallaxBackground.render(deltaTime);
         EntityManager.render(batch);
         batch.end();
-        debugRenderer.render(world,debugMatrix);
+        //debugRenderer.render(world,debugMatrix);
 	}
 
 
