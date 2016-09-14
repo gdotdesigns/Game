@@ -3,7 +3,6 @@ package net.gdotdesigns.game;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -16,14 +15,12 @@ import com.badlogic.gdx.utils.Array;
  * Created by Todd on 8/22/2016.
  */
 public class Player extends Entity {
-    private static final float BIRD_HEIGHT=2f;
-    private static final float BIRD_WIDTH=BIRD_HEIGHT*1.305f;
+
     Body body;
     BodyDef bodyDef;
     FixtureDef fixtureDef;
     PolygonShape shape;
     World world;
-    TextureAtlas textureAtlas;
     TextureRegion currentFrame;
     Array<TextureRegion> playerBird;
     Animation animation;
@@ -97,5 +94,6 @@ public class Player extends Entity {
     @Override
     public void dispose() {
         //world.dispose();
+
     }
 }

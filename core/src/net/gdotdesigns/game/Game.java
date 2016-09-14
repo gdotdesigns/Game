@@ -128,7 +128,7 @@ public class Game extends ApplicationAdapter{
 
     public void spawnEnemy(float deltaTime){
         Enemy enemy = enemyPool.obtain();
-        enemy.init(Game.ENEMY_BIRD_WIDTH*5f, 0, Game.ENEMY_BIRD_WIDTH, Game.ENEMY_BIRD_HEIGHT, 1f, .8f, world, enemyBird,enemyPool);
+        enemy.init(Game.ENEMY_BIRD_WIDTH*5f, 0, Game.ENEMY_BIRD_WIDTH, Game.ENEMY_BIRD_HEIGHT, 1f, .001f, world, enemyBird,enemyPool);
         EntityManager.addEntity(enemy);
         lastEnemySpawnTime = deltaTime;
         elapsedTime=0;

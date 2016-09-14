@@ -3,7 +3,6 @@ package net.gdotdesigns.game;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -25,7 +24,6 @@ public class Enemy extends Entity implements Pool.Poolable{
     PolygonShape shape;
     World world;
     EnemyPool pool;
-    TextureAtlas textureAtlas;
     TextureRegion currentFrame;
     Array<TextureRegion> bird;
     Animation animation;
@@ -110,6 +108,7 @@ public class Enemy extends Entity implements Pool.Poolable{
 
     @Override
     public void dispose() {
+
     }
 
     @Override
