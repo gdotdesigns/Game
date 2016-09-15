@@ -36,6 +36,7 @@ public class Enemy extends Entity implements Pool.Poolable{
     float elapsedTime;
     float timeToFlap = MathUtils.random(0.6f,1.1f);
     float flapTimer;
+    boolean isAlive;
 
 
     public void init(float bodyloc_x, float bodyloc_y, float shapesize_x, float shapesize_y, float density, float restitution, World world, Array<TextureRegion> bird,EnemyPool pool){
@@ -77,6 +78,21 @@ public class Enemy extends Entity implements Pool.Poolable{
     @Override
     public Body getBody() {
         return body;
+    }
+
+    @Override
+    public boolean isAlive() {
+        return isAlive;
+    }
+
+    @Override
+    public void setAlive() {
+        isAlive=true;
+    }
+
+    @Override
+    public void setDead() {
+        isAlive=false;
     }
 
     @Override

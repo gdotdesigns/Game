@@ -31,6 +31,7 @@ public class Player extends Entity {
     float density;
     float restitution;
     float elapsedTime;
+    boolean isAlive;
 
     public Player(float bodyloc_x, float bodyloc_y, float shapesize_x, float shapesize_y, float density, float restitution, World world, Array<TextureRegion> playerBird){
         this.bodyloc_x = bodyloc_x;
@@ -69,6 +70,21 @@ public class Player extends Entity {
     @Override
     public Body getBody() {
         return body;
+    }
+
+    @Override
+    public boolean isAlive() {
+        return isAlive;
+    }
+
+    @Override
+    public void setAlive() {
+        isAlive=true;
+    }
+
+    @Override
+    public void setDead() {
+        isAlive=false;
     }
 
     @Override

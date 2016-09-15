@@ -9,42 +9,45 @@ import com.badlogic.gdx.utils.Array;
  */
 public class EntityManager {
 
-    private static Array<Entity> myEntityList = new Array<Entity>();
-    private static Array<Entity> removeEntityList = new Array<Entity>();
+    private static Array<Entity> activeEntityList = new Array<Entity>();
+    private static Array<Entity> deadEntityList = new Array<Entity>();
 
 
     public static void addEntity (Entity newEntity){
 
-        myEntityList.add(newEntity);
+        newEntity.setAlive();
+        activeEntityList.add(newEntity);
     }
 
-    public static void removeEntity(Entity oldEntity){
+    public static void setToDestroyEntity(Entity oldEntity){
 
-        removeEntityList.add(oldEntity);
+        deadEntityList.add(oldEntity);
+        oldEntity.setDead();
     }
 
     public static void destroyEntity(World world){
 
-        for(Entity e: removeEntityList){
-
-            world.destroyBody(e.getBody());
-            e.freeEntity();
+        for(Entity e: deadEntityList){
+            if(!e.isAlive() && e instanceof Enemy){
+                world.destroyBody(e.getBody());
+                e.freeEntity();
+            }
         }
     }
 
-    public static void clearRemoveEntityList(){
+    public static void clearDeadEntityList(){
 
-        removeEntityList.clear();
+        deadEntityList.clear();
     }
 
     public static void removeFromActiveList(Entity entity){
-        myEntityList.removeValue(entity,true);
+        activeEntityList.removeValue(entity,true);
     }
 
 
     public static void update(float deltaTime){
 
-        for(Entity e: myEntityList){
+        for(Entity e: activeEntityList){
 
             e.update(deltaTime);
         }
@@ -53,7 +56,7 @@ public class EntityManager {
 
     public static void render(SpriteBatch spriteBatch){
 
-        for(Entity e : myEntityList){
+        for(Entity e : activeEntityList){
 
             e.render(spriteBatch);
         }
@@ -62,7 +65,7 @@ public class EntityManager {
 
     public static void dispose(){
 
-        for(Entity e : myEntityList){
+        for(Entity e : activeEntityList){
 
             e.dispose();
         }

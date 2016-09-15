@@ -10,6 +10,12 @@ public abstract class Entity {
 
     public abstract Body getBody();
 
+    public abstract boolean isAlive();
+
+    public abstract void setAlive();
+
+    public abstract void setDead();
+
     public abstract void freeEntity();
 
     public abstract void update(float deltaTime);

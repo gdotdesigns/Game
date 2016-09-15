@@ -117,7 +117,7 @@ public class Game extends ApplicationAdapter{
         elapsedTime+=deltaTime;
         world.step(1f/60f,6,2);
         EntityManager.destroyEntity(world);
-        EntityManager.clearRemoveEntityList();
+        EntityManager.clearDeadEntityList();
 
         if(elapsedTime - deltaTime > .8){
             spawnEnemy(deltaTime);
@@ -176,7 +176,7 @@ public class Game extends ApplicationAdapter{
         parallaxBackground.render(deltaTime);
         EntityManager.render(batch);
         batch.end();
-        //debugRenderer.render(world,debugMatrix);
+        debugRenderer.render(world,debugMatrix);
 	}
 
 
