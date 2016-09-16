@@ -16,35 +16,29 @@ public class EntityManager {
 
     public static void addEntity (Entity newEntity){
 
-        newEntity.setAlive();
         activeEntityList.add(newEntity);
+        newEntity.setAlive();
     }
 
     public static void setToDestroyEntity(Entity oldEntity){
 
         deadEntityList.add(oldEntity);
+        activeEntityList.removeValue(oldEntity,true);
         oldEntity.setDead();
     }
 
     public static void destroyEntity(World world){
 
         for(Entity e: deadEntityList){
-            if(!e.isAlive() && e instanceof Enemy){
+            if(e instanceof Enemy){
                 world.destroyBody(e.getBody());
                 e.freeEntity();
             }
         }
-    }
-
-    public static void clearDeadEntityList(){
-
         deadEntityList.clear();
+
     }
 
-    public static void removeFromActiveList(Entity entity){
-
-        activeEntityList.removeValue(entity,true);
-    }
 
 
     public static void update(float deltaTime,Camera cam){
@@ -53,7 +47,6 @@ public class EntityManager {
             e.update(deltaTime);
             if(e.findEntityLocation() < -cam.viewportWidth/2f && e instanceof Enemy){
                 setToDestroyEntity(e);
-                removeFromActiveList(e);
             }
 
         }

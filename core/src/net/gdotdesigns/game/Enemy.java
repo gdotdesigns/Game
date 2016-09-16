@@ -35,6 +35,7 @@ public class Enemy extends Entity implements Pool.Poolable{
     float restitution;
     float elapsedTime;
     float timeToFlap = MathUtils.random(0.6f,1.1f);
+    float flapHeight = MathUtils.random(2.5f,7f);
     float flapTimer;
     boolean isAlive;
 
@@ -97,7 +98,6 @@ public class Enemy extends Entity implements Pool.Poolable{
 
     @Override
     public float findEntityLocation() {
-
         float position_x=body.getPosition().x+shapesize_x/2f;
         return position_x;
     }
@@ -116,12 +116,10 @@ public class Enemy extends Entity implements Pool.Poolable{
         flapTimer+= deltaTime;
         elapsedTime+= deltaTime;
         if(flapTimer>=timeToFlap){
-            body.setLinearVelocity(-5f,7f);
+            body.setLinearVelocity(-5f,flapHeight);
             flapTimer=0;
             timeToFlap = MathUtils.random(0.6f,1.1f);
         }
-
-
     }
 
     @Override
@@ -136,8 +134,7 @@ public class Enemy extends Entity implements Pool.Poolable{
 
     @Override
     public void reset() {
-        System.out.println("FREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEED");
-        //body.setUserData(null);
-        //body=null;
+        body.setUserData(null);
+        body=null;
     }
 }
