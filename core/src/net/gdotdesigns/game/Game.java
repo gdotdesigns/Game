@@ -48,6 +48,7 @@ public class Game extends ApplicationAdapter{
     private SpriteBatch batch;
 	private TextureAtlas textureAtlas;
     private Array<TextureRegion> enemyBird;
+    private Array<TextureRegion> enemyBirdHit;
     public OrthographicCamera cam;
     //private Viewport vp;
     private  ParallaxBackground parallaxBackground;
@@ -86,6 +87,14 @@ public class Game extends ApplicationAdapter{
         playerBird.add(textureAtlas.findRegion("1"));
         playerBird.add(textureAtlas.findRegion("2"));
         playerBird.add(textureAtlas.findRegion("3"));
+
+        enemyBirdHit = new Array<TextureRegion>();
+        TextureRegion hitRegion1 = textureAtlas.findRegion("hit-frame-1");
+        TextureRegion hitRegion2 = textureAtlas.findRegion("hit-frame-2");
+        hitRegion1.flip(true,false);
+        hitRegion2.flip(true,false);
+        enemyBirdHit.add(hitRegion1);
+        enemyBirdHit.add(hitRegion2);
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         loadBackground();
@@ -130,7 +139,7 @@ public class Game extends ApplicationAdapter{
 
     public void spawnEnemy(float deltaTime){
         Enemy enemy = enemyPool.obtain();
-        enemy.init(cam.viewportWidth/2f, 0, ENEMY_BIRD_WIDTH, ENEMY_BIRD_HEIGHT, 1f, .001f, world, enemyBird,enemyPool);
+        enemy.init(cam.viewportWidth/2f, 0, ENEMY_BIRD_WIDTH, ENEMY_BIRD_HEIGHT, 1f, .001f, world, enemyBird,enemyBirdHit,enemyPool);
         EntityManager.addEntity(enemy);
         lastEnemySpawnTime = deltaTime;
         elapsedTime=0;

@@ -25,8 +25,10 @@ public class Enemy extends Entity implements Pool.Poolable{
     World world;
     EnemyPool pool;
     TextureRegion currentFrame;
-    Array<TextureRegion> bird;
+    Array<TextureRegion> enemyBird;
+    Array<TextureRegion> enemyBirdHit;
     Animation animation;
+    Animation hitAnimation;
     Sprite sprite;
     float bodyloc_x;
     float bodyloc_y;
@@ -40,7 +42,7 @@ public class Enemy extends Entity implements Pool.Poolable{
     boolean isAlive;
 
 
-    public void init(float bodyloc_x, float bodyloc_y, float shapesize_x, float shapesize_y, float density, float restitution, World world, Array<TextureRegion> bird,EnemyPool pool){
+    public void init(float bodyloc_x, float bodyloc_y, float shapesize_x, float shapesize_y, float density, float restitution, World world, Array<TextureRegion> enemyBird,Array<TextureRegion> enemyBirdHit, EnemyPool pool){
         this.bodyloc_x = bodyloc_x;
         this.bodyloc_y =bodyloc_y;
         this.shapesize_x= shapesize_x;
@@ -49,8 +51,11 @@ public class Enemy extends Entity implements Pool.Poolable{
         this.restitution=restitution;
         this.world=world;
         this.pool=pool;
-        this.bird=bird;
-        animation = new Animation(1 / 7f, bird);
+        this.enemyBird =enemyBird;
+        this.enemyBirdHit =enemyBirdHit;
+        animation = new Animation(1 / 7f, enemyBird);
+        hitAnimation = new Animation(1 / 7f, enemyBirdHit);
+
         sprite=new Sprite();
         sprite.setSize(shapesize_x,shapesize_y);
         sprite.setOriginCenter();
@@ -109,7 +114,13 @@ public class Enemy extends Entity implements Pool.Poolable{
 
     @Override
     public void update(float deltaTime) {
-        currentFrame = animation.getKeyFrame(elapsedTime,true);
+        if(isAlive) {
+            currentFrame = animation.getKeyFrame(elapsedTime, true);
+        }
+        else{
+            System.out.println("HITTTTTTT");
+            currentFrame = hitAnimation.getKeyFrame(elapsedTime, true);
+        }
         sprite.setRegion(currentFrame);
         sprite.setPosition(body.getPosition().x-shapesize_x/2f,body.getPosition().y-shapesize_y/2f);
         sprite.setRotation((float) Math.toDegrees(body.getAngle()));
