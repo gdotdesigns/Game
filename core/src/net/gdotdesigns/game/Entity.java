@@ -16,6 +16,8 @@ public abstract class Entity {
 
     public abstract void setDead();
 
+    public abstract float findEntityLocation();
+
     public abstract void freeEntity();
 
     public abstract void update(float deltaTime);

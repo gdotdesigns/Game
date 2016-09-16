@@ -122,7 +122,7 @@ public class Game extends ApplicationAdapter{
         if(elapsedTime - deltaTime > .8){
             spawnEnemy(deltaTime);
         }
-        EntityManager.update(deltaTime);
+        EntityManager.update(deltaTime,cam);
 
     }
 
@@ -138,7 +138,7 @@ public class Game extends ApplicationAdapter{
         Box2D.init();
         world = new World(new Vector2(0,GRAVITY),true);
         groundBody=createStaticBody(0,0,-cam.viewportWidth/2f,-cam.viewportHeight/2f,cam.viewportWidth/2f,-cam.viewportHeight/2f);
-        leftWallBody=createStaticBody(0,0,-cam.viewportWidth/2f,-cam.viewportHeight/2f,-cam.viewportWidth/2f,cam.viewportHeight/2f);
+        //leftWallBody=createStaticBody(0,0,-cam.viewportWidth/2f,-cam.viewportHeight/2f,-cam.viewportWidth/2f,cam.viewportHeight/2f);
         //rightWallBody=createStaticBody(0,0,cam.viewportWidth/2f,-cam.viewportHeight/2f,cam.viewportWidth/2f,cam.viewportHeight/2f);
         topWallBody=createStaticBody(0,0,-cam.viewportWidth/2f,cam.viewportHeight/2f,cam.viewportWidth/2f,cam.viewportHeight/2f);
         debugRenderer=new Box2DDebugRenderer();

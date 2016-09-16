@@ -88,6 +88,11 @@ public class Player extends Entity {
     }
 
     @Override
+    public float findEntityLocation() {
+        return 0;
+    }
+
+    @Override
     public void freeEntity() {
 
     }

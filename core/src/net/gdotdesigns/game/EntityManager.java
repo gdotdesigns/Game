@@ -1,5 +1,6 @@
 package net.gdotdesigns.game;
 
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
@@ -41,15 +42,20 @@ public class EntityManager {
     }
 
     public static void removeFromActiveList(Entity entity){
+
         activeEntityList.removeValue(entity,true);
     }
 
 
-    public static void update(float deltaTime){
+    public static void update(float deltaTime,Camera cam){
 
         for(Entity e: activeEntityList){
-
             e.update(deltaTime);
+            if(e.findEntityLocation() < -cam.viewportWidth/2f && e instanceof Enemy){
+                setToDestroyEntity(e);
+                removeFromActiveList(e);
+            }
+
         }
     }
 

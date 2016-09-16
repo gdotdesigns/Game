@@ -96,6 +96,13 @@ public class Enemy extends Entity implements Pool.Poolable{
     }
 
     @Override
+    public float findEntityLocation() {
+
+        float position_x=body.getPosition().x+shapesize_x/2f;
+        return position_x;
+    }
+
+    @Override
     public void freeEntity() {
         pool.free(this);
     }
@@ -129,6 +136,7 @@ public class Enemy extends Entity implements Pool.Poolable{
 
     @Override
     public void reset() {
+        System.out.println("FREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEED");
         //body.setUserData(null);
         //body=null;
     }
