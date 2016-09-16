@@ -24,10 +24,13 @@ public class Game extends ApplicationAdapter{
 	public static final int HEIGHT=1080;
     public static final String TITLE = "Game";
 	private static final float WORLD_HEIGHT=9f;
+
     private static final float BIRD_HEIGHT=1.5f;
 	private static final float BIRD_WIDTH=BIRD_HEIGHT*1.305f;
-    public static final float ENEMY_BIRD_HEIGHT=1.5f;
-    public static final float ENEMY_BIRD_WIDTH=BIRD_HEIGHT*1.305f;
+
+    private static final float ENEMY_BIRD_HEIGHT=1.0f;
+    private static final float ENEMY_BIRD_WIDTH=ENEMY_BIRD_HEIGHT*1.28f;
+
 	public static final float BACKGROUND_WIDTH=16f;
 	public static final float BACKGROUND_HEIGHT=9f;
     public static final float GRAVITY = -9.8f;
@@ -127,7 +130,7 @@ public class Game extends ApplicationAdapter{
 
     public void spawnEnemy(float deltaTime){
         Enemy enemy = enemyPool.obtain();
-        enemy.init(Game.ENEMY_BIRD_WIDTH*5f, 0, Game.ENEMY_BIRD_WIDTH, Game.ENEMY_BIRD_HEIGHT, 1f, .001f, world, enemyBird,enemyPool);
+        enemy.init(cam.viewportWidth/2f, 0, ENEMY_BIRD_WIDTH, ENEMY_BIRD_HEIGHT, 1f, .001f, world, enemyBird,enemyPool);
         EntityManager.addEntity(enemy);
         lastEnemySpawnTime = deltaTime;
         elapsedTime=0;
