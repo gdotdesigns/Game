@@ -30,7 +30,7 @@ public class Game extends ApplicationAdapter{
 
     private static final float ENEMY_BIRD_HEIGHT=1.0f;
     private static final float ENEMY_BIRD_WIDTH=ENEMY_BIRD_HEIGHT*1.28f;
-    private static final float ENEMY_SPAWN_TIME =.0005f;
+    private static final float ENEMY_SPAWN_TIME =1.0f;
 
 	public static final float BACKGROUND_WIDTH=16f;
 	public static final float BACKGROUND_HEIGHT=9f;
