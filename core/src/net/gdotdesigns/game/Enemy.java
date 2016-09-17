@@ -33,6 +33,7 @@ public class Enemy extends Entity implements Pool.Poolable{
     Animation hitAnimation;
     Sprite sprite;
     Vector2 enemyBirdVector;
+    Fixture temp;
     float bodyloc_x;
     float bodyloc_y;
     float shapesize_x,shapesize_y;
@@ -43,6 +44,8 @@ public class Enemy extends Entity implements Pool.Poolable{
     float flapHeight = MathUtils.random(2.5f,9f);
     float flapTimer;
     boolean isAlive;
+
+    private static float count =0;
 
 
     public void init(float bodyloc_x, float bodyloc_y, float shapesize_x, float shapesize_y, float density, float restitution, World world, Array<TextureRegion> enemyBird,Array<TextureRegion> enemyBirdHit, EnemyPool pool){
@@ -62,6 +65,7 @@ public class Enemy extends Entity implements Pool.Poolable{
         sprite.setSize(shapesize_x,shapesize_y);
         sprite.setOriginCenter();
         sprite.setScale(1f,1f);
+        enemyBirdVector = new Vector2();
         createDynamicBody();
     }
 
@@ -101,15 +105,18 @@ public class Enemy extends Entity implements Pool.Poolable{
 
     @Override
     public void setDead() {
-        Fixture temp=body.getFixtureList().first();
-        temp.setSensor(true);
-        isAlive=false;
-        body.setGravityScale(2f);
+        if(isAlive) {
+            temp = body.getFixtureList().first();
+            temp.setSensor(true);
+            isAlive = false;
+            body.setGravityScale(2f);
+        }
     }
 
     @Override
     public Vector2 findEntityLocation() {
-        enemyBirdVector = new Vector2(body.getPosition().x+shapesize_x/2f,body.getPosition().y+shapesize_y/2f);
+        enemyBirdVector.x = body.getPosition().x+shapesize_x/2f;
+        enemyBirdVector.y = body.getPosition().y+shapesize_y/2f;
         return enemyBirdVector;
     }
 
@@ -124,7 +131,6 @@ public class Enemy extends Entity implements Pool.Poolable{
             currentFrame = animation.getKeyFrame(elapsedTime, true);
         }
         else{
-            System.out.println("HIT");
             currentFrame = hitAnimation.getKeyFrame(elapsedTime, true);
         }
         sprite.setRegion(currentFrame);
@@ -153,6 +159,6 @@ public class Enemy extends Entity implements Pool.Poolable{
     public void reset() {
         body.setUserData(null);
         body=null;
-        System.out.println("FREEEEEEEEEEEEEEED");
+        System.out.println(count++);
     }
 }

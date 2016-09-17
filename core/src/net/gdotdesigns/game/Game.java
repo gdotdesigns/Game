@@ -36,6 +36,7 @@ public class Game extends ApplicationAdapter{
 	public static final float BACKGROUND_HEIGHT=9f;
     public static final float GRAVITY = -9.8f;
 
+
     public  World world;
     public  static Body groundBody;
     public  static Body leftWallBody;
