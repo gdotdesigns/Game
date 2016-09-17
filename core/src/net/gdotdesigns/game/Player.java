@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -64,6 +65,7 @@ public class Player extends Entity {
         fixtureDef.restitution=restitution;
         body.createFixture(fixtureDef);
         body.setFixedRotation(true);
+        body.setGravityScale(0f);
         shape.dispose();
     }
 
@@ -88,8 +90,8 @@ public class Player extends Entity {
     }
 
     @Override
-    public float findEntityLocation() {
-        return 0;
+    public Vector2 findEntityLocation() {
+        return null;
     }
 
     @Override

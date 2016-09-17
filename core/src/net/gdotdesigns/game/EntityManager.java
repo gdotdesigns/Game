@@ -22,10 +22,11 @@ public class EntityManager {
 
     public static void setToDestroyEntity(Entity oldEntity){
 
-        deadEntityList.add(oldEntity);
-        activeEntityList.removeValue(oldEntity,true);
+        //deadEntityList.add(oldEntity);
+        //activeEntityList.removeValue(oldEntity,true);
         oldEntity.setDead();
     }
+
 
     public static void destroyEntity(World world){
 
@@ -45,10 +46,13 @@ public class EntityManager {
 
         for(Entity e: activeEntityList){
             e.update(deltaTime);
-            if(e.findEntityLocation() < -cam.viewportWidth/2f && e instanceof Enemy){
-                setToDestroyEntity(e);
-            }
 
+            if(e instanceof Enemy) {
+                if ((e.findEntityLocation().x < -cam.viewportWidth / 2f || e.findEntityLocation().y < -cam.viewportHeight / 2f)) {
+                    deadEntityList.add(e);
+                    activeEntityList.removeValue(e, true);
+                }
+            }
         }
     }
 

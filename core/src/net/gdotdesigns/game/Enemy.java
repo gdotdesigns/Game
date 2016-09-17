@@ -5,8 +5,10 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
@@ -30,14 +32,15 @@ public class Enemy extends Entity implements Pool.Poolable{
     Animation animation;
     Animation hitAnimation;
     Sprite sprite;
+    Vector2 enemyBirdVector;
     float bodyloc_x;
     float bodyloc_y;
     float shapesize_x,shapesize_y;
     float density;
     float restitution;
     float elapsedTime;
-    float timeToFlap = MathUtils.random(0.6f,1.1f);
-    float flapHeight = MathUtils.random(2.5f,7f);
+    float timeToFlap = MathUtils.random(0.6f,.8f);
+    float flapHeight = MathUtils.random(2.5f,9f);
     float flapTimer;
     boolean isAlive;
 
@@ -55,7 +58,6 @@ public class Enemy extends Entity implements Pool.Poolable{
         this.enemyBirdHit =enemyBirdHit;
         animation = new Animation(1 / 7f, enemyBird);
         hitAnimation = new Animation(1 / 7f, enemyBirdHit);
-
         sprite=new Sprite();
         sprite.setSize(shapesize_x,shapesize_y);
         sprite.setOriginCenter();
@@ -75,6 +77,7 @@ public class Enemy extends Entity implements Pool.Poolable{
         fixtureDef.shape=shape;
         fixtureDef.density=density;
         fixtureDef.restitution=restitution;
+        fixtureDef.isSensor=true;
         body.createFixture(fixtureDef);
         body.setFixedRotation(true);
         body.setLinearVelocity(-5f, 0f);
@@ -98,13 +101,16 @@ public class Enemy extends Entity implements Pool.Poolable{
 
     @Override
     public void setDead() {
+        Fixture temp=body.getFixtureList().first();
+        temp.setSensor(true);
         isAlive=false;
+        body.setGravityScale(2f);
     }
 
     @Override
-    public float findEntityLocation() {
-        float position_x=body.getPosition().x+shapesize_x/2f;
-        return position_x;
+    public Vector2 findEntityLocation() {
+        enemyBirdVector = new Vector2(body.getPosition().x+shapesize_x/2f,body.getPosition().y+shapesize_y/2f);
+        return enemyBirdVector;
     }
 
     @Override
@@ -118,7 +124,7 @@ public class Enemy extends Entity implements Pool.Poolable{
             currentFrame = animation.getKeyFrame(elapsedTime, true);
         }
         else{
-            System.out.println("HITTTTTTT");
+            System.out.println("HIT");
             currentFrame = hitAnimation.getKeyFrame(elapsedTime, true);
         }
         sprite.setRegion(currentFrame);
@@ -126,7 +132,7 @@ public class Enemy extends Entity implements Pool.Poolable{
         sprite.setRotation((float) Math.toDegrees(body.getAngle()));
         flapTimer+= deltaTime;
         elapsedTime+= deltaTime;
-        if(flapTimer>=timeToFlap){
+        if(isAlive && flapTimer>=timeToFlap){
             body.setLinearVelocity(-5f,flapHeight);
             flapTimer=0;
             timeToFlap = MathUtils.random(0.6f,1.1f);
@@ -147,5 +153,6 @@ public class Enemy extends Entity implements Pool.Poolable{
     public void reset() {
         body.setUserData(null);
         body=null;
+        System.out.println("FREEEEEEEEEEEEEEED");
     }
 }

@@ -50,6 +50,8 @@ public class EntityCollision implements ContactListener {
     @Override
     public void preSolve(Contact contact, Manifold oldManifold) {
 
+
+
     }
 
     @Override

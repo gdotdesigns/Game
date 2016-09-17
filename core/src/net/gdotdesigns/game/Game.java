@@ -30,6 +30,7 @@ public class Game extends ApplicationAdapter{
 
     private static final float ENEMY_BIRD_HEIGHT=1.0f;
     private static final float ENEMY_BIRD_WIDTH=ENEMY_BIRD_HEIGHT*1.28f;
+    private static final float ENEMY_SPAWN_TIME =.0005f;
 
 	public static final float BACKGROUND_WIDTH=16f;
 	public static final float BACKGROUND_HEIGHT=9f;
@@ -99,8 +100,8 @@ public class Game extends ApplicationAdapter{
         Gdx.gl.glClearColor(0, 0, 0, 1);
         loadBackground();
         createWorld();
-        enemyPool = new EnemyPool(4,4,world,textureAtlas);
-        EntityManager.addEntity(new Player(-BIRD_WIDTH*3f, 0, BIRD_WIDTH, BIRD_HEIGHT, 1f, .8f, world,playerBird));
+        enemyPool = new EnemyPool(100,100,world,textureAtlas);
+        EntityManager.addEntity(new Player(0, 0, BIRD_WIDTH, BIRD_HEIGHT, 1f, .8f, world,playerBird));
 
         Inputs inputs = new Inputs(cam, world);
         Gdx.input.setInputProcessor(inputs);
@@ -130,7 +131,7 @@ public class Game extends ApplicationAdapter{
         world.step(1f/60f,6,2);
         EntityManager.destroyEntity(world);
 
-        if(elapsedTime - deltaTime > .8){
+        if(elapsedTime - deltaTime > ENEMY_SPAWN_TIME){
             spawnEnemy(deltaTime);
         }
         EntityManager.update(deltaTime,cam);
@@ -139,7 +140,7 @@ public class Game extends ApplicationAdapter{
 
     public void spawnEnemy(float deltaTime){
         Enemy enemy = enemyPool.obtain();
-        enemy.init(cam.viewportWidth/2f, 0, ENEMY_BIRD_WIDTH, ENEMY_BIRD_HEIGHT, 1f, .001f, world, enemyBird,enemyBirdHit,enemyPool);
+        enemy.init(cam.viewportWidth/2f+ENEMY_BIRD_WIDTH, 0, ENEMY_BIRD_WIDTH, ENEMY_BIRD_HEIGHT, 1f, .001f, world, enemyBird,enemyBirdHit,enemyPool);
         EntityManager.addEntity(enemy);
         lastEnemySpawnTime = deltaTime;
         elapsedTime=0;

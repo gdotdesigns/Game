@@ -33,7 +33,7 @@ public class Inputs implements InputProcessor{
                 return true;}
             body=fixture.getBody();
             if(!(body.getUserData() instanceof Enemy)) {
-                body.setLinearVelocity(1f, 6f);
+                body.setLinearVelocity(0f, 6f);
                 body.setAngularVelocity(0f);
             }
                 return false;

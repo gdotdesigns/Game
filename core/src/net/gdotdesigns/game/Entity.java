@@ -1,6 +1,7 @@
 package net.gdotdesigns.game;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
 /**
@@ -16,7 +17,7 @@ public abstract class Entity {
 
     public abstract void setDead();
 
-    public abstract float findEntityLocation();
+    public abstract Vector2 findEntityLocation();
 
     public abstract void freeEntity();
 
