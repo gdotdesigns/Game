@@ -45,7 +45,6 @@ public class Enemy extends Entity implements Pool.Poolable{
     float flapTimer;
     boolean isAlive;
 
-    private static float count =0;
 
 
     public void init(float bodyloc_x, float bodyloc_y, float shapesize_x, float shapesize_y, float density, float restitution, World world, Array<TextureRegion> enemyBird,Array<TextureRegion> enemyBirdHit, EnemyPool pool){
