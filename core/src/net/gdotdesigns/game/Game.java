@@ -2,6 +2,7 @@ package net.gdotdesigns.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -18,7 +19,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
-public class Game extends ApplicationAdapter{
+public class Game implements Screen{
 
 	public static final int WIDTH=1920;
 	public static final int HEIGHT=1080;
@@ -60,7 +61,7 @@ public class Game extends ApplicationAdapter{
 
 
 	@Override
-	public void create () {
+	public void show () {
         worldWidth = WORLD_HEIGHT * (float) Gdx.graphics.getWidth() / (float) Gdx.graphics.getHeight();
         cam = new OrthographicCamera(worldWidth, WORLD_HEIGHT);
         //cam.setToOrtho(false, WORLD_HEIGHT * (float)Gdx.graphics.getWidth() / (float)Gdx.graphics.getHeight(), WORLD_HEIGHT);
@@ -169,7 +170,7 @@ public class Game extends ApplicationAdapter{
 
     @Override
 	public void resize(int width, int height) {
-		super.resize(width, height);
+		//super.resize(width, height);
 		//vp.update(width,height);
         //cam.setToOrtho(false, WORLD_HEIGHT * (float)width / (float)height, WORLD_HEIGHT);
         //cam =new OrthographicCamera(WORLD_HEIGHT * (float)Gdx.graphics.getWidth() / (float)Gdx.graphics.getHeight(), WORLD_HEIGHT);
@@ -177,8 +178,23 @@ public class Game extends ApplicationAdapter{
         batch.setProjectionMatrix(cam.combined);
 	}
 
-	@Override
-	public void render () {
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+
+    }
+
+    @Override
+	public void render (float delta) {
         float deltaTime = Gdx.graphics.getDeltaTime();
         update(deltaTime);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
