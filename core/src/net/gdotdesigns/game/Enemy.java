@@ -81,7 +81,7 @@ public class Enemy extends Entity implements Pool.Poolable{
         fixtureDef.shape=shape;
         fixtureDef.density=density;
         fixtureDef.restitution=restitution;
-        fixtureDef.isSensor=true;
+        //fixtureDef.isSensor=true;
         body.createFixture(fixtureDef);
         body.setFixedRotation(true);
         body.setLinearVelocity(-5f, 0f);
@@ -109,7 +109,8 @@ public class Enemy extends Entity implements Pool.Poolable{
             temp = body.getFixtureList().first();
             temp.setSensor(true);
             isAlive = false;
-            body.setGravityScale(2f);
+            body.setGravityScale(3f);
+            body.setLinearVelocity(-3f,12f);
         }
     }
 
@@ -159,6 +160,5 @@ public class Enemy extends Entity implements Pool.Poolable{
     public void reset() {
         body.setUserData(null);
         body=null;
-        System.out.println(count++);
     }
 }
