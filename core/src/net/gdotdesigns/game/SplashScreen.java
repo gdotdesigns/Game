@@ -12,6 +12,8 @@ public class SplashScreen implements Screen {
     public SplashScreen(MainGameScreen mainGameScreen){
         this.mainGameScreen=mainGameScreen;
     }
+
+
     @Override
     public void show() {
         mainGameScreen.setScreen(new Game());
