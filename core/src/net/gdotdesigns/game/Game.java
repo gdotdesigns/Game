@@ -1,10 +1,9 @@
 package net.gdotdesigns.game;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -21,10 +20,7 @@ import com.badlogic.gdx.utils.Array;
 
 public class Game implements Screen{
 
-	public static final int WIDTH=1920;
-	public static final int HEIGHT=1080;
-    public static final String TITLE = "Game";
-	private static final float WORLD_HEIGHT=9f;
+	//private static final float WORLD_HEIGHT=9f;
 
     private static final float BIRD_HEIGHT=1.5f;
 	private static final float BIRD_WIDTH=BIRD_HEIGHT*1.305f;
@@ -45,30 +41,36 @@ public class Game implements Screen{
     public  static Body topWallBody;
 
     private  Box2DDebugRenderer debugRenderer;
-    private float worldWidth;
-
-    private SpriteBatch batch;
+    //private float worldWidth;
+    private Assets assets;
+    private SpriteBatch spriteBatch;
 	private TextureAtlas textureAtlas;
     private Array<TextureRegion> playerBird;
     private Array<TextureRegion> enemyBird;
     private Array<TextureRegion> enemyBirdHit;
-    public OrthographicCamera cam;
+    public Camera camera;
     //private Viewport vp;
     private  ParallaxBackground parallaxBackground;
 
     private EnemyPool enemyPool;
     private float elapsedTime;
 
+    public Game(Assets assets,Camera camera,SpriteBatch spriteBatch){
+        this.assets=assets;
+        this.camera=camera;
+        this.spriteBatch=spriteBatch;
+    }
+
 
 	@Override
 	public void show () {
-        worldWidth = WORLD_HEIGHT * (float) Gdx.graphics.getWidth() / (float) Gdx.graphics.getHeight();
-        cam = new OrthographicCamera(worldWidth, WORLD_HEIGHT);
-        //cam.setToOrtho(false, WORLD_HEIGHT * (float)Gdx.graphics.getWidth() / (float)Gdx.graphics.getHeight(), WORLD_HEIGHT);
-        cam.update();
-        //vp=new FillViewport(16,9,cam);
+        //worldWidth = WORLD_HEIGHT * (float) Gdx.graphics.getWidth() / (float) Gdx.graphics.getHeight();
+        //camera = new OrthographicCamera(worldWidth, WORLD_HEIGHT);
+        //camera.setToOrtho(false, WORLD_HEIGHT * (float)Gdx.graphics.getWidth() / (float)Gdx.graphics.getHeight(), WORLD_HEIGHT);
+        //camera.update();
+        //vp=new FillViewport(16,9,camera);
         //vp.apply();
-        batch = new SpriteBatch();
+        //spriteBatch = new SpriteBatch();
         Gdx.gl.glClearColor(0, 0, 0, 1);
         loadTextures();
         loadBackground();
@@ -76,13 +78,13 @@ public class Game implements Screen{
         enemyPool = new EnemyPool(100,100,world,textureAtlas);
         EntityManager.addEntity(new Player(0, 0, BIRD_WIDTH, BIRD_HEIGHT, 1f, .8f, world,playerBird));
 
-        Inputs inputs = new Inputs(cam, world);
+        Inputs inputs = new Inputs(camera, world);
         Gdx.input.setInputProcessor(inputs);
         world.setContactListener(new EntityCollision());
     }
 
     private void loadTextures() {
-        textureAtlas = new TextureAtlas("GameAssets.txt");
+        textureAtlas = assets.getGameAssets();
         enemyBird = new Array<TextureRegion>();
         TextureRegion region1 = textureAtlas.findRegion("frame-1");
         TextureRegion region2 = textureAtlas.findRegion("frame-2");
@@ -135,13 +137,13 @@ public class Game implements Screen{
         if(elapsedTime - deltaTime > ENEMY_SPAWN_TIME){
             spawnEnemy();
         }
-        EntityManager.update(deltaTime,cam);
+        EntityManager.update(deltaTime, camera);
 
     }
 
     public void spawnEnemy(){
         Enemy enemy = enemyPool.obtain();
-        enemy.init(cam.viewportWidth/2f+ENEMY_BIRD_WIDTH, 0, ENEMY_BIRD_WIDTH, ENEMY_BIRD_HEIGHT, 1f, .001f, world, enemyBird,enemyBirdHit,enemyPool);
+        enemy.init(camera.viewportWidth/2f+ENEMY_BIRD_WIDTH, 0, ENEMY_BIRD_WIDTH, ENEMY_BIRD_HEIGHT, 1f, .001f, world, enemyBird,enemyBirdHit,enemyPool);
         EntityManager.addEntity(enemy);
         elapsedTime=0;
     }
@@ -149,10 +151,10 @@ public class Game implements Screen{
     private void createWorld() {
         Box2D.init();
         world = new World(new Vector2(0,GRAVITY),true);
-        groundBody=createStaticBody(0,0,-cam.viewportWidth/2f,-cam.viewportHeight/2f,cam.viewportWidth/2f,-cam.viewportHeight/2f);
-        //leftWallBody=createStaticBody(0,0,-cam.viewportWidth/2f,-cam.viewportHeight/2f,-cam.viewportWidth/2f,cam.viewportHeight/2f);
-        //rightWallBody=createStaticBody(0,0,cam.viewportWidth/2f,-cam.viewportHeight/2f,cam.viewportWidth/2f,cam.viewportHeight/2f);
-        topWallBody=createStaticBody(0,0,-cam.viewportWidth/2f,cam.viewportHeight/2f,cam.viewportWidth/2f,cam.viewportHeight/2f);
+        groundBody=createStaticBody(0,0,-camera.viewportWidth/2f,-camera.viewportHeight/2f, camera.viewportWidth/2f,-camera.viewportHeight/2f);
+        //leftWallBody=createStaticBody(0,0,-camera.viewportWidth/2f,-camera.viewportHeight/2f,-camera.viewportWidth/2f,camera.viewportHeight/2f);
+        //rightWallBody=createStaticBody(0,0,camera.viewportWidth/2f,-camera.viewportHeight/2f,camera.viewportWidth/2f,camera.viewportHeight/2f);
+        topWallBody=createStaticBody(0,0,-camera.viewportWidth/2f, camera.viewportHeight/2f, camera.viewportWidth/2f, camera.viewportHeight/2f);
         debugRenderer=new Box2DDebugRenderer();
         }
 
@@ -165,17 +167,17 @@ public class Game implements Screen{
             ParallaxLayer parallaxLayer6 = new ParallaxLayer(textureAtlas.findRegion("layer_06_1920 x 1080"),new Vector2(0,0));
             ParallaxLayer parallaxLayer7 = new ParallaxLayer(textureAtlas.findRegion("layer_07_1920 x 1080"),new Vector2(0f,0));
             ParallaxLayer[] parallaxArray = {parallaxLayer7,parallaxLayer6,parallaxLayer5,parallaxLayer4,parallaxLayer3,parallaxLayer2,parallaxLayer1};
-            parallaxBackground = new ParallaxBackground(parallaxArray,batch,new Vector2(5,0),worldWidth,WORLD_HEIGHT);
+            parallaxBackground = new ParallaxBackground(parallaxArray, spriteBatch,new Vector2(5,0),MainGameScreen.worldWidth,MainGameScreen.WORLD_HEIGHT);
         }
 
     @Override
 	public void resize(int width, int height) {
 		//super.resize(width, height);
 		//vp.update(width,height);
-        //cam.setToOrtho(false, WORLD_HEIGHT * (float)width / (float)height, WORLD_HEIGHT);
-        //cam =new OrthographicCamera(WORLD_HEIGHT * (float)Gdx.graphics.getWidth() / (float)Gdx.graphics.getHeight(), WORLD_HEIGHT);
-        cam.update();
-        batch.setProjectionMatrix(cam.combined);
+        //camera.setToOrtho(false, WORLD_HEIGHT * (float)width / (float)height, WORLD_HEIGHT);
+        //camera =new OrthographicCamera(WORLD_HEIGHT * (float)Gdx.graphics.getWidth() / (float)Gdx.graphics.getHeight(), WORLD_HEIGHT);
+        camera.update();
+        spriteBatch.setProjectionMatrix(camera.combined);
 	}
 
     @Override
@@ -198,11 +200,11 @@ public class Game implements Screen{
         float deltaTime = Gdx.graphics.getDeltaTime();
         update(deltaTime);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        Matrix4 debugMatrix=batch.getProjectionMatrix().cpy().scale(1f,1f,0);
-		batch.begin();
+        Matrix4 debugMatrix= spriteBatch.getProjectionMatrix().cpy().scale(1f,1f,0);
+		spriteBatch.begin();
         parallaxBackground.render(deltaTime);
-        EntityManager.render(batch);
-        batch.end();
+        EntityManager.render(spriteBatch);
+        spriteBatch.end();
         debugRenderer.render(world,debugMatrix);
 	}
 
@@ -210,8 +212,7 @@ public class Game implements Screen{
 	@Override
 	public void dispose () {
         EntityManager.dispose();
-		batch.dispose();
-		textureAtlas.dispose();
+		spriteBatch.dispose();
         world.dispose();
     }
 }

@@ -1,6 +1,8 @@
 package net.gdotdesigns.game;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
  * Created by Todd on 9/19/2016.
@@ -8,20 +10,30 @@ import com.badlogic.gdx.Screen;
 public class SplashScreen implements Screen {
 
     private MainGameScreen mainGameScreen;
+    private Assets assets;
+    Camera camera;
+    SpriteBatch spriteBatch;
 
-    public SplashScreen(MainGameScreen mainGameScreen){
+    public SplashScreen(MainGameScreen mainGameScreen,Camera camera,SpriteBatch spriteBatch){
         this.mainGameScreen=mainGameScreen;
+        this.camera=camera;
+        this.spriteBatch=spriteBatch;
+        assets = new Assets();
+        assets.loadGameAssets();
     }
 
 
     @Override
     public void show() {
-        mainGameScreen.setScreen(new Game());
     }
 
     @Override
     public void render(float delta) {
+        if(assets.manager.update()){
+            mainGameScreen.setScreen(new Game(assets,camera,spriteBatch));
+        }
 
+            else  System.out.println(assets.manager.getProgress() * 100 +"%");
     }
 
     @Override
@@ -46,6 +58,6 @@ public class SplashScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        assets.dispose();
     }
 }

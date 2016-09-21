@@ -8,9 +8,9 @@ import net.gdotdesigns.game.MainGameScreen;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.width= Game.WIDTH;
-		config.height =Game.HEIGHT;
-		config.title=Game.TITLE;
+		config.width= MainGameScreen.WIDTH;
+		config.height =MainGameScreen.HEIGHT;
+		config.title=MainGameScreen.TITLE;
 		new LwjglApplication(new MainGameScreen(), config);
 	}
 }
