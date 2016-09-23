@@ -1,7 +1,10 @@
 package net.gdotdesigns.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
@@ -13,11 +16,13 @@ public class SplashScreen implements Screen {
     private Assets assets;
     Camera camera;
     SpriteBatch spriteBatch;
+    Texture splashImage;
 
     public SplashScreen(MainGameScreen mainGameScreen,Camera camera,SpriteBatch spriteBatch){
         this.mainGameScreen=mainGameScreen;
         this.camera=camera;
         this.spriteBatch=spriteBatch;
+        splashImage = new Texture(Gdx.files.internal("libgdx_splash.jpg"));
         assets = new Assets();
         assets.loadGameAssets();
     }
@@ -25,14 +30,22 @@ public class SplashScreen implements Screen {
 
     @Override
     public void show() {
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+
     }
 
     @Override
     public void render(float delta) {
-        if(assets.manager.update()){
-            mainGameScreen.setScreen(new Game(assets,camera,spriteBatch));
-        }
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        spriteBatch.begin();
+        spriteBatch.draw(splashImage,0,0);
+        spriteBatch.end();
 
+        if(assets.manager.update()) {
+            if (Gdx.input.justTouched()) {
+                mainGameScreen.setScreen(new Game(assets, camera, spriteBatch));
+            }
+        }
             else  System.out.println(assets.manager.getProgress() * 100 +"%");
     }
 
