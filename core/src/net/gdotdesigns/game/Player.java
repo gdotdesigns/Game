@@ -116,7 +116,6 @@ public class Player extends Entity {
 
     @Override
     public void dispose() {
-        //world.dispose();
 
     }
 }

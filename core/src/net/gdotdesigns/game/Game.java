@@ -41,7 +41,6 @@ public class Game implements Screen{
     public  static Body topWallBody;
 
     private  Box2DDebugRenderer debugRenderer;
-    //private float worldWidth;
     private Assets assets;
     private SpriteBatch spriteBatch;
 	private TextureAtlas textureAtlas;
@@ -49,7 +48,6 @@ public class Game implements Screen{
     private Array<TextureRegion> enemyBird;
     private Array<TextureRegion> enemyBirdHit;
     public Camera camera;
-    //private Viewport vp;
     private  ParallaxBackground parallaxBackground;
 
     private EnemyPool enemyPool;
@@ -64,13 +62,6 @@ public class Game implements Screen{
 
 	@Override
 	public void show () {
-        //worldWidth = WORLD_HEIGHT * (float) Gdx.graphics.getWidth() / (float) Gdx.graphics.getHeight();
-        //camera = new OrthographicCamera(worldWidth, WORLD_HEIGHT);
-        //camera.setToOrtho(false, WORLD_HEIGHT * (float)Gdx.graphics.getWidth() / (float)Gdx.graphics.getHeight(), WORLD_HEIGHT);
-        //camera.update();
-        //vp=new FillViewport(16,9,camera);
-        //vp.apply();
-        //spriteBatch = new SpriteBatch();
         Gdx.gl.glClearColor(0, 0, 0, 1);
         loadTextures();
         loadBackground();
@@ -214,5 +205,6 @@ public class Game implements Screen{
         EntityManager.dispose();
 		spriteBatch.dispose();
         world.dispose();
+        debugRenderer.dispose();
     }
 }

@@ -152,7 +152,6 @@ public class Enemy extends Entity implements Pool.Poolable{
 
     @Override
     public void dispose() {
-
     }
 
     @Override
