@@ -1,7 +1,6 @@
 package net.gdotdesigns.game;
 
 import com.badlogic.gdx.*;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -13,9 +12,10 @@ public class MainGameScreen extends com.badlogic.gdx.Game {
     public static final int HEIGHT=1080;
     public static final String TITLE = "Game";
     public static final float WORLD_HEIGHT=9f;
-    public Camera camera;
+    public OrthographicCamera camera;
     public SpriteBatch spriteBatch;
     public static float worldWidth;
+    //private Viewport vp;
 
 
 
@@ -23,6 +23,8 @@ public class MainGameScreen extends com.badlogic.gdx.Game {
     public void create() {
         worldWidth = WORLD_HEIGHT * (float) Gdx.graphics.getWidth() / (float) Gdx.graphics.getHeight();
         camera=new OrthographicCamera(worldWidth,WORLD_HEIGHT);
+        //vp=new FillViewport(16,9,camera);
+        //vp.apply();
         camera.update();
         spriteBatch = new SpriteBatch();
         this.setScreen(new SplashScreen(this,camera,spriteBatch));
@@ -37,6 +39,16 @@ public class MainGameScreen extends com.badlogic.gdx.Game {
     @Override
     public void dispose(){
         spriteBatch.dispose();
+    }
+
+    @Override
+    public void resize(int width, int height){
+        super.resize(width, height);
+        //vp.update(width,height);
+        camera.setToOrtho(false, WORLD_HEIGHT * (float)width / (float)height, WORLD_HEIGHT);
+        //camera =new OrthographicCamera(WORLD_HEIGHT * (float)Gdx.graphics.getWidth() / (float)Gdx.graphics.getHeight(), WORLD_HEIGHT);
+        camera.update();
+        spriteBatch.setProjectionMatrix(camera.combined);
     }
 
 

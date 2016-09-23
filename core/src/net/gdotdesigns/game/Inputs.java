@@ -1,7 +1,7 @@
 package net.gdotdesigns.game;
 
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -14,13 +14,13 @@ import com.badlogic.gdx.physics.box2d.World;
 public class Inputs implements InputProcessor{
 
     Vector3 vec3 = new Vector3();
-    Camera camera;
+    OrthographicCamera camera;
     World world;
     Body body;
 
 
 
-    public Inputs(Camera camera, World world){
+    public Inputs(OrthographicCamera camera, World world){
         this.camera = camera;
         this.world = world;
     }

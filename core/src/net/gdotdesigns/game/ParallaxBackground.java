@@ -12,7 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 public class ParallaxBackground {
 
     private ParallaxLayer[] layers;
-    private Camera camera ;
+    private OrthographicCamera camera ;
     private SpriteBatch batch;
     private Vector2 speed = new Vector2();
 

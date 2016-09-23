@@ -2,8 +2,8 @@ package net.gdotdesigns.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -14,11 +14,11 @@ public class SplashScreen implements Screen {
 
     private MainGameScreen mainGameScreen;
     private Assets assets;
-    Camera camera;
+    OrthographicCamera camera;
     SpriteBatch spriteBatch;
     Texture splashImage;
 
-    public SplashScreen(MainGameScreen mainGameScreen,Camera camera,SpriteBatch spriteBatch){
+    public SplashScreen(MainGameScreen mainGameScreen,OrthographicCamera camera,SpriteBatch spriteBatch){
         this.mainGameScreen=mainGameScreen;
         this.camera=camera;
         this.spriteBatch=spriteBatch;
@@ -38,7 +38,9 @@ public class SplashScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         spriteBatch.begin();
-        spriteBatch.draw(splashImage,0,0);
+        spriteBatch.draw(splashImage,0,0,16,9);
+        //spriteBatch.draw(splashImage,-camera.viewportWidth/2f,-camera.viewportHeight/2f,16,9);
+
         spriteBatch.end();
 
         if(assets.manager.update()) {

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -20,8 +21,6 @@ import com.badlogic.gdx.utils.Array;
 
 public class Game implements Screen{
 
-	//private static final float WORLD_HEIGHT=9f;
-
     private static final float BIRD_HEIGHT=1.5f;
 	private static final float BIRD_WIDTH=BIRD_HEIGHT*1.305f;
 
@@ -32,7 +31,6 @@ public class Game implements Screen{
 	public static final float BACKGROUND_WIDTH=16f;
 	public static final float BACKGROUND_HEIGHT=9f;
     public static final float GRAVITY = -9.8f;
-
 
     public  World world;
     public  static Body groundBody;
@@ -47,13 +45,13 @@ public class Game implements Screen{
     private Array<TextureRegion> playerBird;
     private Array<TextureRegion> enemyBird;
     private Array<TextureRegion> enemyBirdHit;
-    public Camera camera;
+    public OrthographicCamera camera;
     private  ParallaxBackground parallaxBackground;
 
     private EnemyPool enemyPool;
     private float elapsedTime;
 
-    public Game(Assets assets,Camera camera,SpriteBatch spriteBatch){
+    public Game(Assets assets,OrthographicCamera camera,SpriteBatch spriteBatch){
         this.assets=assets;
         this.camera=camera;
         this.spriteBatch=spriteBatch;
@@ -68,7 +66,6 @@ public class Game implements Screen{
         createWorld();
         enemyPool = new EnemyPool(100,100,world,textureAtlas);
         EntityManager.addEntity(new Player(0, 0, BIRD_WIDTH, BIRD_HEIGHT, 1f, .8f, world,playerBird));
-
         Inputs inputs = new Inputs(camera, world);
         Gdx.input.setInputProcessor(inputs);
         world.setContactListener(new EntityCollision());
@@ -163,12 +160,8 @@ public class Game implements Screen{
 
     @Override
 	public void resize(int width, int height) {
-		//super.resize(width, height);
-		//vp.update(width,height);
-        //camera.setToOrtho(false, WORLD_HEIGHT * (float)width / (float)height, WORLD_HEIGHT);
-        //camera =new OrthographicCamera(WORLD_HEIGHT * (float)Gdx.graphics.getWidth() / (float)Gdx.graphics.getHeight(), WORLD_HEIGHT);
+        camera.setToOrtho(false, MainGameScreen.WORLD_HEIGHT * (float)width / (float)height, MainGameScreen.WORLD_HEIGHT);
         camera.update();
-        spriteBatch.setProjectionMatrix(camera.combined);
 	}
 
     @Override
