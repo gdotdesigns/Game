@@ -65,7 +65,7 @@ public class Game implements Screen{
         loadBackground();
         createWorld();
         enemyPool = new EnemyPool(100,100,world,textureAtlas);
-        EntityManager.addEntity(new Player(0, 0, BIRD_WIDTH, BIRD_HEIGHT, 1f, .8f, world,playerBird));
+        EntityManager.addEntity(new Player(camera.viewportWidth/2f, camera.viewportHeight/2f, BIRD_WIDTH, BIRD_HEIGHT, 1f, .8f, world,playerBird));
         Inputs inputs = new Inputs(camera, world);
         Gdx.input.setInputProcessor(inputs);
         world.setContactListener(new EntityCollision());
@@ -105,7 +105,7 @@ public class Game implements Screen{
         Body body;
         BodyDef bodyDef = new BodyDef();
         bodyDef.type= BodyDef.BodyType.StaticBody;
-        bodyDef.position.set(bodyloc_x,bodyloc_y);
+        //bodyDef.position.set(bodyloc_x,bodyloc_y);
         body=world.createBody(bodyDef);
         EdgeShape staticShape= new EdgeShape();
         staticShape.set(shapesize_x1,shapesize_y1,shapesize_x2,shapesize_y2);
@@ -131,7 +131,7 @@ public class Game implements Screen{
 
     public void spawnEnemy(){
         Enemy enemy = enemyPool.obtain();
-        enemy.init(camera.viewportWidth/2f+ENEMY_BIRD_WIDTH, 0, ENEMY_BIRD_WIDTH, ENEMY_BIRD_HEIGHT, 1f, .001f, world, enemyBird,enemyBirdHit,enemyPool);
+        enemy.init(camera.viewportWidth+ENEMY_BIRD_WIDTH, camera.viewportHeight/2f, ENEMY_BIRD_WIDTH, ENEMY_BIRD_HEIGHT, 1f, .001f, world, enemyBird,enemyBirdHit,enemyPool);
         EntityManager.addEntity(enemy);
         elapsedTime=0;
     }
@@ -139,10 +139,11 @@ public class Game implements Screen{
     private void createWorld() {
         Box2D.init();
         world = new World(new Vector2(0,GRAVITY),true);
-        groundBody=createStaticBody(0,0,-camera.viewportWidth/2f,-camera.viewportHeight/2f, camera.viewportWidth/2f,-camera.viewportHeight/2f);
+        groundBody=createStaticBody(0f,0f,0f,0f,camera.viewportWidth,0f);
         //leftWallBody=createStaticBody(0,0,-camera.viewportWidth/2f,-camera.viewportHeight/2f,-camera.viewportWidth/2f,camera.viewportHeight/2f);
         //rightWallBody=createStaticBody(0,0,camera.viewportWidth/2f,-camera.viewportHeight/2f,camera.viewportWidth/2f,camera.viewportHeight/2f);
-        topWallBody=createStaticBody(0,0,-camera.viewportWidth/2f, camera.viewportHeight/2f, camera.viewportWidth/2f, camera.viewportHeight/2f);
+        topWallBody=createStaticBody(0f,0f,0f,camera.viewportHeight,camera.viewportWidth,camera.viewportHeight);
+
         debugRenderer=new Box2DDebugRenderer();
         }
 
@@ -160,8 +161,8 @@ public class Game implements Screen{
 
     @Override
 	public void resize(int width, int height) {
-        camera.setToOrtho(false, MainGameScreen.WORLD_HEIGHT * (float)width / (float)height, MainGameScreen.WORLD_HEIGHT);
-        camera.update();
+        //camera.setToOrtho(false, MainGameScreen.WORLD_HEIGHT * (float)width / (float)height, MainGameScreen.WORLD_HEIGHT);
+        //camera.update();
 	}
 
     @Override

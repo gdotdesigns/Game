@@ -46,9 +46,8 @@ public class MainGameScreen extends com.badlogic.gdx.Game {
         super.resize(width, height);
         //vp.update(width,height);
         camera.setToOrtho(false, WORLD_HEIGHT * (float)width / (float)height, WORLD_HEIGHT);
-        //camera =new OrthographicCamera(WORLD_HEIGHT * (float)Gdx.graphics.getWidth() / (float)Gdx.graphics.getHeight(), WORLD_HEIGHT);
-        camera.update();
         spriteBatch.setProjectionMatrix(camera.combined);
+        camera.update();
     }
 
 
