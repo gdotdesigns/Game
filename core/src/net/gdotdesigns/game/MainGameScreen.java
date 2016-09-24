@@ -21,7 +21,7 @@ public class MainGameScreen extends com.badlogic.gdx.Game {
 
     @Override
     public void create() {
-        worldWidth = WORLD_HEIGHT * (float) Gdx.graphics.getWidth() / (float) Gdx.graphics.getHeight();
+        worldWidth = WORLD_HEIGHT * ((float) Gdx.graphics.getWidth() / (float) Gdx.graphics.getHeight());
         camera=new OrthographicCamera(worldWidth,WORLD_HEIGHT);
         //vp=new FillViewport(16,9,camera);
         //vp.apply();

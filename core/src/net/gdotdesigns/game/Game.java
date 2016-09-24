@@ -2,7 +2,6 @@ package net.gdotdesigns.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -28,7 +27,8 @@ public class Game implements Screen{
     private static final float ENEMY_BIRD_WIDTH=ENEMY_BIRD_HEIGHT*1.28f;
     private static final float ENEMY_SPAWN_TIME =1.0f;
 
-	public static final float BACKGROUND_WIDTH=16f;
+	//public static final float BACKGROUND_WIDTH=16f;
+    public static float backgroundWidth;
 	public static final float BACKGROUND_HEIGHT=9f;
     public static final float GRAVITY = -9.8f;
 
@@ -55,6 +55,8 @@ public class Game implements Screen{
         this.assets=assets;
         this.camera=camera;
         this.spriteBatch=spriteBatch;
+        float ratio=Gdx.graphics.getWidth()/Gdx.graphics.getHeight();
+        backgroundWidth =BACKGROUND_HEIGHT*ratio;
     }
 
 
@@ -161,9 +163,12 @@ public class Game implements Screen{
 
     @Override
 	public void resize(int width, int height) {
+        float ratio=(float)width/height;
+        backgroundWidth =BACKGROUND_HEIGHT*ratio;
         //camera.setToOrtho(false, MainGameScreen.WORLD_HEIGHT * (float)width / (float)height, MainGameScreen.WORLD_HEIGHT);
         //camera.update();
-	}
+       // ParallaxBackground.camera.setToOrtho(false,(float)(width/height),BACKGROUND_HEIGHT);
+    }
 
     @Override
     public void pause() {
