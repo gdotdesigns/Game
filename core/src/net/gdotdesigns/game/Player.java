@@ -65,7 +65,7 @@ public class Player extends Entity {
         fixtureDef.restitution=restitution;
         body.createFixture(fixtureDef);
         body.setFixedRotation(true);
-        body.setGravityScale(0f);
+        body.setGravityScale(1.5f);
         shape.dispose();
     }
 

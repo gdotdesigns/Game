@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 /**
  * Created by Todd on 9/19/2016.
  */
+
 public class MainGameScreen extends com.badlogic.gdx.Game {
     public static final int WIDTH=1920;
     public static final int HEIGHT=1080;
@@ -15,13 +16,15 @@ public class MainGameScreen extends com.badlogic.gdx.Game {
     public OrthographicCamera camera;
     public SpriteBatch spriteBatch;
     public static float worldWidth;
+    private float aspectRatio;
     //private Viewport vp;
 
 
 
     @Override
     public void create() {
-        worldWidth = WORLD_HEIGHT * ((float) Gdx.graphics.getWidth() / (float) Gdx.graphics.getHeight());
+        aspectRatio =(float)Gdx.graphics.getWidth()/Gdx.graphics.getHeight();
+        worldWidth = WORLD_HEIGHT * aspectRatio;
         camera=new OrthographicCamera(worldWidth,WORLD_HEIGHT);
         //vp=new FillViewport(16,9,camera);
         //vp.apply();
@@ -38,14 +41,18 @@ public class MainGameScreen extends com.badlogic.gdx.Game {
 
     @Override
     public void dispose(){
+        super.dispose();
         spriteBatch.dispose();
+
     }
 
     @Override
     public void resize(int width, int height){
         super.resize(width, height);
+        aspectRatio =(float)width/height;
         //vp.update(width,height);
-        camera.setToOrtho(false, WORLD_HEIGHT * (float)width / (float)height, WORLD_HEIGHT);
+        worldWidth = WORLD_HEIGHT * aspectRatio;
+        camera.setToOrtho(false, worldWidth, WORLD_HEIGHT);
         spriteBatch.setProjectionMatrix(camera.combined);
         camera.update();
     }

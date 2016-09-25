@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
-public class ParallaxBackground {
+public class ParallaxBackground{
 
     private ParallaxLayer[] layers;
     public static OrthographicCamera camera ;
@@ -27,17 +27,17 @@ public class ParallaxBackground {
         this.batch=batch;
         camera = new OrthographicCamera();
         camera.setToOrtho(false,worldWidth,worldHeight);
+        camera.update();
 
 
     }
 
     public void render(float delta){
-       camera.position.add(speed.x*delta,speed.y*delta,0);
+        camera.position.add(speed.x*delta,speed.y*delta,0);
         camera.update();
         for(ParallaxLayer layer:layers){
-           //batch.setProjectionMatrix(camera.projection);
             camera.update();
-           // batch.begin();
+
             float currentX = - camera.position.x*layer.parallaxRatio.x % (Game.backgroundWidth) ;
 
             if( speed.x < 0 )currentX += -(Game.backgroundWidth);
@@ -45,9 +45,6 @@ public class ParallaxBackground {
                 float currentY = - camera.position.y*layer.parallaxRatio.y % (Game.BACKGROUND_HEIGHT) ;
                 if( speed.y < 0 )currentY += - (Game.BACKGROUND_HEIGHT);
                 do{
-                    //batch.draw(layer.region,
-                           //-this.camera.viewportWidth/2+currentX,
-                            //-this.camera.viewportHeight/2 + currentY,Game.BACKGROUND_WIDTH, Game.BACKGROUND_HEIGHT);
 
                     batch.draw(layer.region, currentX, currentY,Game.backgroundWidth, Game.BACKGROUND_HEIGHT);
 
@@ -55,7 +52,7 @@ public class ParallaxBackground {
                 }while( currentY < camera.viewportHeight);
                 currentX += ( Game.backgroundWidth);
             }while( currentX < camera.viewportWidth);
-            //batch.end();
+
 
         }
     }

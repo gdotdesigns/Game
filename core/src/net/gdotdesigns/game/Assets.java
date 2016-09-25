@@ -20,6 +20,10 @@ public class Assets {
         return manager.get(ATLAS,TextureAtlas.class);
     }
 
+    public void unloadAssets(){
+        manager.unload(ATLAS);
+    }
+
 
     public void dispose(){
         manager.dispose();

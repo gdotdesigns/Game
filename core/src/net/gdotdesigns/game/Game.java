@@ -27,7 +27,6 @@ public class Game implements Screen{
     private static final float ENEMY_BIRD_WIDTH=ENEMY_BIRD_HEIGHT*1.28f;
     private static final float ENEMY_SPAWN_TIME =1.0f;
 
-	//public static final float BACKGROUND_WIDTH=16f;
     public static float backgroundWidth;
 	public static final float BACKGROUND_HEIGHT=9f;
     public static final float GRAVITY = -9.8f;
@@ -55,8 +54,6 @@ public class Game implements Screen{
         this.assets=assets;
         this.camera=camera;
         this.spriteBatch=spriteBatch;
-        float ratio=Gdx.graphics.getWidth()/Gdx.graphics.getHeight();
-        backgroundWidth =BACKGROUND_HEIGHT*ratio;
     }
 
 
@@ -107,7 +104,7 @@ public class Game implements Screen{
         Body body;
         BodyDef bodyDef = new BodyDef();
         bodyDef.type= BodyDef.BodyType.StaticBody;
-        //bodyDef.position.set(bodyloc_x,bodyloc_y);
+        bodyDef.position.set(bodyloc_x,bodyloc_y);
         body=world.createBody(bodyDef);
         EdgeShape staticShape= new EdgeShape();
         staticShape.set(shapesize_x1,shapesize_y1,shapesize_x2,shapesize_y2);
@@ -165,13 +162,14 @@ public class Game implements Screen{
 	public void resize(int width, int height) {
         float ratio=(float)width/height;
         backgroundWidth =BACKGROUND_HEIGHT*ratio;
-        //camera.setToOrtho(false, MainGameScreen.WORLD_HEIGHT * (float)width / (float)height, MainGameScreen.WORLD_HEIGHT);
-        //camera.update();
-       // ParallaxBackground.camera.setToOrtho(false,(float)(width/height),BACKGROUND_HEIGHT);
+        camera.setToOrtho(false, MainGameScreen.WORLD_HEIGHT * ratio, MainGameScreen.WORLD_HEIGHT);
+        spriteBatch.setProjectionMatrix(camera.combined);
+        camera.update();
     }
 
     @Override
     public void pause() {
+        dispose();
 
     }
 
@@ -182,6 +180,7 @@ public class Game implements Screen{
 
     @Override
     public void hide() {
+
 
     }
 
@@ -195,14 +194,13 @@ public class Game implements Screen{
         parallaxBackground.render(deltaTime);
         EntityManager.render(spriteBatch);
         spriteBatch.end();
-        debugRenderer.render(world,debugMatrix);
+        //debugRenderer.render(world,debugMatrix);
 	}
 
 
 	@Override
 	public void dispose () {
         EntityManager.dispose();
-		spriteBatch.dispose();
         world.dispose();
         debugRenderer.dispose();
     }
