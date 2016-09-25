@@ -25,12 +25,15 @@ public class SplashScreen implements Screen  {
     private float splashImageWidth;
     private float splashImageHeight=9f;
     private float aspectRatio;
-    private boolean fadeComplete =false;
+    private boolean fadeInComplete =false;
+    private boolean fadeOutComplete = false;
 
     public SplashScreen(MainGameScreen mainGameScreen,OrthographicCamera camera,SpriteBatch spriteBatch){
         this.mainGameScreen=mainGameScreen;
         this.camera=camera;
         this.spriteBatch=spriteBatch;
+        assets = new Assets();
+        assets.loadGameAssets();
         stage = new Stage();
     }
 
@@ -43,15 +46,15 @@ public class SplashScreen implements Screen  {
         camera.update();
         splashTexture = new Texture(Gdx.files.internal("libgdx_splash.jpg"));
         splashImage= new Image(splashTexture);
-        assets = new Assets();
-        assets.loadGameAssets();
+
+
         splashImageWidth=splashImageHeight*aspectRatio;
         splashImage.setPosition(Gdx.graphics.getWidth()/2f-splashImage.getWidth()/2f,Gdx.graphics.getHeight()/2f-splashImage.getHeight()/2f);
         //splashImage.setSize(splashImageWidth,splashImageHeight);
-        splashImage.addAction(Actions.sequence(Actions.alpha(0f),Actions.fadeIn(1f),Actions.delay(2f),Actions.fadeOut(1f),Actions.run(new Runnable() {
+        splashImage.addAction(Actions.sequence(Actions.alpha(0f),Actions.fadeIn(1f),Actions.delay(2f),Actions.run(new Runnable() {
             @Override
             public void run() {
-                fadeComplete =true;
+                fadeInComplete =true;
             }
         })));
 
@@ -64,16 +67,26 @@ public class SplashScreen implements Screen  {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         update(delta);
         stage.draw();
-
-        if(assets.manager.update() && fadeComplete == true) {
-            mainGameScreen.setScreen(new Game(assets, camera, spriteBatch));
-            dispose();
-        }
-
     }
 
     private void update(float delta) {
         stage.act(delta);
+
+        if(assets.manager.update() && fadeInComplete == true) {
+            splashImage.addAction(Actions.sequence(Actions.fadeOut(1f),Actions.run(new Runnable() {
+                @Override
+                public void run() {
+                    fadeOutComplete = true;
+                }
+            })));
+
+        }
+
+        if(fadeInComplete && fadeOutComplete) {
+            mainGameScreen.setScreen(new Game(assets, camera, spriteBatch));
+            dispose();
+
+        }
     }
 
     @Override
@@ -90,7 +103,8 @@ public class SplashScreen implements Screen  {
 
     @Override
     public void resume() {
-
+        mainGameScreen.spriteBatch=null;
+        assets=null;
     }
 
     @Override

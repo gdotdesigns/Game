@@ -70,6 +70,39 @@ public class Game implements Screen{
         world.setContactListener(new EntityCollision());
     }
 
+    public void update(float deltaTime) {
+        elapsedTime+=deltaTime;
+        world.step(1f/60f,6,2);
+        EntityManager.destroyEntity(world);
+
+        if(elapsedTime - deltaTime > ENEMY_SPAWN_TIME){
+            spawnEnemy();
+        }
+        EntityManager.update(deltaTime, camera);
+
+    }
+
+    public void spawnEnemy(){
+        Enemy enemy = enemyPool.obtain();
+        enemy.init(camera.viewportWidth+ENEMY_BIRD_WIDTH, camera.viewportHeight/2f, ENEMY_BIRD_WIDTH, ENEMY_BIRD_HEIGHT, 1f, .001f, world, enemyBird,enemyBirdHit,enemyPool);
+        EntityManager.addEntity(enemy);
+        elapsedTime=0;
+    }
+
+    @Override
+    public void render (float delta) {
+        float deltaTime = Gdx.graphics.getDeltaTime();
+        update(deltaTime);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Matrix4 debugMatrix= spriteBatch.getProjectionMatrix().cpy().scale(1f,1f,0);
+        spriteBatch.begin();
+        parallaxBackground.render(deltaTime);
+        EntityManager.render(spriteBatch);
+        spriteBatch.end();
+        //debugRenderer.render(world,debugMatrix);
+    }
+
+
     private void loadTextures() {
         textureAtlas = assets.getGameAssets();
         enemyBird = new Array<TextureRegion>();
@@ -100,6 +133,30 @@ public class Game implements Screen{
         enemyBirdHit.add(hitRegion2);
     }
 
+    public void loadBackground() {
+        ParallaxLayer parallaxLayer1 = new ParallaxLayer(textureAtlas.findRegion("layer_01_1920 x 1080"),new Vector2(2f,0));
+        ParallaxLayer parallaxLayer2 = new ParallaxLayer(textureAtlas.findRegion("layer_02_1920 x 1080"),new Vector2(1f,0));
+        ParallaxLayer parallaxLayer3 = new ParallaxLayer(textureAtlas.findRegion("layer_03_1920 x 1080"),new Vector2(.90f,0));
+        ParallaxLayer parallaxLayer4 = new ParallaxLayer(textureAtlas.findRegion("layer_04_1920 x 1080"),new Vector2(.80f,0));
+        ParallaxLayer parallaxLayer5 = new ParallaxLayer(textureAtlas.findRegion("layer_05_1920 x 1080"),new Vector2(.75f,0));
+        ParallaxLayer parallaxLayer6 = new ParallaxLayer(textureAtlas.findRegion("layer_06_1920 x 1080"),new Vector2(0,0));
+        ParallaxLayer parallaxLayer7 = new ParallaxLayer(textureAtlas.findRegion("layer_07_1920 x 1080"),new Vector2(0f,0));
+        ParallaxLayer[] parallaxArray = {parallaxLayer7,parallaxLayer6,parallaxLayer5,parallaxLayer4,parallaxLayer3,parallaxLayer2,parallaxLayer1};
+        parallaxBackground = new ParallaxBackground(parallaxArray, spriteBatch,new Vector2(5,0),MainGameScreen.worldWidth,MainGameScreen.WORLD_HEIGHT);
+    }
+
+    private void createWorld() {
+        Box2D.init();
+        world = new World(new Vector2(0,GRAVITY),true);
+        groundBody=createStaticBody(0f,0f,0f,0f,camera.viewportWidth,0f);
+        //leftWallBody=createStaticBody(0,0,-camera.viewportWidth/2f,-camera.viewportHeight/2f,-camera.viewportWidth/2f,camera.viewportHeight/2f);
+        //rightWallBody=createStaticBody(0,0,camera.viewportWidth/2f,-camera.viewportHeight/2f,camera.viewportWidth/2f,camera.viewportHeight/2f);
+        topWallBody=createStaticBody(0f,0f,0f,camera.viewportHeight,camera.viewportWidth,camera.viewportHeight);
+
+        debugRenderer=new Box2DDebugRenderer();
+    }
+
+
     public Body createStaticBody(float bodyloc_x,float bodyloc_y,float shapesize_x1,float shapesize_y1,float shapesize_x2,float shapesize_y2) {
         Body body;
         BodyDef bodyDef = new BodyDef();
@@ -116,47 +173,7 @@ public class Game implements Screen{
         return body;
     }
 
-    public void update(float deltaTime) {
-        elapsedTime+=deltaTime;
-        world.step(1f/60f,6,2);
-        EntityManager.destroyEntity(world);
 
-        if(elapsedTime - deltaTime > ENEMY_SPAWN_TIME){
-            spawnEnemy();
-        }
-        EntityManager.update(deltaTime, camera);
-
-    }
-
-    public void spawnEnemy(){
-        Enemy enemy = enemyPool.obtain();
-        enemy.init(camera.viewportWidth+ENEMY_BIRD_WIDTH, camera.viewportHeight/2f, ENEMY_BIRD_WIDTH, ENEMY_BIRD_HEIGHT, 1f, .001f, world, enemyBird,enemyBirdHit,enemyPool);
-        EntityManager.addEntity(enemy);
-        elapsedTime=0;
-    }
-
-    private void createWorld() {
-        Box2D.init();
-        world = new World(new Vector2(0,GRAVITY),true);
-        groundBody=createStaticBody(0f,0f,0f,0f,camera.viewportWidth,0f);
-        //leftWallBody=createStaticBody(0,0,-camera.viewportWidth/2f,-camera.viewportHeight/2f,-camera.viewportWidth/2f,camera.viewportHeight/2f);
-        //rightWallBody=createStaticBody(0,0,camera.viewportWidth/2f,-camera.viewportHeight/2f,camera.viewportWidth/2f,camera.viewportHeight/2f);
-        topWallBody=createStaticBody(0f,0f,0f,camera.viewportHeight,camera.viewportWidth,camera.viewportHeight);
-
-        debugRenderer=new Box2DDebugRenderer();
-        }
-
-    public void loadBackground() {
-            ParallaxLayer parallaxLayer1 = new ParallaxLayer(textureAtlas.findRegion("layer_01_1920 x 1080"),new Vector2(2f,0));
-            ParallaxLayer parallaxLayer2 = new ParallaxLayer(textureAtlas.findRegion("layer_02_1920 x 1080"),new Vector2(1f,0));
-            ParallaxLayer parallaxLayer3 = new ParallaxLayer(textureAtlas.findRegion("layer_03_1920 x 1080"),new Vector2(.90f,0));
-            ParallaxLayer parallaxLayer4 = new ParallaxLayer(textureAtlas.findRegion("layer_04_1920 x 1080"),new Vector2(.80f,0));
-            ParallaxLayer parallaxLayer5 = new ParallaxLayer(textureAtlas.findRegion("layer_05_1920 x 1080"),new Vector2(.75f,0));
-            ParallaxLayer parallaxLayer6 = new ParallaxLayer(textureAtlas.findRegion("layer_06_1920 x 1080"),new Vector2(0,0));
-            ParallaxLayer parallaxLayer7 = new ParallaxLayer(textureAtlas.findRegion("layer_07_1920 x 1080"),new Vector2(0f,0));
-            ParallaxLayer[] parallaxArray = {parallaxLayer7,parallaxLayer6,parallaxLayer5,parallaxLayer4,parallaxLayer3,parallaxLayer2,parallaxLayer1};
-            parallaxBackground = new ParallaxBackground(parallaxArray, spriteBatch,new Vector2(5,0),MainGameScreen.worldWidth,MainGameScreen.WORLD_HEIGHT);
-        }
 
     @Override
 	public void resize(int width, int height) {
@@ -169,7 +186,6 @@ public class Game implements Screen{
 
     @Override
     public void pause() {
-        dispose();
 
     }
 
@@ -180,28 +196,15 @@ public class Game implements Screen{
 
     @Override
     public void hide() {
-
+        dispose();
 
     }
 
-    @Override
-	public void render (float delta) {
-        float deltaTime = Gdx.graphics.getDeltaTime();
-        update(deltaTime);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        Matrix4 debugMatrix= spriteBatch.getProjectionMatrix().cpy().scale(1f,1f,0);
-		spriteBatch.begin();
-        parallaxBackground.render(deltaTime);
-        EntityManager.render(spriteBatch);
-        spriteBatch.end();
-        //debugRenderer.render(world,debugMatrix);
-	}
-
-
 	@Override
 	public void dispose () {
-        EntityManager.dispose();
         world.dispose();
+        EntityManager.dispose();
         debugRenderer.dispose();
+        assets.unloadAssets();
     }
 }
