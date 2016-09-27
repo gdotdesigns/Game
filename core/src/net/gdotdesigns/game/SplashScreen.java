@@ -40,7 +40,6 @@ public class SplashScreen implements Screen  {
 
     @Override
     public void show() {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
         aspectRatio =(float)Gdx.graphics.getWidth()/Gdx.graphics.getHeight();
         camera.setToOrtho(false, MainGameScreen.WORLD_HEIGHT * aspectRatio, MainGameScreen.WORLD_HEIGHT);
         camera.update();
@@ -49,6 +48,7 @@ public class SplashScreen implements Screen  {
 
 
         splashImageWidth=splashImageHeight*aspectRatio;
+        splashImage.setOrigin(splashImage.getImageWidth()/2f,splashTexture.getHeight()/2f);
         splashImage.setPosition(Gdx.graphics.getWidth()/2f-splashImage.getWidth()/2f,Gdx.graphics.getHeight()/2f-splashImage.getHeight()/2f);
         //splashImage.setSize(splashImageWidth,splashImageHeight);
         splashImage.addAction(Actions.sequence(Actions.alpha(0f),Actions.fadeIn(1f),Actions.delay(2f),Actions.run(new Runnable() {
@@ -64,6 +64,7 @@ public class SplashScreen implements Screen  {
 
     @Override
     public void render(float delta) {
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         update(delta);
         stage.draw();
@@ -83,7 +84,7 @@ public class SplashScreen implements Screen  {
         }
 
         if(fadeInComplete && fadeOutComplete) {
-            mainGameScreen.setScreen(new Game(assets, camera, spriteBatch));
+            mainGameScreen.setScreen(new MainMenu(mainGameScreen,assets, camera, spriteBatch));
             dispose();
 
         }
@@ -93,7 +94,6 @@ public class SplashScreen implements Screen  {
     public void resize(int width, int height) {
         aspectRatio=(float)width/height;
         splashImageWidth=splashImageHeight*aspectRatio;
-
     }
 
     @Override
