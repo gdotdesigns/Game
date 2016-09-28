@@ -46,6 +46,7 @@ public class Game implements Screen{
     private Array<TextureRegion> enemyBirdHit;
     public OrthographicCamera camera;
     private  ParallaxBackground parallaxBackground;
+    private EntityManager entityManager;
 
     private EnemyPool enemyPool;
     private float elapsedTime;
@@ -54,6 +55,7 @@ public class Game implements Screen{
         this.assets=assets;
         this.camera=camera;
         this.spriteBatch=spriteBatch;
+        this.entityManager=new EntityManager();
     }
 
 
@@ -64,28 +66,28 @@ public class Game implements Screen{
         loadBackground();
         createWorld();
         enemyPool = new EnemyPool(100,100,world,textureAtlas);
-        EntityManager.addEntity(new Player(camera.viewportWidth/2f, camera.viewportHeight/2f, BIRD_WIDTH, BIRD_HEIGHT, 1f, .8f, world,playerBird));
+        entityManager.addEntity(new Player(camera.viewportWidth/2f, camera.viewportHeight/2f, BIRD_WIDTH, BIRD_HEIGHT, 1f, .8f, world,playerBird));
         Inputs inputs = new Inputs(camera, world);
         Gdx.input.setInputProcessor(inputs);
-        world.setContactListener(new EntityCollision());
+        world.setContactListener(new EntityCollision(entityManager));
     }
 
     public void update(float deltaTime) {
         elapsedTime+=deltaTime;
         world.step(1f/60f,6,2);
-        EntityManager.destroyEntity(world);
+        entityManager.destroyEntity(world);
 
         if(elapsedTime - deltaTime > ENEMY_SPAWN_TIME){
             spawnEnemy();
         }
-        EntityManager.update(deltaTime, camera);
+        entityManager.update(deltaTime, camera);
 
     }
 
     public void spawnEnemy(){
         Enemy enemy = enemyPool.obtain();
         enemy.init(camera.viewportWidth+ENEMY_BIRD_WIDTH, camera.viewportHeight/2f, ENEMY_BIRD_WIDTH, ENEMY_BIRD_HEIGHT, 1f, .001f, world, enemyBird,enemyBirdHit,enemyPool);
-        EntityManager.addEntity(enemy);
+        entityManager.addEntity(enemy);
         elapsedTime=0;
     }
 
@@ -97,7 +99,7 @@ public class Game implements Screen{
         Matrix4 debugMatrix= spriteBatch.getProjectionMatrix().cpy().scale(1f,1f,0);
         spriteBatch.begin();
         parallaxBackground.render(deltaTime);
-        EntityManager.render(spriteBatch);
+        entityManager.render(spriteBatch);
         spriteBatch.end();
         //debugRenderer.render(world,debugMatrix);
     }
@@ -203,8 +205,9 @@ public class Game implements Screen{
 	@Override
 	public void dispose () {
         world.dispose();
-        EntityManager.dispose();
+        entityManager.dispose();
         debugRenderer.dispose();
-        assets.unloadAssets();
+        enemyPool.clear();
+        assets.dispose();
     }
 }

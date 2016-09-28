@@ -10,17 +10,17 @@ import com.badlogic.gdx.utils.Array;
  */
 public class EntityManager {
 
-    private static Array<Entity> activeEntityList = new Array<Entity>();
-    private static Array<Entity> deadEntityList = new Array<Entity>();
+    private Array<Entity> activeEntityList = new Array<Entity>();
+    private Array<Entity> deadEntityList = new Array<Entity>();
 
 
-    public static void addEntity (Entity newEntity){
+    public void addEntity (Entity newEntity){
 
         activeEntityList.add(newEntity);
         newEntity.setAlive();
     }
 
-    public static void setToDestroyEntity(Entity oldEntity){
+    public void setToDestroyEntity(Entity oldEntity){
 
         //deadEntityList.add(oldEntity);
         //activeEntityList.removeValue(oldEntity,true);
@@ -28,7 +28,7 @@ public class EntityManager {
     }
 
 
-    public static void destroyEntity(World world){
+    public void destroyEntity(World world){
 
         for(Entity e: deadEntityList){
             if(e instanceof Enemy){
@@ -42,7 +42,7 @@ public class EntityManager {
 
 
 
-    public static void update(float deltaTime,Camera cam){
+    public void update(float deltaTime,Camera cam){
 
         for(Entity e: activeEntityList){
             e.update(deltaTime);
@@ -59,7 +59,7 @@ public class EntityManager {
     }
 
 
-    public static void render(SpriteBatch spriteBatch){
+    public void render(SpriteBatch spriteBatch){
 
         for(Entity e : activeEntityList){
 
@@ -68,7 +68,7 @@ public class EntityManager {
 
     }
 
-    public static void dispose(){
+    public void dispose(){
 
         for(Entity e : activeEntityList){
 

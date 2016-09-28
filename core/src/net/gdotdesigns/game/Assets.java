@@ -21,7 +21,8 @@ public class Assets {
     }
 
     public void unloadAssets(){
-        manager.unload(ATLAS);
+        //manager.unload(ATLAS);
+        //manager.dispose();
     }
 
 

@@ -9,6 +9,14 @@ import com.badlogic.gdx.physics.box2d.Manifold;
  * Created by Todd on 8/24/2016.
  */
 public class EntityCollision implements ContactListener {
+
+    EntityManager entityManager;
+
+    public EntityCollision(EntityManager entityManager){
+        this.entityManager=entityManager;
+    }
+
+
     @Override
     public void beginContact(Contact contact) {
         Body bodyA = contact.getFixtureA().getBody();
@@ -19,7 +27,7 @@ public class EntityCollision implements ContactListener {
                 bodyA.getUserData() instanceof Enemy && bodyB.getUserData() instanceof Player) {
             Body player = bodyA.getUserData() instanceof Player ? bodyA : bodyB;
             Body enemy = player == bodyA ? bodyB : bodyA;
-            EntityManager.setToDestroyEntity((Entity)enemy.getUserData());
+            entityManager.setToDestroyEntity((Entity)enemy.getUserData());
         }
 
 

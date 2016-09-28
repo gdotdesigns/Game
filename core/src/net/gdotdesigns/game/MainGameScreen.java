@@ -17,6 +17,7 @@ public class MainGameScreen extends com.badlogic.gdx.Game {
     public SpriteBatch spriteBatch;
     public static float worldWidth;
     private float aspectRatio;
+    private Assets assets;
     //private Viewport vp;
 
 
@@ -31,6 +32,7 @@ public class MainGameScreen extends com.badlogic.gdx.Game {
         camera.update();
         spriteBatch = new SpriteBatch();
         this.setScreen(new SplashScreen(this,camera,spriteBatch));
+        assets=new Assets();
     }
 
     @Override
@@ -43,7 +45,6 @@ public class MainGameScreen extends com.badlogic.gdx.Game {
     public void dispose(){
         super.dispose();
         spriteBatch.dispose();
-
     }
 
     @Override
