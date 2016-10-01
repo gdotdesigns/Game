@@ -48,10 +48,9 @@ public class MainMenu implements Screen{
         skin = new Skin(Gdx.files.internal("neon-ui.json"),textureAtlas);
 
         start=new TextButton("Start",skin);
-        start.setWidth(100f);
-        start.setHeight(100f);
-        start.setPosition(Gdx.graphics.getWidth()/2f-start.getWidth()/2,Gdx.graphics.getHeight()/2-start.getHeight()/2);
-
+        //start.setWidth(100f);
+        //start.setHeight(100f);
+        //start.setPosition(Gdx.graphics.getWidth()/2f-start.getWidth()/2,Gdx.graphics.getHeight()/2-start.getHeight()/2);
         start.addListener(new ClickListener(){
 
             @Override
@@ -62,7 +61,24 @@ public class MainMenu implements Screen{
             }
         });
 
+
+        stop=new TextButton("Stop",skin);
+        //stop.setWidth(100f);
+        //stop.setHeight(100f);
+        //stop.setPosition(Gdx.graphics.getWidth()/2f-start.getWidth()/2,Gdx.graphics.getHeight()/2-start.getHeight()/2);
+        stop.addListener(new ClickListener(){
+
+            @Override
+            public void clicked(InputEvent event, float x,float y){
+                Gdx.app.exit();
+                dispose();
+
+            }
+        });
+
         table.add(start);
+        table.row();
+        table.add(stop);
 
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
