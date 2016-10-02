@@ -18,26 +18,24 @@ public class Assets {
 
     public AssetManager manager = new AssetManager();
 
-    public void loadGameAssets(){manager.load(GAME_ATLAS, TextureAtlas.class);}
+    //public void loadGameAssets(){manager.load(GAME_ATLAS, TextureAtlas.class);}
 
     public void loadMenuAssets() {
-        manager.load(MENU_SKIN, Skin.class,new SkinLoader.SkinParameter(MENU_ATLAS));
+        //manager.load(MENU_SKIN, Skin.class,new SkinLoader.SkinParameter(MENU_ATLAS));
+        manager.load("Game-Menu-Assets.txt",TextureAtlas.class);
+        manager.load(MENU_SKIN, Skin.class);
     }
 
-    public TextureAtlas getGameAssets(){return manager.get(GAME_ATLAS,TextureAtlas.class);
-    }
-    public Skin getMenuAssets(){
-        return manager.get(MENU_SKIN,Skin.class);
-    }
+    //public TextureAtlas getGameAssets(){return manager.get(GAME_ATLAS,TextureAtlas.class);}
+
+    public Skin getMenuAssets(){return manager.get(MENU_SKIN,Skin.class);}
+
+    public TextureAtlas getMenuAtlas(){return manager.get("Game-Menu-Assets.txt",TextureAtlas.class);}
 
 
-    public void unloadGameAssets(){
-        manager.unload(GAME_ATLAS);
-    }
+    //public void unloadGameAssets(){manager.unload(GAME_ATLAS);}
 
-    public void unloadMenuAssets(){
-        manager.unload(MENU_SKIN);
-    }
+    //public void unloadMenuAssets(){manager.unload(MENU_SKIN);}
 
 
     public void dispose(){

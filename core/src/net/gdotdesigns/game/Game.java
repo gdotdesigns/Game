@@ -106,7 +106,8 @@ public class Game implements Screen{
 
 
     private void loadTextures() {
-        textureAtlas = assets.getGameAssets();
+        //textureAtlas = assets.getGameAssets();
+        textureAtlas = assets.getMenuAtlas();
         enemyBird = new Array<TextureRegion>();
         TextureRegion region1 = textureAtlas.findRegion("frame-1");
         TextureRegion region2 = textureAtlas.findRegion("frame-2");

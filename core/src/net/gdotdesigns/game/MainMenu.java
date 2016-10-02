@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -26,8 +27,9 @@ public class MainMenu implements Screen{
     Skin skin;
     TextButton start;
     TextButton stop;
+    TextureAtlas textureAtlas;
 
-    boolean loadGame=false;
+    //boolean loadGame=false;
 
     public MainMenu(MainGameScreen mainGameScreen,Assets assets, OrthographicCamera camera, SpriteBatch spriteBatch){
 
@@ -45,16 +47,19 @@ public class MainMenu implements Screen{
         table = new Table();
         table.setFillParent(true);
         table.center();
+        textureAtlas=assets.getMenuAtlas();
         skin = assets.getMenuAssets();
+        skin.addRegions(textureAtlas);
 
         start=new TextButton("Start",skin);
         start.addListener(new ClickListener(){
 
             @Override
             public void clicked(InputEvent event, float x,float y){
-                assets.unloadMenuAssets();
-                assets.loadGameAssets();
-                loadGame=true;
+                //assets.unloadMenuAssets();
+                //assets.loadGameAssets();
+                mainGameScreen.setScreen(new Game(assets, camera, spriteBatch));
+                //loadGame=true;
             }
         });
 
@@ -82,9 +87,9 @@ public class MainMenu implements Screen{
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-            if (assets.manager.update()&& loadGame){
-                mainGameScreen.setScreen(new Game(assets, camera, spriteBatch));
-        }
+            //if (assets.manager.update()&& loadGame){
+                //mainGameScreen.setScreen(new Game(assets, camera, spriteBatch));
+        //}
         stage.act(delta);
         stage.draw();
     }
