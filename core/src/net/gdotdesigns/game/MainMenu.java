@@ -5,7 +5,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -25,9 +24,10 @@ public class MainMenu implements Screen{
     Stage stage;
     Table table;
     Skin skin;
-    TextureAtlas textureAtlas;
     TextButton start;
     TextButton stop;
+
+    boolean loadGame=false;
 
     public MainMenu(MainGameScreen mainGameScreen,Assets assets, OrthographicCamera camera, SpriteBatch spriteBatch){
 
@@ -40,39 +40,31 @@ public class MainMenu implements Screen{
 
     @Override
     public void show() {
+        //TODO add viewport and spriteBatch to Stage. this way spritebatch is not created again.
         stage=new Stage();
         table = new Table();
         table.setFillParent(true);
         table.center();
-        textureAtlas = new TextureAtlas("neon-ui.atlas");
-        skin = new Skin(Gdx.files.internal("neon-ui.json"),textureAtlas);
+        skin = assets.getMenuAssets();
 
         start=new TextButton("Start",skin);
-        //start.setWidth(100f);
-        //start.setHeight(100f);
-        //start.setPosition(Gdx.graphics.getWidth()/2f-start.getWidth()/2,Gdx.graphics.getHeight()/2-start.getHeight()/2);
         start.addListener(new ClickListener(){
 
             @Override
             public void clicked(InputEvent event, float x,float y){
-                mainGameScreen.setScreen(new Game(assets, camera, spriteBatch));
-                dispose();
-
+                assets.unloadMenuAssets();
+                assets.loadGameAssets();
+                loadGame=true;
             }
         });
 
 
         stop=new TextButton("Stop",skin);
-        //stop.setWidth(100f);
-        //stop.setHeight(100f);
-        //stop.setPosition(Gdx.graphics.getWidth()/2f-start.getWidth()/2,Gdx.graphics.getHeight()/2-start.getHeight()/2);
         stop.addListener(new ClickListener(){
 
             @Override
             public void clicked(InputEvent event, float x,float y){
                 Gdx.app.exit();
-                dispose();
-
             }
         });
 
@@ -90,7 +82,10 @@ public class MainMenu implements Screen{
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        stage.act();
+            if (assets.manager.update()&& loadGame){
+                mainGameScreen.setScreen(new Game(assets, camera, spriteBatch));
+        }
+        stage.act(delta);
         stage.draw();
     }
 
@@ -101,7 +96,7 @@ public class MainMenu implements Screen{
 
     @Override
     public void pause() {
-
+        dispose();
     }
 
     @Override
@@ -111,13 +106,12 @@ public class MainMenu implements Screen{
 
     @Override
     public void hide() {
-
     }
 
     @Override
     public void dispose() {
+        assets.dispose();
         stage.dispose();
-        skin.dispose();
-        textureAtlas.dispose();
+
     }
 }

@@ -33,7 +33,8 @@ public class SplashScreen implements Screen  {
         this.camera=camera;
         this.spriteBatch=spriteBatch;
         assets = new Assets();
-        assets.loadGameAssets();
+        assets.loadMenuAssets();
+        //TODO add viewport and spriteBatch to Stage. this way spritebatch is not created again.
         stage = new Stage();
     }
 
@@ -98,7 +99,7 @@ public class SplashScreen implements Screen  {
 
     @Override
     public void pause() {
-
+        dispose();
     }
 
     @Override
@@ -109,7 +110,6 @@ public class SplashScreen implements Screen  {
 
     @Override
     public void hide() {
-
     }
 
     @Override
