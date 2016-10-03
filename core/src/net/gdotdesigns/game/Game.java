@@ -16,6 +16,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
 
 public class Game implements Screen{
@@ -50,6 +51,7 @@ public class Game implements Screen{
 
     private EnemyPool enemyPool;
     private float elapsedTime;
+    private Skin skin;
 
     public Game(Assets assets,OrthographicCamera camera,SpriteBatch spriteBatch){
         this.assets=assets;
@@ -106,13 +108,14 @@ public class Game implements Screen{
 
 
     private void loadTextures() {
-        //textureAtlas = assets.getGameAssets();
+        skin=assets.getMenuAssets();
         textureAtlas = assets.getMenuAtlas();
+        skin.addRegions(textureAtlas);
         enemyBird = new Array<TextureRegion>();
-        TextureRegion region1 = textureAtlas.findRegion("frame-1");
-        TextureRegion region2 = textureAtlas.findRegion("frame-2");
-        TextureRegion region3 = textureAtlas.findRegion("frame-3");
-        TextureRegion region4 = textureAtlas.findRegion("frame-4");
+        TextureRegion region1 = skin.getRegion("frame-1");
+        TextureRegion region2 = skin.getRegion("frame-2");
+        TextureRegion region3 = skin.getRegion("frame-3");
+        TextureRegion region4 = skin.getRegion("frame-4");
         region1.flip(true,false);
         region2.flip(true,false);
         region3.flip(true,false);
@@ -122,14 +125,14 @@ public class Game implements Screen{
         enemyBird.add(region3);
         enemyBird.add(region4);
         playerBird = new Array<TextureRegion>();
-        playerBird.add(textureAtlas.findRegion("0"));
-        playerBird.add(textureAtlas.findRegion("1"));
-        playerBird.add(textureAtlas.findRegion("2"));
-        playerBird.add(textureAtlas.findRegion("3"));
+        playerBird.add(skin.getRegion("0"));
+        playerBird.add(skin.getRegion("1"));
+        playerBird.add(skin.getRegion("2"));
+        playerBird.add(skin.getRegion("3"));
 
         enemyBirdHit = new Array<TextureRegion>();
-        TextureRegion hitRegion1 = textureAtlas.findRegion("hit-frame-1");
-        TextureRegion hitRegion2 = textureAtlas.findRegion("hit-frame-2");
+        TextureRegion hitRegion1 = skin.getRegion("hit-frame-1");
+        TextureRegion hitRegion2 = skin.getRegion("hit-frame-2");
         hitRegion1.flip(true,false);
         hitRegion2.flip(true,false);
         enemyBirdHit.add(hitRegion1);
@@ -137,13 +140,13 @@ public class Game implements Screen{
     }
 
     public void loadBackground() {
-        ParallaxLayer parallaxLayer1 = new ParallaxLayer(textureAtlas.findRegion("layer_01_1920 x 1080"),new Vector2(2f,0));
-        ParallaxLayer parallaxLayer2 = new ParallaxLayer(textureAtlas.findRegion("layer_02_1920 x 1080"),new Vector2(1f,0));
-        ParallaxLayer parallaxLayer3 = new ParallaxLayer(textureAtlas.findRegion("layer_03_1920 x 1080"),new Vector2(.90f,0));
-        ParallaxLayer parallaxLayer4 = new ParallaxLayer(textureAtlas.findRegion("layer_04_1920 x 1080"),new Vector2(.80f,0));
-        ParallaxLayer parallaxLayer5 = new ParallaxLayer(textureAtlas.findRegion("layer_05_1920 x 1080"),new Vector2(.75f,0));
-        ParallaxLayer parallaxLayer6 = new ParallaxLayer(textureAtlas.findRegion("layer_06_1920 x 1080"),new Vector2(0,0));
-        ParallaxLayer parallaxLayer7 = new ParallaxLayer(textureAtlas.findRegion("layer_07_1920 x 1080"),new Vector2(0f,0));
+        ParallaxLayer parallaxLayer1 = new ParallaxLayer(skin.getRegion("layer_01_1920 x 1080"),new Vector2(2f,0));
+        ParallaxLayer parallaxLayer2 = new ParallaxLayer(skin.getRegion("layer_02_1920 x 1080"),new Vector2(1f,0));
+        ParallaxLayer parallaxLayer3 = new ParallaxLayer(skin.getRegion("layer_03_1920 x 1080"),new Vector2(.90f,0));
+        ParallaxLayer parallaxLayer4 = new ParallaxLayer(skin.getRegion("layer_04_1920 x 1080"),new Vector2(.80f,0));
+        ParallaxLayer parallaxLayer5 = new ParallaxLayer(skin.getRegion("layer_05_1920 x 1080"),new Vector2(.75f,0));
+        ParallaxLayer parallaxLayer6 = new ParallaxLayer(skin.getRegion("layer_06_1920 x 1080"),new Vector2(0,0));
+        ParallaxLayer parallaxLayer7 = new ParallaxLayer(skin.getRegion("layer_07_1920 x 1080"),new Vector2(0f,0));
         ParallaxLayer[] parallaxArray = {parallaxLayer7,parallaxLayer6,parallaxLayer5,parallaxLayer4,parallaxLayer3,parallaxLayer2,parallaxLayer1};
         parallaxBackground = new ParallaxBackground(parallaxArray, spriteBatch,new Vector2(5,0),MainGameScreen.worldWidth,MainGameScreen.WORLD_HEIGHT);
     }
