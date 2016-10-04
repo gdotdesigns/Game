@@ -31,8 +31,7 @@ public class MainMenu implements Screen{
     TextButton stop;
     Label gameTitle;
     TextureAtlas textureAtlas;
-
-    //boolean loadGame=false;
+    FillViewport fillViewport;
 
     public MainMenu(MainGameScreen mainGameScreen,Assets assets, OrthographicCamera camera, SpriteBatch spriteBatch){
 
@@ -45,8 +44,9 @@ public class MainMenu implements Screen{
 
     @Override
     public void show() {
-        //TODO add viewport and spriteBatch to Stage. this way spritebatch is not created again.
-        stage=new Stage();
+        //TODO Need to work on proper viewport to handle correct font size.
+        fillViewport= new FillViewport(1920f,1080f);
+        stage=new Stage(fillViewport,spriteBatch);
         table = new Table();
         textureAtlas=assets.getMenuAtlas();
         skin = assets.getMenuAssets();
@@ -57,15 +57,13 @@ public class MainMenu implements Screen{
         start=new TextButton("Start",skin);
         //start.getLabel().setFontScale(.01f);
         //TODO generate new fonts for atlas to eliminate need for scaling
-        //start.getLabel().setFontScale(5.0f);
+
         start.addListener(new ClickListener(){
 
             @Override
             public void clicked(InputEvent event, float x,float y){
-                //assets.unloadMenuAssets();
-                //assets.loadGameAssets();
                 mainGameScreen.setScreen(new Game(assets, camera, spriteBatch));
-                //loadGame=true;
+                dispose();
             }
         });
 
@@ -98,17 +96,13 @@ public class MainMenu implements Screen{
     public void render(float delta) {
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-            //if (assets.manager.update()&& loadGame){
-                //mainGameScreen.setScreen(new Game(assets, camera, spriteBatch));
-        //}
         stage.act(delta);
         stage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
-
+        fillViewport.update(width,height,true);
     }
 
     @Override
@@ -126,8 +120,6 @@ public class MainMenu implements Screen{
 
     @Override
     public void dispose() {
-        assets.dispose();
         stage.dispose();
-
     }
 }

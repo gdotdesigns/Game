@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.utils.viewport.FillViewport;
 
 /**
  * Created by Todd on 9/19/2016.
@@ -27,31 +28,27 @@ public class SplashScreen implements Screen  {
     private float aspectRatio;
     private boolean fadeInComplete =false;
     private boolean fadeOutComplete = false;
+    private FillViewport fillViewport;
 
     public SplashScreen(MainGameScreen mainGameScreen,OrthographicCamera camera,SpriteBatch spriteBatch){
         this.mainGameScreen=mainGameScreen;
         this.camera=camera;
         this.spriteBatch=spriteBatch;
         assets = new Assets();
-        assets.loadMenuAssets();
-        //TODO add viewport and spriteBatch to Stage. this way spritebatch is not created again.
-        stage = new Stage();
-    }
+        assets.loadMenuAssets();}
 
 
     @Override
     public void show() {
-        aspectRatio =(float)Gdx.graphics.getWidth()/Gdx.graphics.getHeight();
-        camera.setToOrtho(false, MainGameScreen.WORLD_HEIGHT * aspectRatio, MainGameScreen.WORLD_HEIGHT);
-        camera.update();
+        fillViewport = new FillViewport(1920f,1080f);
+        stage = new Stage(fillViewport,spriteBatch);
+        //aspectRatio =(float)Gdx.graphics.getWidth()/Gdx.graphics.getHeight();
         splashTexture = new Texture(Gdx.files.internal("libgdx_splash.jpg"));
         splashImage= new Image(splashTexture);
 
 
-        splashImageWidth=splashImageHeight*aspectRatio;
-        splashImage.setOrigin(splashImage.getImageWidth()/2f,splashTexture.getHeight()/2f);
-        splashImage.setPosition(Gdx.graphics.getWidth()/2f-splashImage.getWidth()/2f,Gdx.graphics.getHeight()/2f-splashImage.getHeight()/2f);
-        //splashImage.setSize(splashImageWidth,splashImageHeight);
+        //splashImageWidth=splashImageHeight*aspectRatio;
+        splashImage.setPosition(fillViewport.getWorldWidth()/2f-splashImage.getWidth()/2f,fillViewport.getWorldHeight()/2f-splashImage.getHeight()/2f);
         splashImage.addAction(Actions.sequence(Actions.alpha(0f),Actions.fadeIn(1f),Actions.delay(2f),Actions.run(new Runnable() {
             @Override
             public void run() {
@@ -93,8 +90,9 @@ public class SplashScreen implements Screen  {
 
     @Override
     public void resize(int width, int height) {
-        aspectRatio=(float)width/height;
-        splashImageWidth=splashImageHeight*aspectRatio;
+        fillViewport.update(width,height,true);
+        //aspectRatio=(float)width/height;
+        //splashImageWidth=splashImageHeight*aspectRatio;
     }
 
     @Override
@@ -104,8 +102,6 @@ public class SplashScreen implements Screen  {
 
     @Override
     public void resume() {
-        mainGameScreen.spriteBatch=null;
-        assets=null;
     }
 
     @Override
