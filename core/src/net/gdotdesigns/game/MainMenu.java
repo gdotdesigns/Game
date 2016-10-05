@@ -69,7 +69,7 @@ public class MainMenu implements Screen{
 
 
         stop=new TextButton("Stop",skin);
-        //stop.getLabel().setFontScale(.1f);
+        //stop.getLabel().setFontScale(2f);
         stop.addListener(new ClickListener(){
 
             @Override
@@ -79,6 +79,7 @@ public class MainMenu implements Screen{
         });
 
         table.setFillParent(true);
+        table.setDebug(true);
         table.top();
         table.add(gameTitle);
         table.center();
@@ -86,7 +87,6 @@ public class MainMenu implements Screen{
         table.add(start);
         table.row();
         table.add(stop);
-
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
 
