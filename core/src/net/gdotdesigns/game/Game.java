@@ -95,6 +95,7 @@ public class Game implements Screen{
 
     @Override
     public void render (float delta) {
+        camera.update();
         float deltaTime = Gdx.graphics.getDeltaTime();
         update(deltaTime);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -103,7 +104,7 @@ public class Game implements Screen{
         parallaxBackground.render(deltaTime);
         entityManager.render(spriteBatch);
         spriteBatch.end();
-        //debugRenderer.render(world,debugMatrix);
+        debugRenderer.render(world,debugMatrix);
     }
 
 

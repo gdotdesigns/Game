@@ -30,7 +30,6 @@ public class MainMenu implements Screen{
     TextButton start;
     TextButton stop;
     Label gameTitle;
-    TextureAtlas textureAtlas;
     FillViewport fillViewport;
 
     public MainMenu(MainGameScreen mainGameScreen,Assets assets, OrthographicCamera camera, SpriteBatch spriteBatch){
@@ -45,17 +44,17 @@ public class MainMenu implements Screen{
     @Override
     public void show() {
         //TODO Need to work on proper viewport to handle correct font size.
+        //TODO Need to find proper font size
         fillViewport= new FillViewport(1920f,1080f);
+        //fillViewport= new FillViewport(800,600);
         stage=new Stage(fillViewport,spriteBatch);
         table = new Table();
-        textureAtlas=assets.getMenuAtlas();
         skin = assets.getMenuAssets();
-        skin.addRegions(textureAtlas);
+        skin.addRegions(assets.getMenuAtlas());
 
         gameTitle = new Label("Title of Game",skin);
 
         start=new TextButton("Start",skin);
-        //start.getLabel().setFontScale(.01f);
         //TODO generate new fonts for atlas to eliminate need for scaling
 
         start.addListener(new ClickListener(){
@@ -69,7 +68,6 @@ public class MainMenu implements Screen{
 
 
         stop=new TextButton("Stop",skin);
-        //stop.getLabel().setFontScale(2f);
         stop.addListener(new ClickListener(){
 
             @Override
