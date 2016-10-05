@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 
 /**
@@ -32,7 +33,10 @@ public class MainMenu implements Screen{
     Skin skin;
     TextButton start;
     TextButton stop;
-    ImageButton imageButton;
+    ImageButton imageButton1;
+    ImageButton imageButton2;
+    ImageButton imageButton3;
+
     Label gameTitle;
     FillViewport fillViewport;
 
@@ -57,8 +61,10 @@ public class MainMenu implements Screen{
         skin.addRegions(assets.getMenuAtlas());
 
         gameTitle = new Label("Title of Game",skin);
+        gameTitle.setFontScale(8f);
 
-        start=new TextButton("Start",skin);
+        start=new TextButton("Play",skin);
+        start.getLabel().setFontScale(3f);
         //TODO generate new fonts for atlas to eliminate need for scaling
 
         start.addListener(new ClickListener(){
@@ -71,7 +77,8 @@ public class MainMenu implements Screen{
         });
 
 
-        stop=new TextButton("Stop",skin);
+        stop=new TextButton("Exit",skin);
+        stop.getLabel().setFontScale(3f);
         stop.addListener(new ClickListener(){
 
             @Override
@@ -80,19 +87,22 @@ public class MainMenu implements Screen{
             }
         });
 
-        imageButton = new ImageButton(skin.getDrawable("games_achievements_green"),skin.getDrawable("games_achievements"));
+        imageButton1 = new ImageButton(skin.getDrawable("games_achievements_green"),skin.getDrawable("games_achievements"));
+        imageButton2 = new ImageButton(skin.getDrawable("games_achievements_green"),skin.getDrawable("games_achievements"));
+        imageButton3 = new ImageButton(skin.getDrawable("games_achievements_green"),skin.getDrawable("games_achievements"));
+
 
         table.setFillParent(true);
         table.setDebug(true);
-        table.top();
-        table.add(gameTitle);
-        table.center();
+        table.add(gameTitle).colspan(3);
         table.row();
-        table.add(start);
+        table.add(start).width(400f).pad(50f).colspan(3);
         table.row();
-        table.add(stop);
+        table.add(stop).width(400f).pad(50f).colspan(3);
         table.row();
-        table.add(imageButton);
+        table.add(imageButton1);
+        table.add(imageButton2);
+        table.add(imageButton3);
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
 
