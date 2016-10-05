@@ -1,151 +1,165 @@
 Game-Menu-Assets.png
-size: 1299, 1299
+size: 1707, 990
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 0
   rotate: false
-  xy: 261, 1089
+  xy: 1447, 212
   size: 259, 198
   orig: 259, 198
   offset: 0, 0
   index: -1
 1
   rotate: false
-  xy: 867, 889
+  xy: 1447, 412
   size: 259, 198
   orig: 259, 198
   offset: 0, 0
   index: -1
 2
   rotate: false
-  xy: 805, 1089
+  xy: 1332, 766
   size: 259, 198
   orig: 259, 198
   offset: 0, 0
   index: -1
 3
   rotate: false
-  xy: 1, 1089
+  xy: 1447, 1
   size: 258, 209
   orig: 258, 209
   offset: 0, 0
   index: -1
 button-down.9
   rotate: false
-  xy: 780, 907
+  xy: 261, 363
   size: 75, 27
   orig: 75, 27
   offset: 0, 0
   index: -1
 button-small-down.9
   rotate: false
-  xy: 867, 817
+  xy: 261, 392
   size: 33, 12
   orig: 33, 12
   offset: 0, 0
   index: -1
 button-small.9
   rotate: false
-  xy: 522, 1263
+  xy: 296, 392
   size: 33, 12
   orig: 33, 12
   offset: 0, 0
   index: -1
 button.9
   rotate: false
-  xy: 1128, 889
+  xy: 338, 363
   size: 75, 27
   orig: 75, 27
   offset: 0, 0
   index: -1
 checkbox-off
   rotate: false
-  xy: 902, 817
+  xy: 44, 403
   size: 6, 5
   orig: 6, 5
   offset: 0, 0
   index: -1
 checkbox
   rotate: false
-  xy: 522, 1277
+  xy: 52, 403
   size: 6, 5
   orig: 6, 5
   offset: 0, 0
   index: -1
 font-big-export
   rotate: false
-  xy: 780, 817
+  xy: 261, 273
   size: 85, 88
   orig: 85, 88
   offset: 0, 0
   index: -1
 font-export
   rotate: false
-  xy: 483, 1042
+  xy: 366, 273
   size: 29, 29
   orig: 29, 29
   offset: 0, 0
   index: -1
 frame-1
   rotate: false
-  xy: 965, 226
+  xy: 483, 770
   size: 281, 219
   orig: 281, 219
   offset: 0, 0
   index: -1
 frame-2
   rotate: false
-  xy: 965, 447
+  xy: 766, 770
   size: 281, 219
   orig: 281, 219
   offset: 0, 0
   index: -1
 frame-3
   rotate: false
-  xy: 965, 668
+  xy: 1049, 770
   size: 281, 219
   orig: 281, 219
   offset: 0, 0
   index: -1
 frame-4
   rotate: false
-  xy: 522, 1042
+  xy: 1077, 545
   size: 281, 219
   orig: 281, 219
   offset: 0, 0
   index: -1
+games_achievements
+  rotate: false
+  xy: 1, 273
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+games_achievements_green
+  rotate: false
+  xy: 131, 273
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
 hit-frame-1
   rotate: false
-  xy: 965, 1
+  xy: 483, 545
   size: 295, 223
   orig: 295, 223
   offset: 0, 0
   index: -1
 hit-frame-2
   rotate: false
-  xy: 483, 817
+  xy: 780, 545
   size: 295, 223
   orig: 295, 223
   offset: 0, 0
   index: -1
 horizontal-scroll-bar.9
   rotate: false
-  xy: 1066, 1089
+  xy: 1, 403
   size: 14, 6
   orig: 14, 6
   offset: 0, 0
   index: -1
 horizontal-scroll-knob.9
   rotate: false
-  xy: 780, 936
+  xy: 17, 403
   size: 14, 6
   orig: 14, 6
   offset: 0, 0
   index: -1
 horizontal-split-pane.9
   rotate: false
-  xy: 780, 944
+  xy: 99, 403
   size: 2, 2
   orig: 2, 2
   offset: 0, 0
@@ -159,182 +173,182 @@ layer_01_1920 x 1080
   index: -1
 layer_02_1920 x 1080
   rotate: false
-  xy: 1, 273
+  xy: 483, 1
   size: 480, 270
   orig: 480, 270
   offset: 0, 0
   index: -1
 layer_03_1920 x 1080
   rotate: false
-  xy: 483, 1
+  xy: 965, 1
   size: 480, 270
   orig: 480, 270
   offset: 0, 0
   index: -1
 layer_04_1920 x 1080
   rotate: false
-  xy: 1, 545
+  xy: 1, 412
   size: 480, 270
   orig: 480, 270
   offset: 0, 0
   index: -1
 layer_05_1920 x 1080
   rotate: false
-  xy: 483, 273
+  xy: 1, 684
   size: 480, 270
   orig: 480, 270
   offset: 0, 0
   index: -1
 layer_06_1920 x 1080
   rotate: false
-  xy: 1, 817
+  xy: 483, 273
   size: 480, 270
   orig: 480, 270
   offset: 0, 0
   index: -1
 layer_07_1920 x 1080
   rotate: false
-  xy: 483, 545
+  xy: 965, 273
   size: 480, 270
   orig: 480, 270
   offset: 0, 0
   index: -1
 list.9
   rotate: false
-  xy: 275, 1289
+  xy: 92, 403
   size: 5, 4
   orig: 5, 4
   offset: 0, 0
   index: -1
 minus
   rotate: false
-  xy: 557, 1263
+  xy: 60, 403
   size: 6, 5
   orig: 6, 5
   offset: 0, 0
   index: -1
 plus
   rotate: false
-  xy: 483, 1073
+  xy: 68, 403
   size: 6, 5
   orig: 6, 5
   offset: 0, 0
   index: -1
 progress-bar-knob-vertical.9
   rotate: false
-  xy: 1066, 1097
+  xy: 92, 409
   size: 6, 1
   orig: 6, 1
   offset: 0, 0
   index: -1
 progress-bar-knob.9
   rotate: false
-  xy: 1082, 1089
+  xy: 104, 403
   size: 1, 6
   orig: 1, 6
   offset: 0, 0
   index: -1
 progress-bar-vertical.9
   rotate: false
-  xy: 1280, 1
+  xy: 33, 403
   size: 9, 6
   orig: 9, 6
   offset: 0, 0
   index: -1
 progress-bar.9
   rotate: false
-  xy: 867, 831
+  xy: 411, 392
   size: 6, 9
   orig: 6, 9
   offset: 0, 0
   index: -1
 radio-button-off
   rotate: false
-  xy: 857, 917
+  xy: 76, 403
   size: 6, 5
   orig: 6, 5
   offset: 0, 0
   index: -1
 radio-button
   rotate: false
-  xy: 1248, 237
+  xy: 84, 403
   size: 6, 5
   orig: 6, 5
   offset: 0, 0
   index: -1
 select-box-down.9
   rotate: false
-  xy: 1248, 226
+  xy: 331, 392
   size: 12, 9
   orig: 12, 9
   offset: 0, 0
   index: -1
 select-box.9
   rotate: false
-  xy: 261, 1289
+  xy: 345, 392
   size: 12, 9
   orig: 12, 9
   offset: 0, 0
   index: -1
 slider-knob
   rotate: false
-  xy: 857, 907
+  xy: 383, 392
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 slider-vertical.9
   rotate: false
-  xy: 1205, 889
+  xy: 393, 392
   size: 7, 9
   orig: 7, 9
   offset: 0, 0
   index: -1
 slider.9
   rotate: false
-  xy: 1262, 72
+  xy: 402, 392
   size: 7, 9
   orig: 7, 9
   offset: 0, 0
   index: -1
 textfield.9
   rotate: false
-  xy: 1128, 918
+  xy: 375, 392
   size: 6, 11
   orig: 6, 11
   offset: 0, 0
   index: -1
 vertical-scroll-bar.9
   rotate: false
-  xy: 514, 1042
+  xy: 359, 392
   size: 6, 14
   orig: 6, 14
   offset: 0, 0
   index: -1
 vertical-scroll-knob.9
   rotate: false
-  xy: 514, 1058
+  xy: 367, 392
   size: 6, 14
   orig: 6, 14
   offset: 0, 0
   index: -1
 vertical-split-pane.9
   rotate: false
-  xy: 796, 936
+  xy: 100, 407
   size: 2, 2
   orig: 2, 2
   offset: 0, 0
   index: -1
 white
   rotate: false
-  xy: 865, 917
+  xy: 44, 410
   size: 0, 0
   orig: 0, 0
   offset: 0, 0
   index: -1
 window.9
   rotate: false
-  xy: 1262, 1
+  xy: 348, 273
   size: 16, 69
   orig: 16, 69
   offset: 0, 0
