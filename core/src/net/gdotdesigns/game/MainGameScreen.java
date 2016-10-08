@@ -24,9 +24,11 @@ public class MainGameScreen extends com.badlogic.gdx.Game {
 
     @Override
     public void create() {
-        aspectRatio =(float)Gdx.graphics.getWidth()/Gdx.graphics.getHeight();
-        worldWidth = WORLD_HEIGHT * aspectRatio;
-        camera=new OrthographicCamera(worldWidth,WORLD_HEIGHT);
+        //aspectRatio =(float)Gdx.graphics.getWidth()/Gdx.graphics.getHeight();
+        //worldWidth = WORLD_HEIGHT * aspectRatio;
+        //camera=new OrthographicCamera(worldWidth,WORLD_HEIGHT);
+        camera=new OrthographicCamera();
+
         //vp=new FillViewport(16,9,camera);
         //vp.apply();
         camera.update();
@@ -50,12 +52,13 @@ public class MainGameScreen extends com.badlogic.gdx.Game {
     @Override
     public void resize(int width, int height){
         super.resize(width, height);
-        aspectRatio =(float)width/height;
+        //aspectRatio =(float)width/height;
         //vp.update(width,height);
-        worldWidth = WORLD_HEIGHT * aspectRatio;
-        camera.setToOrtho(false, worldWidth, WORLD_HEIGHT);
-        spriteBatch.setProjectionMatrix(camera.combined);
-        camera.update();
+        //worldWidth = WORLD_HEIGHT * aspectRatio;
+        //camera.setToOrtho(false, worldWidth, WORLD_HEIGHT);
+
+        //spriteBatch.setProjectionMatrix(camera.combined);
+        //camera.update();
     }
 
 

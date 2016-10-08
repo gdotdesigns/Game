@@ -4,16 +4,21 @@ package net.gdotdesigns.game;
  * Created by Todd on 8/14/2016.
  */
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.viewport.FillViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class ParallaxBackground{
 
     private ParallaxLayer[] layers;
-    public static OrthographicCamera camera ;
+    public OrthographicCamera camera ;
     private SpriteBatch batch;
     private Vector2 speed = new Vector2();
+    public Viewport viewport;
 
     /**
      * @param layers  The  background layers
@@ -26,18 +31,18 @@ public class ParallaxBackground{
         this.speed.set(speed);
         this.batch=batch;
         camera = new OrthographicCamera();
-        camera.setToOrtho(false,worldWidth,worldHeight);
-        camera.update();
+        camera.setToOrtho(false);
+        float ratio = (float) Gdx.graphics.getWidth()/ (float)Gdx.graphics.getHeight();
+        viewport = new FitViewport(MainGameScreen.WORLD_HEIGHT * ratio, MainGameScreen.WORLD_HEIGHT,camera);
+        viewport.apply();
 
 
     }
 
     public void render(float delta){
         camera.position.add(speed.x*delta,speed.y*delta,0);
-        camera.update();
+        //camera.update();
         for(ParallaxLayer layer:layers){
-            camera.update();
-
             float currentX = - camera.position.x*layer.parallaxRatio.x % (Game.backgroundWidth) ;
 
             if( speed.x < 0 )currentX += -(Game.backgroundWidth);
@@ -46,7 +51,7 @@ public class ParallaxBackground{
                 if( speed.y < 0 )currentY += - (Game.BACKGROUND_HEIGHT);
                 do{
 
-                    batch.draw(layer.region, currentX, currentY,Game.backgroundWidth, Game.BACKGROUND_HEIGHT);
+                    batch.draw(layer.region, -this.camera.viewportWidth/2+currentX, -this.camera.viewportHeight/2+currentY,Game.backgroundWidth, Game.BACKGROUND_HEIGHT);
 
                     currentY += (Game.BACKGROUND_HEIGHT);
                 }while( currentY < camera.viewportHeight);

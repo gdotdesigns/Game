@@ -40,15 +40,16 @@ public class SplashScreen implements Screen  {
 
     @Override
     public void show() {
-        fillViewport = new FillViewport(1920f,1080f);
-        stage = new Stage(fillViewport,spriteBatch);
+        //fillViewport = new FillViewport(1920f,1080f);
+        //stage = new Stage(fillViewport,spriteBatch);
+        stage = new Stage();
         //aspectRatio =(float)Gdx.graphics.getWidth()/Gdx.graphics.getHeight();
         splashTexture = new Texture(Gdx.files.internal("libgdx_splash.jpg"));
         splashImage= new Image(splashTexture);
 
 
         //splashImageWidth=splashImageHeight*aspectRatio;
-        splashImage.setPosition(fillViewport.getWorldWidth()/2f-splashImage.getWidth()/2f,fillViewport.getWorldHeight()/2f-splashImage.getHeight()/2f);
+        //splashImage.setPosition(fillViewport.getWorldWidth()/2f-splashImage.getWidth()/2f,fillViewport.getWorldHeight()/2f-splashImage.getHeight()/2f);
         splashImage.addAction(Actions.sequence(Actions.alpha(0f),Actions.fadeIn(1f),Actions.delay(2f),Actions.run(new Runnable() {
             @Override
             public void run() {
@@ -90,7 +91,7 @@ public class SplashScreen implements Screen  {
 
     @Override
     public void resize(int width, int height) {
-        fillViewport.update(width,height,true);
+        //fillViewport.update(width,height,true);
         //aspectRatio=(float)width/height;
         //splashImageWidth=splashImageHeight*aspectRatio;
     }
