@@ -2,6 +2,7 @@ package net.gdotdesigns.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -10,6 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.viewport.FillViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 /**
  * Created by Todd on 9/19/2016.
@@ -23,12 +26,10 @@ public class SplashScreen implements Screen  {
     Texture splashTexture;
     Image splashImage;
     Stage stage;
-    private float splashImageWidth;
-    private float splashImageHeight=9f;
-    private float aspectRatio;
+
     private boolean fadeInComplete =false;
     private boolean fadeOutComplete = false;
-    private FillViewport fillViewport;
+    private Viewport viewport;
 
     public SplashScreen(MainGameScreen mainGameScreen,OrthographicCamera camera,SpriteBatch spriteBatch){
         this.mainGameScreen=mainGameScreen;
@@ -40,16 +41,14 @@ public class SplashScreen implements Screen  {
 
     @Override
     public void show() {
-        //fillViewport = new FillViewport(1920f,1080f);
-        //stage = new Stage(fillViewport,spriteBatch);
-        stage = new Stage();
-        //aspectRatio =(float)Gdx.graphics.getWidth()/Gdx.graphics.getHeight();
+        float ratio = (float)Gdx.graphics.getWidth()/2f / (float)Gdx.graphics.getHeight();
+        viewport = new FitViewport(Gdx.graphics.getWidth()*ratio,Gdx.graphics.getHeight(),camera);
+        viewport.apply();
+        stage = new Stage(viewport,spriteBatch);
+
         splashTexture = new Texture(Gdx.files.internal("libgdx_splash.jpg"));
         splashImage= new Image(splashTexture);
-
-
-        //splashImageWidth=splashImageHeight*aspectRatio;
-        //splashImage.setPosition(fillViewport.getWorldWidth()/2f-splashImage.getWidth()/2f,fillViewport.getWorldHeight()/2f-splashImage.getHeight()/2f);
+        splashImage.setPosition(camera.viewportWidth/2f-splashImage.getWidth()/2f,camera.viewportHeight/2f-splashImage.getHeight()/2f);
         splashImage.addAction(Actions.sequence(Actions.alpha(0f),Actions.fadeIn(1f),Actions.delay(2f),Actions.run(new Runnable() {
             @Override
             public void run() {
@@ -63,7 +62,7 @@ public class SplashScreen implements Screen  {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         update(delta);
         stage.draw();
@@ -84,16 +83,13 @@ public class SplashScreen implements Screen  {
 
         if(fadeInComplete && fadeOutComplete) {
             mainGameScreen.setScreen(new MainMenu(mainGameScreen,assets, camera, spriteBatch));
+            spriteBatch.setColor(Color.WHITE);
             dispose();
-
         }
     }
-
     @Override
     public void resize(int width, int height) {
-        //fillViewport.update(width,height,true);
-        //aspectRatio=(float)width/height;
-        //splashImageWidth=splashImageHeight*aspectRatio;
+        stage.getViewport().update(width,height,true);
     }
 
     @Override

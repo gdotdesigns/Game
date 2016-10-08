@@ -20,6 +20,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 /**
  * Created by Todd on 9/27/2016.
@@ -40,7 +41,7 @@ public class MainMenu implements Screen{
     ImageButton imageButton3;
 
     Label gameTitle;
-    //ScreenViewport fillViewport;
+    Viewport viewport;
 
     public MainMenu(MainGameScreen mainGameScreen,Assets assets, OrthographicCamera camera, SpriteBatch spriteBatch){
 
@@ -53,12 +54,10 @@ public class MainMenu implements Screen{
 
     @Override
     public void show() {
-        //TODO Need to work on proper viewport to handle correct font size.
-        //TODO Need to find proper font size
-        //fillViewport= new FillViewport(1920f,1080f);
-        //fillViewport= new ScreenViewport();
-        //stage=new Stage(fillViewport,spriteBatch);
-        stage = new Stage();
+        camera = new OrthographicCamera();
+        viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),camera);
+        viewport.apply();
+        stage=new Stage(viewport,spriteBatch);
         table = new Table();
         skin = assets.getMenuAssets();
         skin.addRegions(assets.getMenuAtlas());
@@ -121,7 +120,7 @@ public class MainMenu implements Screen{
 
     @Override
     public void resize(int width, int height) {
-        //fillViewport.update(width,height,true);
+        stage.getViewport().update(width,height,true);
     }
 
     @Override

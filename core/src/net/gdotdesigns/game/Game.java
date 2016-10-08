@@ -7,10 +7,12 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2D;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
@@ -31,8 +33,7 @@ public class Game implements Screen{
 
     public static float backgroundWidth;
 	public static final float BACKGROUND_HEIGHT=MainGameScreen.WORLD_HEIGHT;
-    //public static final float GRAVITY = -9.8f;
-    public static final float GRAVITY = 0f;
+    public static final float GRAVITY = -9.8f;
 
 
     public  World world;
@@ -41,7 +42,7 @@ public class Game implements Screen{
     public  static Body rightWallBody;
     public  static Body topWallBody;
 
-    //private  Box2DDebugRenderer debugRenderer;
+    private Box2DDebugRenderer debugRenderer;
     private Assets assets;
     private SpriteBatch spriteBatch;
 	private TextureAtlas textureAtlas;
@@ -70,17 +71,14 @@ public class Game implements Screen{
         camera.setToOrtho(false);
         float ratio=(float)Gdx.graphics.getWidth()/(float)Gdx.graphics.getHeight();
         backgroundWidth =BACKGROUND_HEIGHT*ratio;
-
         viewport = new FitViewport(MainGameScreen.WORLD_HEIGHT * ratio, MainGameScreen.WORLD_HEIGHT,camera);
         viewport.apply();
         camera.position.set(0,0,0);
-
         Gdx.gl.glClearColor(0, 0, 0, 1);
         loadTextures();
         loadBackground();
         createWorld();
         enemyPool = new EnemyPool(100,100,world,textureAtlas);
-       // entityManager.addEntity(new Player(camera.viewportWidth/2f, camera.viewportHeight/2f, playerBirdWidth, playerBirdHeight, 1f, .8f, world,playerBird));
         entityManager.addEntity(new Player(0, 0, playerBirdWidth, playerBirdHeight, 1f, .8f, world,playerBird));
 
         Inputs inputs = new Inputs(camera, world);
@@ -94,7 +92,7 @@ public class Game implements Screen{
         entityManager.destroyEntity(world);
 
         if(elapsedTime - deltaTime > ENEMY_SPAWN_TIME){
-            //spawnEnemy();
+            spawnEnemy();
         }
         entityManager.update(deltaTime, camera);
 
@@ -102,7 +100,7 @@ public class Game implements Screen{
 
     public void spawnEnemy(){
         Enemy enemy = enemyPool.obtain();
-        enemy.init(camera.viewportWidth+ENEMY_BIRD_WIDTH, camera.viewportHeight/2f, ENEMY_BIRD_WIDTH, ENEMY_BIRD_HEIGHT, 1f, .001f, world, enemyBird,enemyBirdHit,enemyPool);
+        enemy.init(camera.viewportWidth/2f+ENEMY_BIRD_WIDTH, 0, ENEMY_BIRD_WIDTH, ENEMY_BIRD_HEIGHT, 1f, .001f, world, enemyBird,enemyBirdHit,enemyPool);
         entityManager.addEntity(enemy);
         elapsedTime=0;
     }
@@ -110,17 +108,16 @@ public class Game implements Screen{
     @Override
     public void render (float delta) {
         camera.update();
-        // viewport.apply();
         float deltaTime = Gdx.graphics.getDeltaTime();
         update(deltaTime);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        //Matrix4 debugMatrix= spriteBatch.getProjectionMatrix().cpy().scale(1f,1f,0);
+        Matrix4 debugMatrix= spriteBatch.getProjectionMatrix().cpy().scale(1f,1f,0);
         spriteBatch.setProjectionMatrix(camera.combined);
         spriteBatch.begin();
         parallaxBackground.render(deltaTime);
         entityManager.render(spriteBatch);
         spriteBatch.end();
-        //debugRenderer.render(world,debugMatrix);
+        debugRenderer.render(world,debugMatrix);
     }
 
 
@@ -165,18 +162,18 @@ public class Game implements Screen{
         ParallaxLayer parallaxLayer6 = new ParallaxLayer(skin.getRegion("layer_06_1920 x 1080"),new Vector2(0,0));
         ParallaxLayer parallaxLayer7 = new ParallaxLayer(skin.getRegion("layer_07_1920 x 1080"),new Vector2(0f,0));
         ParallaxLayer[] parallaxArray = {parallaxLayer7,parallaxLayer6,parallaxLayer5,parallaxLayer4,parallaxLayer3,parallaxLayer2,parallaxLayer1};
-        parallaxBackground = new ParallaxBackground(parallaxArray, spriteBatch,new Vector2(5,0),MainGameScreen.worldWidth,MainGameScreen.WORLD_HEIGHT);
+        parallaxBackground = new ParallaxBackground(parallaxArray, spriteBatch,new Vector2(5,0));
     }
 
     private void createWorld() {
         Box2D.init();
         world = new World(new Vector2(0,GRAVITY),true);
-        //groundBody=createStaticBody(0f,0f,0f,0f,camera.viewportWidth,0f);
+        groundBody=createStaticBody(0f,0f,-camera.viewportWidth/2f,-camera.viewportHeight/2f,camera.viewportWidth,-camera.viewportHeight/2f);
         //leftWallBody=createStaticBody(0,0,-camera.viewportWidth/2f,-camera.viewportHeight/2f,-camera.viewportWidth/2f,camera.viewportHeight/2f);
         //rightWallBody=createStaticBody(0,0,camera.viewportWidth/2f,-camera.viewportHeight/2f,camera.viewportWidth/2f,camera.viewportHeight/2f);
-        //topWallBody=createStaticBody(0f,0f,0f,camera.viewportHeight,camera.viewportWidth,camera.viewportHeight);
+        topWallBody=createStaticBody(0f,0f,-camera.viewportWidth/2f,camera.viewportHeight/2f,camera.viewportWidth/2f,camera.viewportHeight/2f);
 
-        //debugRenderer=new Box2DDebugRenderer();
+        debugRenderer=new Box2DDebugRenderer();
     }
 
 
@@ -200,12 +197,10 @@ public class Game implements Screen{
 
     @Override
 	public void resize(int width, int height) {
-        float ratio=(float)width/height;
         viewport.update(width,height);
         parallaxBackground.viewport.update(width,height);
-        backgroundWidth =BACKGROUND_HEIGHT*ratio;
-        playerBirdWidth=playerBirdHeight*ratio;
     }
+
 
     @Override
     public void pause() {
@@ -226,7 +221,7 @@ public class Game implements Screen{
 	public void dispose () {
         world.dispose();
         entityManager.dispose();
-        //debugRenderer.dispose();
+        debugRenderer.dispose();
         enemyPool.clear();
         assets.dispose();
     }
