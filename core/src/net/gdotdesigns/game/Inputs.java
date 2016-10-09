@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 /**
  * Created by Todd on 8/20/2016.
@@ -17,12 +18,14 @@ public class Inputs implements InputProcessor{
     OrthographicCamera camera;
     World world;
     Body body;
+    Viewport viewport;
 
 
 
-    public Inputs(OrthographicCamera camera, World world){
+    public Inputs(OrthographicCamera camera, World world, Viewport viewport){
         this.camera = camera;
         this.world = world;
+        this.viewport = viewport;
     }
 
     private QueryCallback queryCallback = new QueryCallback() {
@@ -63,7 +66,7 @@ public class Inputs implements InputProcessor{
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         vec3.set(screenX,screenY,0);
-        camera.unproject(vec3);
+        viewport.unproject(vec3); //When using a viewport, you must unproject the viewport and not the camera...
         world.QueryAABB(queryCallback,vec3.x,vec3.y,vec3.x,vec3.y);
         return true;
     }

@@ -34,6 +34,7 @@ public class ParallaxBackground{
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false);
+        camera.position.set(0,0,0);
         camera.update();
 
         float ratio=(float)Gdx.graphics.getWidth()/(float)Gdx.graphics.getHeight();

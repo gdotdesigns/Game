@@ -55,7 +55,7 @@ public class MainMenu implements Screen{
     @Override
     public void show() {
         camera = new OrthographicCamera();
-        viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),camera);
+        viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),camera); //A ratio did not give correct response, probably due to the stage actors are not images...
         viewport.apply();
         stage=new Stage(viewport,spriteBatch);
         table = new Table();

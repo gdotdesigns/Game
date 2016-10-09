@@ -83,7 +83,7 @@ public class SplashScreen implements Screen  {
 
         if(fadeInComplete && fadeOutComplete) {
             mainGameScreen.setScreen(new MainMenu(mainGameScreen,assets, camera, spriteBatch));
-            spriteBatch.setColor(Color.WHITE);
+            spriteBatch.setColor(Color.WHITE);//Reset spriteBatch due to alpha change, it has to be done manually...
             dispose();
         }
     }

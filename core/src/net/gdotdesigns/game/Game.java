@@ -62,7 +62,7 @@ public class Game implements Screen{
         this.assets=assets;
         this.camera=camera;
         this.spriteBatch=spriteBatch;
-        this.entityManager=new EntityManager();
+        this.entityManager=new EntityManager();//Made an object instead of a static class due to Android issues with glitched textures...
     }
 
 
@@ -72,16 +72,16 @@ public class Game implements Screen{
         float ratio=(float)Gdx.graphics.getWidth()/(float)Gdx.graphics.getHeight();
         backgroundWidth =BACKGROUND_HEIGHT*ratio;
         viewport = new FitViewport(MainGameScreen.WORLD_HEIGHT * ratio, MainGameScreen.WORLD_HEIGHT,camera);
-        viewport.apply();
+        viewport.apply(); //You must viewport.apply(), or viewport does not function...
         camera.position.set(0,0,0);
         Gdx.gl.glClearColor(0, 0, 0, 1);
         loadTextures();
         loadBackground();
         createWorld();
-        enemyPool = new EnemyPool(100,100,world,textureAtlas);
+        enemyPool = new EnemyPool(10,10,world,textureAtlas);
         entityManager.addEntity(new Player(0, 0, playerBirdWidth, playerBirdHeight, 1f, .8f, world,playerBird));
 
-        Inputs inputs = new Inputs(camera, world);
+        Inputs inputs = new Inputs(camera, world,viewport);
         Gdx.input.setInputProcessor(inputs);
         world.setContactListener(new EntityCollision(entityManager));
     }
@@ -197,7 +197,7 @@ public class Game implements Screen{
 
     @Override
 	public void resize(int width, int height) {
-        viewport.update(width,height);
+        viewport.update(width ,height);  //You must update viewport in resize or viewport will not function...
         parallaxBackground.viewport.update(width,height);
     }
 
