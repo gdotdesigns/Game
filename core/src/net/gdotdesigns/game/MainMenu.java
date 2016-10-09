@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -56,10 +57,11 @@ public class MainMenu implements Screen{
         skin = assets.getMenuAssets();
 
         gameTitle = new Label("Title of Game",skin);
-        gameTitle.setFontScale(8f);
+        gameTitle.setFontScale(10f);
 
         start=new TextButton("Play",skin);
-        start.getLabel().setFontScale(3f);
+        start.getLabel().setFontScale(6f);
+        start.getLabel().setAlignment(Align.top);
         //TODO generate new fonts for atlas to eliminate need for scaling
 
         start.addListener(new ClickListener(){
@@ -73,7 +75,8 @@ public class MainMenu implements Screen{
 
 
         stop=new TextButton("Exit",skin);
-        stop.getLabel().setFontScale(3f);
+        stop.getLabel().setFontScale(6f);
+        stop.getLabel().setAlignment(Align.top);
         stop.addListener(new ClickListener(){
 
             @Override
@@ -88,12 +91,12 @@ public class MainMenu implements Screen{
 
 
         table.setFillParent(true);
-        table.setDebug(true);
+        //table.setDebug(true);
         table.add(gameTitle).colspan(3);
         table.row();
-        table.add(start).width(400f).pad(50f).colspan(3);
+        table.add(start).width(900f).height(300f).pad(25f).colspan(3);
         table.row();
-        table.add(stop).width(400f).pad(50f).colspan(3);
+        table.add(stop).width(800f).height(300f).pad(25f).colspan(3);
         table.row();
         table.add(imageButton1);
         table.add(imageButton2);
