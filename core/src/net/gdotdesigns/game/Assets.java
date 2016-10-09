@@ -1,9 +1,6 @@
 package net.gdotdesigns.game;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.SkinLoader;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 /**
@@ -11,22 +8,19 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
  */
 public class Assets {
 
-    private static final String MENU_ATLAS = "Game-Menu-Assets.txt";
-    private static final String MENU_SKIN = "neon-ui.json";
+    private static final String MENU_SKIN = "GameAssets.json";
 
 
     public AssetManager manager = new AssetManager();
 
 
     public void loadMenuAssets() {
-        manager.load(MENU_ATLAS,TextureAtlas.class);
         manager.load(MENU_SKIN, Skin.class);
     }
 
     public Skin getMenuAssets(){return manager.get(MENU_SKIN,Skin.class);}
 
 
-    public TextureAtlas getMenuAtlas(){return manager.get(MENU_ATLAS,TextureAtlas.class);}
 
 
 

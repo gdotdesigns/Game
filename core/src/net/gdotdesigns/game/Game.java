@@ -18,7 +18,6 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -123,8 +122,6 @@ public class Game implements Screen{
 
     private void loadTextures() {
         skin=assets.getMenuAssets();
-        textureAtlas = assets.getMenuAtlas();
-        skin.addRegions(textureAtlas);
         enemyBird = new Array<TextureRegion>();
         TextureRegion region1 = skin.getRegion("frame-1");
         TextureRegion region2 = skin.getRegion("frame-2");

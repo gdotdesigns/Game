@@ -220,7 +220,6 @@ com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
 		down: button-pressed-c
 		over: button-over-c
 	}
-
 }
 com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle: {
 	default: {
@@ -283,7 +282,7 @@ com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle: {
 }
 com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	default: {
-		font: font-over
+		font: font
 		fontColor: text
 	}
 	over: {
@@ -361,7 +360,7 @@ com.badlogic.gdx.scenes.scene2d.ui.SplitPane$SplitPaneStyle: {
 }
 com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 	default: {
-		font: font-over
+		font: font
 		fontColor: text
 		downFontColor: text-selected
 		up: button-c

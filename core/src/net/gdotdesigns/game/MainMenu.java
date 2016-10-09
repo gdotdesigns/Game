@@ -4,10 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -16,10 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 /**
@@ -60,7 +54,6 @@ public class MainMenu implements Screen{
         stage=new Stage(viewport,spriteBatch);
         table = new Table();
         skin = assets.getMenuAssets();
-        skin.addRegions(assets.getMenuAtlas());
 
         gameTitle = new Label("Title of Game",skin);
         gameTitle.setFontScale(8f);
@@ -90,8 +83,8 @@ public class MainMenu implements Screen{
         });
 
         imageButton1 = new ImageButton(skin.getDrawable("games_achievements_green"),skin.getDrawable("games_achievements"));
-        imageButton2 = new ImageButton(skin.getDrawable("games_achievements_green"),skin.getDrawable("games_achievements"));
-        imageButton3 = new ImageButton(skin.getDrawable("games_achievements_green"),skin.getDrawable("games_achievements"));
+        imageButton2 = new ImageButton(skin.getDrawable("games_controller"),skin.getDrawable("games_controller_grey"));
+        imageButton3 = new ImageButton(skin.getDrawable("games_leaderboards_green"),skin.getDrawable("games_leaderboards"));
 
 
         table.setFillParent(true);
