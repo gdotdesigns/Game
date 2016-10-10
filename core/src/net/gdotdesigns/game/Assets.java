@@ -14,9 +14,7 @@ public class Assets {
     public AssetManager manager = new AssetManager();
 
 
-    public void loadMenuAssets() {
-        manager.load(MENU_SKIN, Skin.class);
-    }
+    public void loadMenuAssets() {manager.load(MENU_SKIN, Skin.class);} //This automatically loads the corresponding atlas file with the same name as JSON file...
 
     public Skin getMenuAssets(){return manager.get(MENU_SKIN,Skin.class);}
 
