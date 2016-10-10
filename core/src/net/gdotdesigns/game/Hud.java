@@ -34,7 +34,7 @@ public class Hud {
         table= new Table();
         scoreLabel = new String("Enemies Killed: " + score);
         label= new Label(scoreLabel,skin);
-        label.setFontScale(3f);
+        label.setFontScale(6f);
         table.setFillParent(true);
         table.align(Align.topLeft);
         table.add(label).pad(20f);
