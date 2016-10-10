@@ -51,6 +51,7 @@ public class Game implements Screen{
     public OrthographicCamera camera;
     private  ParallaxBackground parallaxBackground;
     private EntityManager entityManager;
+    private Hud hud;
 
     private EnemyPool enemyPool;
     private float elapsedTime;
@@ -62,6 +63,7 @@ public class Game implements Screen{
         this.camera=camera;
         this.spriteBatch=spriteBatch;
         this.entityManager=new EntityManager();//Made an object instead of a static class due to Android issues with glitched textures...
+
     }
 
 
@@ -76,6 +78,7 @@ public class Game implements Screen{
         Gdx.gl.glClearColor(0, 0, 0, 1);
         loadTextures();
         loadBackground();
+        hud = new Hud(skin,spriteBatch);
         createWorld();
         enemyPool = new EnemyPool(10,10,world,textureAtlas);
         entityManager.addEntity(new Player(0, 0, playerBirdWidth, playerBirdHeight, 1f, .8f, world,playerBird));
@@ -99,7 +102,7 @@ public class Game implements Screen{
 
     public void spawnEnemy(){
         Enemy enemy = enemyPool.obtain();
-        enemy.init(camera.viewportWidth/2f+ENEMY_BIRD_WIDTH, 0, ENEMY_BIRD_WIDTH, ENEMY_BIRD_HEIGHT, 1f, .001f, world, enemyBird,enemyBirdHit,enemyPool);
+        enemy.init(camera.viewportWidth/2f+ENEMY_BIRD_WIDTH, 0, ENEMY_BIRD_WIDTH, ENEMY_BIRD_HEIGHT, 1f, .001f, world, enemyBird,enemyBirdHit,enemyPool,hud);
         entityManager.addEntity(enemy);
         elapsedTime=0;
     }
@@ -116,6 +119,8 @@ public class Game implements Screen{
         parallaxBackground.render(deltaTime);
         entityManager.render(spriteBatch);
         spriteBatch.end();
+        hud.update(delta);
+        hud.draw(delta);
         debugRenderer.render(world,debugMatrix);
     }
 
@@ -196,6 +201,7 @@ public class Game implements Screen{
 	public void resize(int width, int height) {
         viewport.update(width ,height);  //You must update viewport in resize or viewport will not function...
         parallaxBackground.viewport.update(width,height);
+        hud.viewport.update(width, height);
     }
 
 

@@ -44,10 +44,11 @@ public class Enemy extends Entity implements Pool.Poolable{
     float flapHeight = MathUtils.random(2.5f,9f);
     float flapTimer;
     boolean isAlive;
+    Hud hud;
 
 
 
-    public void init(float bodyloc_x, float bodyloc_y, float shapesize_x, float shapesize_y, float density, float restitution, World world, Array<TextureRegion> enemyBird,Array<TextureRegion> enemyBirdHit, EnemyPool pool){
+    public void init(float bodyloc_x, float bodyloc_y, float shapesize_x, float shapesize_y, float density, float restitution, World world, Array<TextureRegion> enemyBird,Array<TextureRegion> enemyBirdHit, EnemyPool pool,Hud hud){
         this.bodyloc_x = bodyloc_x;
         this.bodyloc_y =bodyloc_y;
         this.shapesize_x= shapesize_x;
@@ -66,6 +67,7 @@ public class Enemy extends Entity implements Pool.Poolable{
         sprite.setScale(1f,1f);
         enemyBirdVector = new Vector2();
         createDynamicBody();
+        this.hud=hud;
     }
 
     private void createDynamicBody() {
@@ -110,6 +112,7 @@ public class Enemy extends Entity implements Pool.Poolable{
             isAlive = false;
             body.setGravityScale(3f);
             body.setLinearVelocity(-3f,12f);
+            hud.killCount();
         }
     }
 
