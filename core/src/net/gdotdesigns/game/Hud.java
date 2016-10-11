@@ -1,7 +1,6 @@
 package net.gdotdesigns.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -34,10 +33,10 @@ public class Hud {
         table= new Table();
         scoreLabel = new String("Enemies Killed: " + score);
         label= new Label(scoreLabel,skin);
-        label.setFontScale(6f);
+        //label.setFontScale(6f); //When setting the scale of the font in skin(MainMenu), it changes the size for all usages afterwards...
         table.setFillParent(true);
         table.align(Align.topLeft);
-        table.add(label).pad(20f);
+        table.add(label).pad(10f);
         stage.addActor(table);
 
     }

@@ -55,14 +55,15 @@ public class MainMenu implements Screen{
         stage=new Stage(viewport,spriteBatch);
         table = new Table();
         skin = assets.getMenuAssets();
-
+        //TODO find formula to scale fonts to screen size.
+        //TODO 9-patch buttons are not wide enough by default for the text
+        //TODO figure out how to load fonts with mip-maping MipMapLinear, Linear to help with text blurriness when scaling
+        skin.getFont("font").getData().setScale(4f);
         gameTitle = new Label("Title of Game",skin);
-        gameTitle.setFontScale(10f);
 
         start=new TextButton("Play",skin);
-        start.getLabel().setFontScale(6f);
-        start.getLabel().setAlignment(Align.top);
-        //TODO generate new fonts for atlas to eliminate need for scaling
+        start.getLabelCell().padBottom(30f);
+
 
         start.addListener(new ClickListener(){
 
@@ -75,8 +76,7 @@ public class MainMenu implements Screen{
 
 
         stop=new TextButton("Exit",skin);
-        stop.getLabel().setFontScale(6f);
-        stop.getLabel().setAlignment(Align.top);
+        stop.getLabelCell().padBottom(30f);
         stop.addListener(new ClickListener(){
 
             @Override
@@ -91,12 +91,12 @@ public class MainMenu implements Screen{
 
 
         table.setFillParent(true);
-        //table.setDebug(true);
+        table.setDebug(true);
         table.add(gameTitle).colspan(3);
         table.row();
-        table.add(start).width(900f).height(300f).pad(25f).colspan(3);
+        table.add(start).colspan(3).fillX().uniform();
         table.row();
-        table.add(stop).width(800f).height(300f).pad(25f).colspan(3);
+        table.add(stop).colspan(3).fillX().uniform();
         table.row();
         table.add(imageButton1);
         table.add(imageButton2);
