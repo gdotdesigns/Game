@@ -27,7 +27,7 @@ public class Hud {
 
     public Hud(Skin skin, SpriteBatch spriteBatch){
         camera = new OrthographicCamera();
-        viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),camera);
+        viewport = new FitViewport(1920,1080,camera);
         viewport.apply();
         stage = new Stage(viewport,spriteBatch);
         table= new Table();

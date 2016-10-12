@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -15,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 /**
@@ -50,7 +52,8 @@ public class MainMenu implements Screen{
     @Override
     public void show() {
         camera = new OrthographicCamera();
-        viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),camera); //A ratio did not give correct response, probably due to the stage actors are not images...
+        viewport = new FitViewport(1920, 1080,camera); //A ratio did not give correct response, probably due to the stage actors are not images...
+        //viewport= new ScreenViewport(camera);
         viewport.apply();
         stage=new Stage(viewport,spriteBatch);
         table = new Table();
@@ -58,11 +61,14 @@ public class MainMenu implements Screen{
         //TODO find formula to scale fonts to screen size.
         //TODO 9-patch buttons are not wide enough by default for the text
         //TODO figure out how to load fonts with mip-maping MipMapLinear, Linear to help with text blurriness when scaling
-        skin.getFont("font").getData().setScale(4f);
+        skin.getFont("font").getData().setScale(6f); //When setting the scale of the font in skin(MainMenu), it changes the size for all usages afterwards...
+        skin.getFont("font").getRegion().getTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Linear);
+
         gameTitle = new Label("Title of Game",skin);
+        //gameTitle.setFontScale(7f);
 
         start=new TextButton("Play",skin);
-        start.getLabelCell().padBottom(30f);
+        start.getLabelCell().padBottom(40f);
 
 
         start.addListener(new ClickListener(){
