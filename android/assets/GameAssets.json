@@ -3,12 +3,6 @@ com.badlogic.gdx.graphics.g2d.BitmapFont: {
 	font: {
 		file: infected.fnt
 	}
-	font-over: {
-		file: font-over-export.fnt
-	}
-	font-pressed: {
-		file: font-pressed-export.fnt
-	}
 }
 com.badlogic.gdx.graphics.Color: {
 	color: {
@@ -286,11 +280,11 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 		fontColor: text
 	}
 	over: {
-		font: font-over
+		font: font
 		fontColor: text
 	}
 	pressed: {
-		font: font-pressed
+		font: font
 		fontColor: text
 	}
 }

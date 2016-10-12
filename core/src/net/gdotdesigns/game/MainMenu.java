@@ -66,7 +66,7 @@ public class MainMenu implements Screen{
 
         gameTitle = new Label("Title of Game",skin);
         //gameTitle.setFontScale(7f);
-
+        //http://stackoverflow.com/questions/14675007/how-to-draw-smooth-text-in-libgdx
         start=new TextButton("Play",skin);
         start.getLabelCell().padBottom(40f);
 
