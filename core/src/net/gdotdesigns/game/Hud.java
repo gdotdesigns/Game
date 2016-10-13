@@ -22,8 +22,11 @@ public class Hud {
     Skin skin;
     Table table;
     Label label;
+    Label fps;
     public int score=0;
+    public int calculateFrameRate;
     public String scoreLabel;
+    public String frameRate;
 
     public Hud(Skin skin, SpriteBatch spriteBatch){
         camera = new OrthographicCamera();
@@ -32,27 +35,34 @@ public class Hud {
         stage = new Stage(viewport,spriteBatch);
         table= new Table();
         scoreLabel = new String("Enemies Killed: " + score);
+        frameRate= new String("Frame Rate: " + calculateFrameRate);
         label= new Label(scoreLabel,skin);
+        fps=new Label(frameRate,skin);
         //label.setFontScale(6f); //When setting the scale of the font in skin(MainMenu), it changes the size for all usages afterwards...
         table.setFillParent(true);
         table.align(Align.topLeft);
         table.add(label).pad(10f);
+        table.row();
+        table.add(fps);
         stage.addActor(table);
 
     }
 
     public void update(float deltaTime){
         stage.act(deltaTime);
+        calculateFrameRate=Gdx.graphics.getFramesPerSecond();
 
     }
 
     public void draw(float deltaTime){
-        stage.draw();
+        stage.draw();fps.setText(frameRate + calculateFrameRate);
     }
+
 
     public  void killCount(){
         score++;
-        label.setText("Enemies Killed: " + score);
+        label.setText(scoreLabel + score);
+
     }
 
 }

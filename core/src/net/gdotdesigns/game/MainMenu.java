@@ -61,7 +61,7 @@ public class MainMenu implements Screen{
         //TODO find formula to scale fonts to screen size.
         //TODO 9-patch buttons are not wide enough by default for the text
         //TODO figure out how to load fonts with mip-maping MipMapLinear, Linear to help with text blurriness when scaling
-        //skin.getFont("font").getData().setScale(2f); //When setting the scale of the font in skin(MainMenu), it changes the size for all usages afterwards...
+        skin.getFont("font").getData().setScale(1.5f); //When setting the scale of the font in skin(MainMenu), it changes the size for all usages afterwards...
         //skin.getFont("font").getRegion().getTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Linear);
 
         gameTitle = new Label("Title of Game",skin);
