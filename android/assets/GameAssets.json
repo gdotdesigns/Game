@@ -1,7 +1,7 @@
 {
 com.badlogic.gdx.graphics.g2d.BitmapFont: {
 	font: {
-		file: infected.fnt
+		file: infected64.fnt
 	}
 }
 com.badlogic.gdx.graphics.Color: {

@@ -1,7 +1,7 @@
 info face="INFECTED" size=64 bold=0 italic=0 charset="" unicode=1 stretchH=100 smooth=1 aa=2 padding=1,1,1,1 spacing=2,2 outline=0
 common lineHeight=64 base=42 scaleW=256 scaleH=256 pages=2 packed=0 alphaChnl=1 redChnl=0 greenChnl=0 blueChnl=0
-page id=0 file="Infected64_0.png"
-page id=1 file="Infected64_1.png"
+page id=0 file="infected64_0.png"
+page id=1 file="infected64_1.png"
 chars count=190
 char id=32   x=94    y=101   width=3     height=3     xoffset=-1    yoffset=-1    xadvance=12    page=0  chnl=15
 char id=33   x=240   y=0     width=3     height=3     xoffset=-1    yoffset=-1    xadvance=12    page=0  chnl=15
