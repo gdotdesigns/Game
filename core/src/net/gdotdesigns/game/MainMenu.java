@@ -53,7 +53,6 @@ public class MainMenu implements Screen{
     public void show() {
         camera = new OrthographicCamera();
         viewport = new FitViewport(1920, 1080,camera); //A ratio did not give correct response, probably due to the stage actors are not images...
-        //viewport= new ScreenViewport(camera);
         viewport.apply();
         stage=new Stage(viewport,spriteBatch);
         table = new Table();
@@ -61,14 +60,11 @@ public class MainMenu implements Screen{
         //TODO find formula to scale fonts to screen size.
         //TODO 9-patch buttons are not wide enough by default for the text
         //TODO figure out how to load fonts with mip-maping MipMapLinear, Linear to help with text blurriness when scaling
-        skin.getFont("font").getData().setScale(1.5f); //When setting the scale of the font in skin(MainMenu), it changes the size for all usages afterwards...
-        //skin.getFont("font").getRegion().getTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Linear);
 
         gameTitle = new Label("Title of Game",skin);
-        //gameTitle.setFontScale(7f);
-        //http://stackoverflow.com/questions/14675007/how-to-draw-smooth-text-in-libgdx
+        gameTitle.setFontScale(2f);
         start=new TextButton("Play",skin);
-        start.getLabelCell().padBottom(40f);
+        //start.getLabelCell().padBottom(40f);
 
 
         start.addListener(new ClickListener(){
@@ -82,7 +78,7 @@ public class MainMenu implements Screen{
 
 
         stop=new TextButton("Exit",skin);
-        stop.getLabelCell().padBottom(30f);
+        //stop.getLabelCell().padBottom(30f);
         stop.addListener(new ClickListener(){
 
             @Override

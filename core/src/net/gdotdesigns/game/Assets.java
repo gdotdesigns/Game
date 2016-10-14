@@ -2,6 +2,9 @@ package net.gdotdesigns.game;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.SkinLoader;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.assets.loaders.resolvers.ResolutionFileResolver;
+import com.badlogic.gdx.assets.loaders.resolvers.ResolutionFileResolver.Resolution;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 /**
@@ -12,18 +15,18 @@ public class Assets {
     private static final String MENU_SKIN = "GameAssets.json";
 
 
-    public AssetManager manager = new AssetManager();
+    AssetManager manager = new AssetManager();
+    Resolution small =new Resolution(320, 480, "small");
+    Resolution medium =new Resolution(480, 800, "medium");
+    Resolution large =new Resolution(1080, 1920, "large");
+    ResolutionFileResolver resolver = new ResolutionFileResolver(new InternalFileHandleResolver(),small,medium,large);
 
-
-    //public void loadMenuAssets() {manager.load(MENU_SKIN, Skin.class);} //This automatically loads the corresponding atlas file with the same name as JSON file...
-
-   public void loadMenuAssets() {manager.load(MENU_SKIN, Skin.class, new SkinLoader.SkinParameter("GameAssets64.atlas"));}
+   public void loadMenuAssets() {
+       manager.setLoader(Skin.class,new SkinLoader(resolver));
+       manager.load(MENU_SKIN, Skin.class);// Delete the _0,_1, ... in the atlas and the .fnt file.
+   }
 
     public Skin getMenuAssets(){return manager.get(MENU_SKIN,Skin.class);}
-
-
-
-
 
     public void dispose(){
         manager.dispose();

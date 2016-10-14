@@ -1,12 +1,12 @@
 info face="INFECTED" size=128 bold=0 italic=0 charset="" unicode=1 stretchH=100 smooth=1 aa=2 padding=1,1,1,1 spacing=2,2 outline=0
 common lineHeight=128 base=83 scaleW=256 scaleH=256 pages=7 packed=0 alphaChnl=1 redChnl=0 greenChnl=0 blueChnl=0
-page id=0 file="infected128_0.png"
-page id=1 file="infected128_1.png"
-page id=2 file="infected128_2.png"
-page id=3 file="infected128_3.png"
-page id=4 file="infected128_4.png"
-page id=5 file="infected128_5.png"
-page id=6 file="infected128_6.png"
+page id=0 file="infected128.png"
+page id=1 file="infected128.png"
+page id=2 file="infected128.png"
+page id=3 file="infected128.png"
+page id=4 file="infected128.png"
+page id=5 file="infected128.png"
+page id=6 file="infected128.png"
 chars count=190
 char id=32   x=237   y=10    width=3     height=3     xoffset=-1    yoffset=-1    xadvance=25    page=0  chnl=15
 char id=33   x=213   y=0     width=3     height=3     xoffset=-1    yoffset=-1    xadvance=25    page=0  chnl=15

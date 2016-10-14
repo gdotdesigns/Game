@@ -38,12 +38,10 @@ public class Hud {
         frameRate= new String("Frame Rate: " + calculateFrameRate);
         label= new Label(scoreLabel,skin);
         fps=new Label(frameRate,skin);
-        //label.setFontScale(6f); //When setting the scale of the font in skin(MainMenu), it changes the size for all usages afterwards...
         table.setFillParent(true);
-        table.align(Align.topLeft);
-        table.add(label).pad(10f);
-        table.row();
-        table.add(fps);
+        table.align(Align.top);
+        table.add(label).padBottom(30f).padLeft(30f).align(Align.left).expandX();
+        table.add(fps).padBottom(30f).padRight(30f).align(Align.right).expandX();
         stage.addActor(table);
 
     }
@@ -55,7 +53,8 @@ public class Hud {
     }
 
     public void draw(float deltaTime){
-        stage.draw();fps.setText(frameRate + calculateFrameRate);
+        stage.draw();
+        fps.setText(frameRate + calculateFrameRate);
     }
 
 
