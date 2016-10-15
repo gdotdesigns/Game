@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 /**
@@ -30,7 +31,8 @@ public class Hud {
 
     public Hud(Skin skin, SpriteBatch spriteBatch){
         camera = new OrthographicCamera();
-        viewport = new FitViewport(1920,1080,camera);
+        //viewport = new FitViewport(1920,1080,camera);
+        viewport = new ScreenViewport(camera);
         viewport.apply();
         stage = new Stage(viewport,spriteBatch);
         table= new Table();

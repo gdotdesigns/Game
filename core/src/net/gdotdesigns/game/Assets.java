@@ -14,16 +14,20 @@ public class Assets {
 
     private static final String MENU_SKIN = "GameAssets.json";
 
-
+    //http://andrew.hedges.name/experiments/aspect_ratio/
     AssetManager manager = new AssetManager();
-    Resolution small =new Resolution(320, 480, "small");
-    Resolution medium =new Resolution(480, 800, "medium");
-    Resolution large =new Resolution(1080, 1920, "large");
+    Resolution small =new Resolution(320, 480, "small"); //3:2
+    Resolution medium =new Resolution(480, 800, "medium"); //5:3
+    Resolution large =new Resolution(1080, 1920, "large"); //16:9
     ResolutionFileResolver resolver = new ResolutionFileResolver(new InternalFileHandleResolver(),small,medium,large);
+    Resolution res = resolver.choose(small,medium,large);
+
 
    public void loadMenuAssets() {
+       System.out.print(res.folder);
        manager.setLoader(Skin.class,new SkinLoader(resolver));
        manager.load(MENU_SKIN, Skin.class);// Delete the _0,_1, ... in the atlas and the .fnt file.
+
    }
 
     public Skin getMenuAssets(){return manager.get(MENU_SKIN,Skin.class);}

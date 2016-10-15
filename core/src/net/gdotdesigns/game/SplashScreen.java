@@ -41,7 +41,7 @@ public class SplashScreen implements Screen  {
     @Override
     public void show() {
         float ratio = (float)Gdx.graphics.getWidth()/2f / (float)Gdx.graphics.getHeight();
-        viewport = new FitViewport(Gdx.graphics.getWidth()*ratio,Gdx.graphics.getHeight(),camera);
+        viewport = new FitViewport(1920*ratio,1080,camera);
         viewport.apply();
         stage = new Stage(viewport,spriteBatch);
 

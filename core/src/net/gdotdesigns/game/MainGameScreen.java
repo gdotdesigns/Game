@@ -8,8 +8,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  */
 
 public class MainGameScreen extends com.badlogic.gdx.Game {
-    public static final int WIDTH=1920;
-    public static final int HEIGHT=1080;
+   //public static final int WIDTH=1920;
+    //public static final int HEIGHT=1080;
+    public static final int WIDTH=480;
+    public static final int HEIGHT=320;
     public static final String TITLE = "Game";
     public static final float WORLD_HEIGHT=9f;
     public OrthographicCamera camera;
