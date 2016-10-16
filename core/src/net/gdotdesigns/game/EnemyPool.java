@@ -1,7 +1,5 @@
 package net.gdotdesigns.game;
 
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Pool;
 
 /**
@@ -9,15 +7,9 @@ import com.badlogic.gdx.utils.Pool;
  */
 public class EnemyPool extends Pool<Enemy> {
 
-    World world;
-    TextureAtlas textureAtlas;
 
-
-
-    public EnemyPool(int initialCapacity, int max, World world, TextureAtlas textureAtlas){
+    public EnemyPool(int initialCapacity, int max){
         super(initialCapacity,max);
-        this.world=world;
-        this.textureAtlas=textureAtlas;
     }
 
 

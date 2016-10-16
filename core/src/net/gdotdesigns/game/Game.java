@@ -1,11 +1,11 @@
 package net.gdotdesigns.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
@@ -44,7 +44,6 @@ public class Game implements Screen{
     private Box2DDebugRenderer debugRenderer;
     private Assets assets;
     private SpriteBatch spriteBatch;
-	private TextureAtlas textureAtlas;
     private Array<TextureRegion> playerBird;
     private Array<TextureRegion> enemyBird;
     private Array<TextureRegion> enemyBirdHit;
@@ -57,12 +56,14 @@ public class Game implements Screen{
     private float elapsedTime;
     private Skin skin;
     Viewport viewport;
+    Preferences preferences;
 
-    public Game(Assets assets,OrthographicCamera camera,SpriteBatch spriteBatch){
+    public Game(Assets assets,OrthographicCamera camera,SpriteBatch spriteBatch,Preferences preferences){
         this.assets=assets;
         this.camera=camera;
         this.spriteBatch=spriteBatch;
         this.entityManager=new EntityManager();//Made an object instead of a static class due to Android issues with glitched textures...
+        this.preferences=preferences;
 
     }
 
@@ -80,7 +81,7 @@ public class Game implements Screen{
         loadBackground();
         hud = new Hud(skin,spriteBatch);
         createWorld();
-        enemyPool = new EnemyPool(10,10,world,textureAtlas);
+        enemyPool = new EnemyPool(10,10);
         entityManager.addEntity(new Player(0, 0, playerBirdWidth, playerBirdHeight, 1f, .8f, world,playerBird));
 
         Inputs inputs = new Inputs(camera, world,viewport);
@@ -207,6 +208,11 @@ public class Game implements Screen{
 
     @Override
     public void pause() {
+        int score = preferences.getInteger("highScore");
+        if(score < hud.score) {
+            preferences.putInteger("highScore", hud.score);
+            preferences.flush();
+        }
         dispose();
     }
 
@@ -227,5 +233,8 @@ public class Game implements Screen{
         debugRenderer.dispose();
         enemyPool.clear();
         assets.dispose();
+        skin.dispose();
+        hud.skin.dispose();
+        hud.stage.dispose();
     }
 }

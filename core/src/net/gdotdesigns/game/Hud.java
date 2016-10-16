@@ -29,6 +29,7 @@ public class Hud {
     public String frameRate;
 
     public Hud(Skin skin, SpriteBatch spriteBatch){
+        this.skin=skin;
         camera = new OrthographicCamera();
         //viewport = new FitViewport(1920,1080,camera);
         viewport = new ScreenViewport(camera);

@@ -1,6 +1,7 @@
 package net.gdotdesigns.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -35,7 +36,11 @@ public class MainMenu implements Screen{
     ImageButton imageButton3;
 
     Label gameTitle;
+    int highScore;
+    Label highScoreLabel;
     Viewport viewport;
+
+    Preferences prefs;
 
     public MainMenu(MainGameScreen mainGameScreen,Assets assets, OrthographicCamera camera, SpriteBatch spriteBatch){
 
@@ -43,6 +48,7 @@ public class MainMenu implements Screen{
         this.camera=camera;
         this.spriteBatch=spriteBatch;
         this.assets=assets;
+        prefs= Gdx.app.getPreferences("High Score");
 
     }
 
@@ -69,7 +75,7 @@ public class MainMenu implements Screen{
 
             @Override
             public void clicked(InputEvent event, float x,float y){
-                mainGameScreen.setScreen(new Game(assets, camera, spriteBatch));
+                mainGameScreen.setScreen(new Game(assets, camera, spriteBatch,prefs));
                 dispose();
             }
         });
@@ -85,6 +91,9 @@ public class MainMenu implements Screen{
             }
         });
 
+        highScore=prefs.getInteger("highScore",0);
+        highScoreLabel = new Label("High Score: " + String.valueOf(highScore),skin);
+
         imageButton1 = new ImageButton(skin.getDrawable("games_achievements_green"),skin.getDrawable("games_achievements"));
         imageButton2 = new ImageButton(skin.getDrawable("games_controller"),skin.getDrawable("games_controller_grey"));
         imageButton3 = new ImageButton(skin.getDrawable("games_leaderboards_green"),skin.getDrawable("games_leaderboards"));
@@ -97,6 +106,8 @@ public class MainMenu implements Screen{
         table.add(start).colspan(3).fillX().uniform();
         table.row();
         table.add(stop).colspan(3).fillX().uniform();
+        table.row();
+        table.add(highScoreLabel).colspan(3);
         table.row();
         table.add(imageButton1);
         table.add(imageButton2);
