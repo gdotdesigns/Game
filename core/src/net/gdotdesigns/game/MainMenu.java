@@ -39,8 +39,7 @@ public class MainMenu implements Screen{
     int highScore;
     Label highScoreLabel;
     Viewport viewport;
-
-    Preferences prefs;
+    SaveScore saveScore = new SaveScore();
 
     public MainMenu(MainGameScreen mainGameScreen,Assets assets, OrthographicCamera camera, SpriteBatch spriteBatch){
 
@@ -48,7 +47,6 @@ public class MainMenu implements Screen{
         this.camera=camera;
         this.spriteBatch=spriteBatch;
         this.assets=assets;
-        prefs= Gdx.app.getPreferences("High Score");
 
     }
 
@@ -75,7 +73,7 @@ public class MainMenu implements Screen{
 
             @Override
             public void clicked(InputEvent event, float x,float y){
-                mainGameScreen.setScreen(new Game(assets, camera, spriteBatch,prefs));
+                mainGameScreen.setScreen(new Game(assets, camera, spriteBatch));
                 dispose();
             }
         });
@@ -91,7 +89,7 @@ public class MainMenu implements Screen{
             }
         });
 
-        highScore=prefs.getInteger("highScore",0);
+        highScore=saveScore.readScore();
         highScoreLabel = new Label("High Score: " + String.valueOf(highScore),skin);
 
         imageButton1 = new ImageButton(skin.getDrawable("games_achievements_green"),skin.getDrawable("games_achievements"));

@@ -28,6 +28,7 @@ public class Hud {
     public String scoreLabel;
     public String frameRate;
 
+
     public Hud(Skin skin, SpriteBatch spriteBatch){
         this.skin=skin;
         camera = new OrthographicCamera();

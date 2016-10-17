@@ -51,6 +51,7 @@ public class Game implements Screen{
     private  ParallaxBackground parallaxBackground;
     private EntityManager entityManager;
     private Hud hud;
+    SaveScore saveScore;
 
     private EnemyPool enemyPool;
     private float elapsedTime;
@@ -58,13 +59,12 @@ public class Game implements Screen{
     Viewport viewport;
     Preferences preferences;
 
-    public Game(Assets assets,OrthographicCamera camera,SpriteBatch spriteBatch,Preferences preferences){
+    public Game(Assets assets,OrthographicCamera camera,SpriteBatch spriteBatch){
         this.assets=assets;
         this.camera=camera;
         this.spriteBatch=spriteBatch;
         this.entityManager=new EntityManager();//Made an object instead of a static class due to Android issues with glitched textures...
-        this.preferences=preferences;
-
+        saveScore = new SaveScore();
     }
 
 
@@ -208,10 +208,9 @@ public class Game implements Screen{
 
     @Override
     public void pause() {
-        int score = preferences.getInteger("highScore");
+        int score = saveScore.readScore();
         if(score < hud.score) {
-            preferences.putInteger("highScore", hud.score);
-            preferences.flush();
+            saveScore.writeScore(hud.score);
         }
         dispose();
     }
