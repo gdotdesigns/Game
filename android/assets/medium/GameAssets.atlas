@@ -1,200 +1,200 @@
-GameAssets64.png
-size: 1021, 1365
+GameAssets.png
+size: 981, 1355
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 0
   rotate: false
-  xy: 437, 1174
+  xy: 773, 170
   size: 207, 158
   orig: 207, 158
   offset: 0, 0
   index: -1
 1
   rotate: false
-  xy: 613, 993
+  xy: 773, 330
   size: 207, 158
   orig: 207, 158
   offset: 0, 0
   index: -1
 2
   rotate: false
-  xy: 646, 1153
+  xy: 773, 490
   size: 207, 158
   orig: 207, 158
   offset: 0, 0
   index: -1
 3
   rotate: false
-  xy: 228, 1185
+  xy: 773, 1
   size: 207, 167
   orig: 207, 167
   offset: 0, 0
   index: -1
 button-over.9
   rotate: false
-  xy: 53, 1285
+  xy: 931, 921
   size: 48, 44
   orig: 48, 44
   offset: 0, 0
   index: -1
 button-over
   rotate: false
-  xy: 973, 1303
+  xy: 932, 1059
   size: 46, 42
   orig: 46, 42
   offset: 0, 0
   index: -1
 button-pressed.9
   rotate: false
-  xy: 103, 1285
+  xy: 931, 967
   size: 48, 44
   orig: 48, 44
   offset: 0, 0
   index: -1
 button-pressed
   rotate: false
-  xy: 161, 1269
+  xy: 932, 1103
   size: 46, 42
   orig: 46, 42
   offset: 0, 0
   index: -1
 button.9
   rotate: false
-  xy: 111, 1227
+  xy: 932, 1013
   size: 48, 44
   orig: 48, 44
   offset: 0, 0
   index: -1
 button
   rotate: false
-  xy: 153, 1313
+  xy: 933, 1179
   size: 46, 42
   orig: 46, 42
   offset: 0, 0
   index: -1
 checkbox-over
   rotate: false
-  xy: 749, 655
+  xy: 929, 810
   size: 22, 22
   orig: 22, 22
   offset: 0, 0
   index: -1
 checkbox-pressed-over
   rotate: false
-  xy: 749, 679
+  xy: 953, 810
   size: 22, 22
   orig: 22, 22
   offset: 0, 0
   index: -1
 checkbox-pressed
   rotate: false
-  xy: 749, 703
+  xy: 956, 892
   size: 22, 22
   orig: 22, 22
   offset: 0, 0
   index: -1
 checkbox
   rotate: false
-  xy: 696, 967
+  xy: 742, 1323
   size: 22, 22
   orig: 22, 22
   offset: 0, 0
   index: -1
 frame-1
   rotate: false
-  xy: 773, 531
+  xy: 259, 913
   size: 225, 175
   orig: 225, 175
   offset: 0, 0
   index: -1
 frame-2
   rotate: false
-  xy: 1, 873
+  xy: 259, 1090
   size: 225, 175
   orig: 225, 175
   offset: 0, 0
   index: -1
 frame-3
   rotate: false
-  xy: 386, 913
+  xy: 486, 921
   size: 225, 175
   orig: 225, 175
   offset: 0, 0
   index: -1
 frame-4
   rotate: false
-  xy: 1, 1050
+  xy: 486, 1098
   size: 225, 175
   orig: 225, 175
   offset: 0, 0
   index: -1
 games_achievements
   rotate: false
-  xy: 645, 655
-  size: 102, 102
-  orig: 102, 102
+  xy: 883, 752
+  size: 51, 51
+  orig: 51, 51
   offset: 0, 0
   index: -1
 games_achievements_green
   rotate: false
-  xy: 645, 759
-  size: 102, 102
-  orig: 102, 102
+  xy: 658, 1275
+  size: 51, 51
+  orig: 51, 51
   offset: 0, 0
   index: -1
 games_controller
   rotate: false
-  xy: 645, 863
-  size: 102, 102
-  orig: 102, 102
+  xy: 879, 1021
+  size: 51, 51
+  orig: 51, 51
   offset: 0, 0
   index: -1
 games_controller_grey
   rotate: false
-  xy: 228, 873
-  size: 102, 102
-  orig: 102, 102
+  xy: 890, 834
+  size: 51, 51
+  orig: 51, 51
   offset: 0, 0
   index: -1
 games_leaderboards
   rotate: false
-  xy: 228, 977
-  size: 102, 102
-  orig: 102, 102
+  xy: 879, 1074
+  size: 51, 51
+  orig: 51, 51
   offset: 0, 0
   index: -1
 games_leaderboards_green
   rotate: false
-  xy: 228, 1081
-  size: 102, 102
-  orig: 102, 102
+  xy: 877, 1127
+  size: 51, 51
+  orig: 51, 51
   offset: 0, 0
   index: -1
 hit-frame-1
   rotate: false
-  xy: 773, 171
+  xy: 1, 1131
   size: 236, 178
   orig: 236, 178
   offset: 0, 0
   index: -1
 hit-frame-2
   rotate: false
-  xy: 773, 351
+  xy: 645, 655
   size: 236, 178
   orig: 236, 178
   offset: 0, 0
   index: -1
 infected64
   rotate: false
-  xy: 387, 655
+  xy: 1, 873
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 0
 infected64
   rotate: false
-  xy: 749, 727
+  xy: 387, 655
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
@@ -208,462 +208,462 @@ layer_01_1920 x 1080
   index: -1
 layer_02_1920 x 1080
   rotate: false
-  xy: 387, 1
+  xy: 1, 219
   size: 384, 216
   orig: 384, 216
   offset: 0, 0
   index: -1
 layer_03_1920 x 1080
   rotate: false
-  xy: 1, 219
+  xy: 387, 1
   size: 384, 216
   orig: 384, 216
   offset: 0, 0
   index: -1
 layer_04_1920 x 1080
   rotate: false
-  xy: 387, 219
+  xy: 1, 437
   size: 384, 216
   orig: 384, 216
   offset: 0, 0
   index: -1
 layer_05_1920 x 1080
   rotate: false
-  xy: 1, 437
+  xy: 387, 219
   size: 384, 216
   orig: 384, 216
   offset: 0, 0
   index: -1
 layer_06_1920 x 1080
   rotate: false
-  xy: 387, 437
+  xy: 1, 655
   size: 384, 216
   orig: 384, 216
   offset: 0, 0
   index: -1
 layer_07_1920 x 1080
   rotate: false
-  xy: 1, 655
+  xy: 387, 437
   size: 384, 216
   orig: 384, 216
   offset: 0, 0
   index: -1
 list.9
   rotate: false
-  xy: 161, 1227
+  xy: 1, 1311
   size: 54, 40
   orig: 54, 40
   offset: 0, 0
   index: -1
 list
   rotate: false
-  xy: 332, 1107
+  xy: 259, 873
   size: 52, 38
   orig: 52, 38
   offset: 0, 0
   index: -1
 minus
   rotate: false
-  xy: 1000, 531
+  xy: 239, 1131
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
   index: -1
 plus
   rotate: false
-  xy: 1000, 551
+  xy: 219, 1311
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
   index: -1
 progress-bar-big-knob
   rotate: false
-  xy: 386, 1090
+  xy: 713, 1239
   size: 205, 82
   orig: 205, 82
   offset: 0, 0
   index: -1
 progress-bar-big.9
   rotate: false
-  xy: 773, 1
+  xy: 645, 835
   size: 243, 84
   orig: 243, 84
   offset: 0, 0
   index: -1
 progress-bar-big
   rotate: false
-  xy: 773, 87
+  xy: 239, 1267
   size: 241, 82
   orig: 241, 82
   offset: 0, 0
   index: -1
 progress-bar-knob.9
   rotate: false
-  xy: 1016, 87
+  xy: 239, 1190
   size: 3, 39
   orig: 3, 39
   offset: 0, 0
   index: -1
 progress-bar-knob
   rotate: false
-  xy: 1018, 1
+  xy: 250, 1151
   size: 1, 37
   orig: 1, 37
   offset: 0, 0
   index: -1
 progress-bar-vertical-knob.9
   rotate: false
-  xy: 773, 721
+  xy: 773, 650
   size: 39, 3
   orig: 39, 3
   offset: 0, 0
   index: -1
 progress-bar-vertical-knob
   rotate: false
-  xy: 840, 719
+  xy: 1, 1353
   size: 37, 1
   orig: 37, 1
   offset: 0, 0
   index: -1
 progress-bar-vertical.9
   rotate: false
-  xy: 773, 708
+  xy: 877, 1226
   size: 39, 11
   orig: 39, 11
   offset: 0, 0
   index: -1
 progress-bar-vertical
   rotate: false
-  xy: 840, 708
+  xy: 482, 1335
   size: 37, 9
   orig: 37, 9
   offset: 0, 0
   index: -1
 progress-bar.9
   rotate: false
-  xy: 1000, 615
+  xy: 968, 650
   size: 11, 39
   orig: 11, 39
   offset: 0, 0
   index: -1
 progress-bar
   rotate: false
-  xy: 1011, 171
+  xy: 239, 1151
   size: 9, 37
   orig: 9, 37
   offset: 0, 0
   index: -1
 radio-over
   rotate: false
-  xy: 624, 1334
+  xy: 361, 873
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
 radio-pressed
   rotate: false
-  xy: 644, 967
+  xy: 953, 1318
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
 radio
   rotate: false
-  xy: 670, 967
+  xy: 956, 866
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
 scroll-horizontal.9
   rotate: false
-  xy: 530, 1334
+  xy: 313, 873
   size: 46, 29
   orig: 46, 29
   offset: 0, 0
   index: -1
 scroll-horizontal
   rotate: false
-  xy: 578, 1334
+  xy: 883, 805
   size: 44, 27
   orig: 44, 27
   offset: 0, 0
   index: -1
 scroll-vertical.9
   rotate: false
-  xy: 613, 913
+  xy: 937, 650
   size: 29, 46
   orig: 29, 46
   offset: 0, 0
   index: -1
 scroll-vertical
   rotate: false
-  xy: 822, 1087
+  xy: 937, 698
   size: 27, 44
   orig: 27, 44
   offset: 0, 0
   index: -1
 select-box-over.9
   rotate: false
-  xy: 650, 1313
+  xy: 877, 1180
   size: 54, 44
   orig: 54, 44
   offset: 0, 0
   index: -1
 select-box-over
   rotate: false
-  xy: 332, 975
+  xy: 57, 1311
   size: 52, 42
   orig: 52, 42
   offset: 0, 0
   index: -1
 select-box-pressed.9
   rotate: false
-  xy: 706, 1313
+  xy: 920, 1226
   size: 54, 44
   orig: 54, 44
   offset: 0, 0
   index: -1
 select-box-pressed
   rotate: false
-  xy: 332, 1019
+  xy: 111, 1311
   size: 52, 42
   orig: 52, 42
   offset: 0, 0
   index: -1
 select-box.9
   rotate: false
-  xy: 762, 1313
+  xy: 920, 1272
   size: 54, 44
   orig: 54, 44
   offset: 0, 0
   index: -1
 select-box
   rotate: false
-  xy: 332, 1063
+  xy: 165, 1311
   size: 52, 42
   orig: 52, 42
   offset: 0, 0
   index: -1
 slider-before.9
   rotate: false
-  xy: 1016, 128
+  xy: 239, 1231
   size: 3, 24
   orig: 3, 24
   offset: 0, 0
   index: -1
 slider-before
   rotate: false
-  xy: 1018, 40
+  xy: 973, 1147
   size: 1, 22
   orig: 1, 22
   offset: 0, 0
   index: -1
 slider-knob-pressed
   rotate: false
-  xy: 1000, 682
+  xy: 943, 866
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 slider-knob
   rotate: false
-  xy: 1000, 694
+  xy: 766, 1335
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 slider-vertical-before.9
   rotate: false
-  xy: 814, 720
+  xy: 814, 650
   size: 24, 3
   orig: 24, 3
   offset: 0, 0
   index: -1
 slider-vertical-before
   rotate: false
-  xy: 840, 722
+  xy: 933, 1223
   size: 22, 1
   orig: 22, 1
   offset: 0, 0
   index: -1
 slider-vertical.9
   rotate: false
-  xy: 814, 708
+  xy: 361, 899
   size: 24, 10
   orig: 24, 10
   offset: 0, 0
   index: -1
 slider-vertical
   rotate: false
-  xy: 879, 708
+  xy: 482, 1346
   size: 22, 8
   orig: 22, 8
   offset: 0, 0
   index: -1
 slider.9
   rotate: false
-  xy: 1000, 656
+  xy: 961, 1147
   size: 10, 24
   orig: 10, 24
   offset: 0, 0
   index: -1
 slider
   rotate: false
-  xy: 1011, 213
+  xy: 219, 1331
   size: 8, 22
   orig: 8, 22
   offset: 0, 0
   index: -1
 split-pane-horizontal
   rotate: false
-  xy: 1018, 64
+  xy: 521, 1335
   size: 1, 9
   orig: 1, 9
   offset: 0, 0
   index: -1
 split-pane-vertical
   rotate: false
-  xy: 1011, 210
+  xy: 40, 1353
   size: 9, 1
   orig: 9, 1
   offset: 0, 0
   index: -1
 textfield-login-selected.9
   rotate: false
-  xy: 332, 1147
+  xy: 890, 887
   size: 31, 32
   orig: 31, 32
   offset: 0, 0
   index: -1
 textfield-login-selected
   rotate: false
-  xy: 613, 961
+  xy: 930, 1147
   size: 29, 30
   orig: 29, 30
   offset: 0, 0
   index: -1
 textfield-login.9
   rotate: false
-  xy: 822, 985
+  xy: 923, 887
   size: 31, 32
   orig: 31, 32
   offset: 0, 0
   index: -1
 textfield-login
   rotate: false
-  xy: 437, 1334
+  xy: 937, 744
   size: 29, 30
   orig: 29, 30
   offset: 0, 0
   index: -1
 textfield-password-selected.9
   rotate: false
-  xy: 822, 1019
+  xy: 920, 1318
   size: 31, 32
   orig: 31, 32
   offset: 0, 0
   index: -1
 textfield-password-selected
   rotate: false
-  xy: 468, 1334
+  xy: 943, 834
   size: 29, 30
   orig: 29, 30
   offset: 0, 0
   index: -1
 textfield-password.9
   rotate: false
-  xy: 822, 1053
+  xy: 936, 776
   size: 31, 32
   orig: 31, 32
   offset: 0, 0
   index: -1
 textfield-password
   rotate: false
-  xy: 499, 1334
+  xy: 711, 1323
   size: 29, 30
   orig: 29, 30
   offset: 0, 0
   index: -1
 textfield-selected.9
   rotate: false
-  xy: 1000, 571
+  xy: 953, 1344
   size: 16, 10
   orig: 16, 10
   offset: 0, 0
   index: -1
 textfield-selected
   rotate: false
-  xy: 1000, 595
+  xy: 506, 1346
   size: 14, 8
   orig: 14, 8
   offset: 0, 0
   index: -1
 textfield.9
   rotate: false
-  xy: 1000, 583
+  xy: 766, 1323
   size: 16, 10
   orig: 16, 10
   offset: 0, 0
   index: -1
 textfield
   rotate: false
-  xy: 1000, 605
+  xy: 239, 1257
   size: 14, 8
   orig: 14, 8
   offset: 0, 0
   index: -1
 tooltip.9
   rotate: false
-  xy: 332, 873
+  xy: 883, 650
   size: 52, 100
   orig: 52, 100
   offset: 0, 0
   index: -1
 tooltip
   rotate: false
-  xy: 1, 1227
+  xy: 879, 921
   size: 50, 98
   orig: 50, 98
   offset: 0, 0
   index: -1
 touchpad-knob
   rotate: false
-  xy: 915, 1303
+  xy: 542, 1275
   size: 56, 56
   orig: 56, 56
   offset: 0, 0
   index: -1
 touchpad.9
   rotate: false
-  xy: 855, 985
+  xy: 713, 921
   size: 164, 158
   orig: 164, 158
   offset: 0, 0
   index: -1
 touchpad
   rotate: false
-  xy: 855, 1145
+  xy: 713, 1081
   size: 162, 156
   orig: 162, 156
   offset: 0, 0
   index: -1
 white
   rotate: false
-  xy: 1018, 75
+  xy: 957, 1223
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
 window.9
   rotate: false
-  xy: 855, 1303
+  xy: 482, 1275
   size: 58, 58
   orig: 58, 58
   offset: 0, 0
   index: -1
 window
   rotate: false
-  xy: 53, 1227
+  xy: 600, 1275
   size: 56, 56
   orig: 56, 56
   offset: 0, 0

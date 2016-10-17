@@ -202,7 +202,7 @@ public class Game implements Screen{
 	public void resize(int width, int height) {
         viewport.update(width ,height);  //You must update viewport in resize or viewport will not function...
         parallaxBackground.viewport.update(width,height);
-        hud.viewport.update(width, height);
+        hud.stage.getViewport().update(width,height);
     }
 
 
