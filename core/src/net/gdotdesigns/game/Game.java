@@ -208,10 +208,7 @@ public class Game implements Screen{
 
     @Override
     public void pause() {
-        int score = saveScore.readScore();
-        if(score < hud.score) {
-            saveScore.writeScore(hud.score);
-        }
+        saveScore.writeScore(hud.score);
         dispose();
     }
 
