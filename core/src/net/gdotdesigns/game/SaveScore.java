@@ -13,6 +13,8 @@ import com.googlecode.gwt.crypto.client.TripleDesCipher;
  * Using enryption with 3'rd party utility "GWT-Crypto" library.
  * http://badlogicgames.com/forum/viewtopic.php?t=14078&p=61731
  * Wathc video about gradle dependincies.
+ * https://github.com/libgdx/libgdx/wiki/Project-Setup-Gradle
+ * Dependency added to android module build.gradle. GWT-Crypto .jar ad to be added to libs folder in android project
  *
  */
 public class SaveScore {

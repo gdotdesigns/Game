@@ -20,7 +20,7 @@ public class Assets {
     Resolution medium =new Resolution(480, 800, "medium"); //5:3
     Resolution large =new Resolution(1080, 1920, "large"); //16:9
     ResolutionFileResolver resolver = new ResolutionFileResolver(new InternalFileHandleResolver(),small,medium,large);
-    Resolution res = resolver.choose(small,medium,large);
+    Resolution res = ResolutionFileResolver.choose(small,medium,large);
 
 
    public void loadMenuAssets() {
