@@ -52,10 +52,9 @@ public class SaveScore {
         if(savedScore == "0"){
             return 0;
         }
-        String score = json.fromJson(String.class,Base64Coder.decodeString(savedScore));
 
         try {
-            tripleDesCipher.decrypt(score);
+            savedScore=tripleDesCipher.decrypt(savedScore);
         } catch (DataLengthException e) {
             e.printStackTrace();
         } catch (IllegalStateException e) {
@@ -63,6 +62,7 @@ public class SaveScore {
         } catch (InvalidCipherTextException e) {
             e.printStackTrace();
         }
+        String score = json.fromJson(String.class,Base64Coder.decodeString(savedScore));
         return Integer.parseInt(score);
     }
 }
