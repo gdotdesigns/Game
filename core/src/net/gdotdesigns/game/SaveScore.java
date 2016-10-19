@@ -62,7 +62,7 @@ public class SaveScore {
         } catch (InvalidCipherTextException e) {
             e.printStackTrace();
         }
-        String score = json.fromJson(String.class,Base64Coder.decodeString(savedScore));
-        return Integer.parseInt(score);
+        int score = json.fromJson(int.class,Base64Coder.decodeString(savedScore));
+        return score;
     }
 }
