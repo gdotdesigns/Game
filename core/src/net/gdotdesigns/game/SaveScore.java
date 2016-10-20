@@ -17,6 +17,8 @@ import com.googlecode.gwt.crypto.client.TripleDesCipher;
  * Dependency added to android module build.gradle. GWT-Crypto .jar ad to be added to libs folder in android project
  *
  */
+
+//TODO Need to obfuscate this class.
 public class SaveScore {
     private static final byte[] GWT_DES_KEY = new byte[]{(byte)1,(byte)5,(byte)1,(byte)1,(byte)1,(byte)1,(byte)1,(byte)1,(byte)1,(byte)1,
             (byte)6,(byte)1,(byte)1,(byte)1,(byte)6,(byte)1,(byte)7,(byte)1,(byte)1,(byte)1,(byte)1,(byte)1,(byte)1,(byte)1};
@@ -36,7 +38,7 @@ public class SaveScore {
         if(currentScore> readScore() ){
             String score = json.toJson(currentScore);
             try {
-                score =tripleDesCipher.encrypt(Base64Coder.encodeString(score));
+                score=tripleDesCipher.encrypt(Base64Coder.encodeString(score));
             } catch (DataLengthException e1) {
                 e1.printStackTrace();
             } catch (IllegalStateException e1) {
@@ -54,7 +56,6 @@ public class SaveScore {
         if(savedScore == "0"){
             return 0;
         }
-
         try {
             savedScore=tripleDesCipher.decrypt(savedScore);
         } catch (DataLengthException e) {
@@ -64,7 +65,7 @@ public class SaveScore {
         } catch (InvalidCipherTextException e) {
             e.printStackTrace();
         }
-        int score = json.fromJson(int.class,Base64Coder.decodeString(savedScore));
+        int score  = json.fromJson(int.class,Base64Coder.decodeString(savedScore));
         return score;
     }
 }
