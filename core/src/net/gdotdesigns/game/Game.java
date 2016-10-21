@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.googlecode.gwt.crypto.util.Sys;
 
 public class Game implements Screen{
 
@@ -208,8 +209,7 @@ public class Game implements Screen{
 
     @Override
     public void pause() {
-        saveScore.writeScore(hud.score);
-        dispose();
+        saveScore.writeScore(hud.score); //temporary location for score save.
     }
 
     @Override
@@ -224,9 +224,10 @@ public class Game implements Screen{
 
 	@Override
 	public void dispose () {
-       //world.dispose();
+        System.out.println("GAMESCREEN");
+        world.dispose();
         entityManager.dispose();
-        //debugRenderer.dispose();
+        debugRenderer.dispose();
         enemyPool.clear();
         assets.dispose();
         skin.dispose();

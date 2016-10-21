@@ -24,7 +24,7 @@ public class Assets {
 
 
    public void loadMenuAssets() {
-       System.out.print(res.folder);
+       System.out.println(res.folder);
        manager.setLoader(Skin.class,new SkinLoader(resolver));
        manager.load(MENU_SKIN, Skin.class);// Delete the _0,_1, ... in the atlas and the .fnt file.
 

@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.googlecode.gwt.crypto.util.Sys;
 
 /**
  * Created by Todd on 9/19/2016.
@@ -93,7 +94,7 @@ public class SplashScreen implements Screen  {
 
     @Override
     public void pause() {
-        dispose();
+        //dispose();
     }
 
     @Override
@@ -106,6 +107,7 @@ public class SplashScreen implements Screen  {
 
     @Override
     public void dispose() {
+        System.out.println("SPLASHSCREEN");
         splashTexture.dispose();
         stage.dispose();
     }
