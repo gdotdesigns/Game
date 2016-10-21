@@ -209,7 +209,7 @@ public class Game implements Screen{
 
     @Override
     public void pause() {
-        saveScore.writeScore(hud.score); //temporary location for score save.
+
     }
 
     @Override
@@ -219,7 +219,9 @@ public class Game implements Screen{
 
     @Override
     public void hide() {
-
+        //TODO Move this function to a better apot.
+        System.out.println("SAVING SCORE");
+        saveScore.writeScore(hud.score); //temporary location for score save.
     }
 
 	@Override

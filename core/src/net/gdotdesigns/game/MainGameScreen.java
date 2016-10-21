@@ -36,7 +36,7 @@ public class MainGameScreen extends com.badlogic.gdx.Game {
     @Override
     public void dispose(){
         super.dispose();
-        this.getScreen().dispose();
+        this.getScreen().dispose();//This causes the previous screen to be disposed when setscreen is called...
         spriteBatch.dispose();
     }
 

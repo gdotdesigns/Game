@@ -46,6 +46,7 @@ public class SplashScreen implements Screen  {
         viewport.apply();
         stage = new Stage(viewport,spriteBatch);
 
+        //TODO Add this image to the asset manager
         splashTexture = new Texture(Gdx.files.internal("libgdx_splash.jpg"));
         splashImage= new Image(splashTexture);
         splashImage.setPosition(camera.viewportWidth/2f-splashImage.getWidth()/2f,camera.viewportHeight/2f-splashImage.getHeight()/2f);
@@ -94,7 +95,6 @@ public class SplashScreen implements Screen  {
 
     @Override
     public void pause() {
-        //dispose();
     }
 
     @Override
