@@ -224,13 +224,15 @@ public class Game implements Screen{
 
 	@Override
 	public void dispose () {
-        world.dispose();
+       //world.dispose();
         entityManager.dispose();
-        debugRenderer.dispose();
+        //debugRenderer.dispose();
         enemyPool.clear();
         assets.dispose();
         skin.dispose();
         hud.skin.dispose();
         hud.stage.dispose();
+
+
     }
 }
