@@ -1,6 +1,7 @@
 package net.gdotdesigns.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -53,19 +54,22 @@ public class Game implements Screen{
     private EntityManager entityManager;
     private Hud hud;
     SaveScore saveScore;
+    InputMultiplexer inputMultiplexer;
 
     private EnemyPool enemyPool;
     private float elapsedTime;
     private Skin skin;
     Viewport viewport;
-    Preferences preferences;
 
-    public Game(Assets assets,OrthographicCamera camera,SpriteBatch spriteBatch){
+    MainGameScreen mainGameScreen;
+
+    public Game(Assets assets,OrthographicCamera camera,SpriteBatch spriteBatch,MainGameScreen mainGameScreen){
         this.assets=assets;
         this.camera=camera;
         this.spriteBatch=spriteBatch;
         this.entityManager=new EntityManager();//Made an object instead of a static class due to Android issues with glitched textures...
         saveScore = new SaveScore();
+        this.mainGameScreen=mainGameScreen;
     }
 
 
@@ -80,13 +84,15 @@ public class Game implements Screen{
         Gdx.gl.glClearColor(0, 0, 0, 1);
         loadTextures();
         loadBackground();
-        hud = new Hud(skin,spriteBatch);
+        hud = new Hud(skin,spriteBatch,this);
         createWorld();
         enemyPool = new EnemyPool(10,10);
         entityManager.addEntity(new Player(0, 0, playerBirdWidth, playerBirdHeight, 1f, .8f, world,playerBird));
-
+        inputMultiplexer = new InputMultiplexer();
         Inputs inputs = new Inputs(camera, world,viewport);
-        Gdx.input.setInputProcessor(inputs);
+        inputMultiplexer.addProcessor(hud.stage);
+        inputMultiplexer.addProcessor(inputs);
+        Gdx.input.setInputProcessor(inputMultiplexer);
         world.setContactListener(new EntityCollision(entityManager));
     }
 
@@ -209,6 +215,7 @@ public class Game implements Screen{
 
     @Override
     public void pause() {
+        mainGameScreen.setScreen(new MainMenu(mainGameScreen,assets,camera,spriteBatch));
 
     }
 
