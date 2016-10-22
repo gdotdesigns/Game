@@ -30,11 +30,11 @@ public class SplashScreen implements Screen  {
     private boolean fadeOutComplete = false;
     private Viewport viewport;
 
-    public SplashScreen(MainGameScreen mainGameScreen,OrthographicCamera camera,SpriteBatch spriteBatch){
+    public SplashScreen(MainGameScreen mainGameScreen,OrthographicCamera camera,SpriteBatch spriteBatch,Assets assets){
         this.mainGameScreen=mainGameScreen;
         this.camera=camera;
         this.spriteBatch=spriteBatch;
-        assets = new Assets();
+        this.assets=assets;
         assets.loadMenuAssets();}
 
 

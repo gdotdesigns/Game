@@ -2,6 +2,7 @@ package net.gdotdesigns.game;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.googlecode.gwt.crypto.util.Sys;
 
 /**
  * Created by Todd on 9/19/2016.
@@ -15,6 +16,7 @@ public class MainGameScreen extends com.badlogic.gdx.Game {
     public static final float WORLD_HEIGHT=9f;
     public OrthographicCamera camera;
     public SpriteBatch spriteBatch;
+    public Assets assets;
 
 
 
@@ -24,7 +26,8 @@ public class MainGameScreen extends com.badlogic.gdx.Game {
         camera=new OrthographicCamera();
         camera.update();
         spriteBatch = new SpriteBatch();
-        this.setScreen(new SplashScreen(this,camera,spriteBatch));
+        assets=new Assets();
+        this.setScreen(new SplashScreen(this,camera,spriteBatch,assets));
     }
 
     @Override
@@ -35,9 +38,11 @@ public class MainGameScreen extends com.badlogic.gdx.Game {
 
     @Override
     public void dispose(){
+        System.out.println("MAINGAMESCREEN");
         super.dispose();
         this.getScreen().dispose();//This causes the previous screen to be disposed when setscreen is called...
         spriteBatch.dispose();
+        assets.dispose();
     }
 
     @Override
