@@ -39,6 +39,7 @@ public class MainMenu implements Screen{
     Label highScoreLabel;
     Viewport viewport;
     SaveScore saveScore = new SaveScore();
+    MainMenu mainMenu;
 
     public MainMenu(MainGameScreen mainGameScreen,Assets assets, OrthographicCamera camera, SpriteBatch spriteBatch){
 
@@ -46,6 +47,7 @@ public class MainMenu implements Screen{
         this.camera=camera;
         this.spriteBatch=spriteBatch;
         this.assets=assets;
+        this.mainMenu=this;
 
     }
 
@@ -72,7 +74,7 @@ public class MainMenu implements Screen{
 
             @Override
             public void clicked(InputEvent event, float x,float y){
-                mainGameScreen.setScreen(new Game(assets, camera, spriteBatch,mainGameScreen));
+                mainGameScreen.setScreen(new Game(assets, camera, spriteBatch,mainGameScreen,mainMenu));// Couldnt use "this" because this is inside inner class...
                 dispose();
             }
         });

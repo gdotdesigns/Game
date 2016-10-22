@@ -11,9 +11,11 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 public class EntityCollision implements ContactListener {
 
     EntityManager entityManager;
+    Game game;
 
-    public EntityCollision(EntityManager entityManager){
+    public EntityCollision(EntityManager entityManager,Game game){
         this.entityManager=entityManager;
+        this.game=game;
     }
 
 
@@ -35,9 +37,7 @@ public class EntityCollision implements ContactListener {
         else if(bodyA.getUserData() instanceof Player && bodyB.getUserData() == Game.groundBody ||
                 bodyA.getUserData() == Game.groundBody && bodyB.getUserData() instanceof Player){
             Body player = bodyA.getUserData() instanceof Player ? bodyA : bodyB;
-            //player.setLinearVelocity(0f,MathUtils.random(1f,10f));
-            //player.setAngularVelocity(0f);
-            //player.setLinearVelocity(0f, 0f);
+            game.gameOver();
         }
 
 

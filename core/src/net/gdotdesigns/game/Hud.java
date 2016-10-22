@@ -28,7 +28,8 @@ public class Hud {
     Label label;
     Label gameOver;
     Label fps;
-    TextButton pause;
+    TextButton menu;
+    TextButton playAgain;
     public int score=0;
     public int calculateFrameRate;
     public String scoreLabel;
@@ -50,20 +51,11 @@ public class Hud {
         frameRate= new String("Frame Rate: " + calculateFrameRate);
         label= new Label(scoreLabel,skin);
         fps=new Label(frameRate,skin);
-        pause=new TextButton("Pause",skin);
-        pause.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                System.out.println("PAUSED");
-            }
-        });
         table.debug();
         table.setFillParent(true);
         table.align(Align.top);
         table.add(label).padBottom(30f).padLeft(15f).align(Align.left).expandX();
         table.add(fps).padBottom(30f).padRight(15f).align(Align.right).expandX();
-        table.row();
-        table.add(pause).align(Align.left).width(150f);
         stage.addActor(table);
     }
 
@@ -73,7 +65,24 @@ public class Hud {
         table.center();
         gameOver = new Label("Game Over",skin);
         gameOver.setFontScale(2f);
-        table.add(gameOver);
+        menu = new TextButton("Menu",skin);
+        menu.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.quitGame();
+            }
+        });
+        playAgain = new TextButton("Play Again",skin);
+        playAgain.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+            }
+        });
+        table.add(gameOver).colspan(2);
+        table.row();
+        table.add(menu);
+        table.add(playAgain);
     }
 
     public void update(float deltaTime){

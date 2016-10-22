@@ -113,7 +113,6 @@ public class Enemy extends Entity implements Pool.Poolable{
             body.setGravityScale(3f);
             body.setLinearVelocity(-3f,12f);
             hud.killCount();
-            hud.gameOver();
         }
     }
 

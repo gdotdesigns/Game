@@ -55,6 +55,9 @@ public class Game implements Screen{
     private Hud hud;
     SaveScore saveScore;
     InputMultiplexer inputMultiplexer;
+    Inputs inputs;
+    private boolean gameRunning=true;
+    float deltaTime;
 
     private EnemyPool enemyPool;
     private float elapsedTime;
@@ -62,14 +65,16 @@ public class Game implements Screen{
     Viewport viewport;
 
     MainGameScreen mainGameScreen;
+    MainMenu mainMenu;
 
-    public Game(Assets assets,OrthographicCamera camera,SpriteBatch spriteBatch,MainGameScreen mainGameScreen){
+    public Game(Assets assets,OrthographicCamera camera,SpriteBatch spriteBatch,MainGameScreen mainGameScreen,MainMenu mainMenu){
         this.assets=assets;
         this.camera=camera;
         this.spriteBatch=spriteBatch;
         this.entityManager=new EntityManager();//Made an object instead of a static class due to Android issues with glitched textures...
         saveScore = new SaveScore();
         this.mainGameScreen=mainGameScreen;
+        this.mainMenu=mainMenu;
     }
 
 
@@ -89,23 +94,59 @@ public class Game implements Screen{
         enemyPool = new EnemyPool(10,10);
         entityManager.addEntity(new Player(0, 0, playerBirdWidth, playerBirdHeight, 1f, .8f, world,playerBird));
         inputMultiplexer = new InputMultiplexer();
-        Inputs inputs = new Inputs(camera, world,viewport);
+        inputs = new Inputs(camera, world,viewport);
         inputMultiplexer.addProcessor(hud.stage);
         inputMultiplexer.addProcessor(inputs);
         Gdx.input.setInputProcessor(inputMultiplexer);
-        world.setContactListener(new EntityCollision(entityManager));
+        world.setContactListener(new EntityCollision(entityManager,this));
+    }
+
+
+
+    public  void gameOver(){
+        gameRunning=false;
+        hud.gameOver();
+        inputMultiplexer.removeProcessor(inputs);
+        System.out.println("SAVING SCORE");
+        saveScore.writeScore(hud.score);
+    }
+
+    public void quitGame(){
+        mainGameScreen.setScreen(mainMenu); //Saving reference to mainMenu, so I dont have to reintialize...
+    }
+
+    @Override
+    public void render (float delta) {
+            camera.update();
+            if(gameRunning) {
+                deltaTime = Gdx.graphics.getDeltaTime();
+                update(deltaTime);
+            }
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+            Matrix4 debugMatrix = spriteBatch.getProjectionMatrix().cpy().scale(1f, 1f, 0);
+            spriteBatch.setProjectionMatrix(camera.combined);
+            spriteBatch.begin();
+            if(gameRunning) {
+                parallaxBackground.render(deltaTime);
+            }
+            else
+                parallaxBackground.render(0f);
+            entityManager.render(spriteBatch);
+            spriteBatch.end();
+            hud.update(delta);
+            hud.draw(delta);
+            debugRenderer.render(world, debugMatrix);
     }
 
     public void update(float deltaTime) {
         elapsedTime+=deltaTime;
-        world.step(1f/60f,6,2);
+        world.step(1f / 60f, 6, 2);
         entityManager.destroyEntity(world);
 
         if(elapsedTime - deltaTime > ENEMY_SPAWN_TIME){
             spawnEnemy();
         }
         entityManager.update(deltaTime, camera);
-
     }
 
     public void spawnEnemy(){
@@ -113,23 +154,6 @@ public class Game implements Screen{
         enemy.init(camera.viewportWidth/2f+ENEMY_BIRD_WIDTH, 0, ENEMY_BIRD_WIDTH, ENEMY_BIRD_HEIGHT, 1f, .001f, world, enemyBird,enemyBirdHit,enemyPool,hud);
         entityManager.addEntity(enemy);
         elapsedTime=0;
-    }
-
-    @Override
-    public void render (float delta) {
-        camera.update();
-        float deltaTime = Gdx.graphics.getDeltaTime();
-        update(deltaTime);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        Matrix4 debugMatrix= spriteBatch.getProjectionMatrix().cpy().scale(1f,1f,0);
-        spriteBatch.setProjectionMatrix(camera.combined);
-        spriteBatch.begin();
-        parallaxBackground.render(deltaTime);
-        entityManager.render(spriteBatch);
-        spriteBatch.end();
-        hud.update(delta);
-        hud.draw(delta);
-        debugRenderer.render(world,debugMatrix);
     }
 
 
@@ -215,8 +239,6 @@ public class Game implements Screen{
 
     @Override
     public void pause() {
-        mainGameScreen.setScreen(new MainMenu(mainGameScreen,assets,camera,spriteBatch));
-
     }
 
     @Override
@@ -226,9 +248,6 @@ public class Game implements Screen{
 
     @Override
     public void hide() {
-        //TODO Move this function to a better apot.
-        System.out.println("SAVING SCORE");
-        saveScore.writeScore(hud.score); //temporary location for score save.
     }
 
 	@Override
