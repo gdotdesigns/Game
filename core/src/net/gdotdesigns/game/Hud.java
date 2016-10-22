@@ -89,7 +89,6 @@ public class Hud {
     public void update(float deltaTime){
         stage.act(deltaTime);
         calculateFrameRate=Gdx.graphics.getFramesPerSecond();
-
     }
 
     public void draw(float deltaTime){

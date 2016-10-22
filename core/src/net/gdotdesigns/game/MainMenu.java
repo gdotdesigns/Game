@@ -140,12 +140,11 @@ public class MainMenu implements Screen{
 
     @Override
     public void hide() {
-        System.out.println("MENU HIDING");
     }
 
     @Override
     public void dispose() {
-        System.out.println("MENUSCREEN");
+        System.out.println("MAINMENU.DISPOSE");
         stage.dispose();
     }
 }

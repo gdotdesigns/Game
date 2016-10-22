@@ -27,10 +27,11 @@ public class Assets {
        System.out.println("Asset Folder: " + res.folder);
        manager.setLoader(Skin.class,new SkinLoader(resolver));
        manager.load(MENU_SKIN, Skin.class);// Delete the _0,_1, ... in the atlas and the .fnt file.
-
    }
 
-    public Skin getMenuAssets(){return manager.get(MENU_SKIN,Skin.class);}
+    public Skin getMenuAssets(){
+        return manager.get(MENU_SKIN,Skin.class);
+    }
 
     public void dispose(){
         manager.dispose();

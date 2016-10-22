@@ -106,7 +106,7 @@ public class SplashScreen implements Screen  {
 
     @Override
     public void dispose() {
-        System.out.println("SPLASHSCREEN");
+        System.out.println("SPLASHSCREEN.DISPOSE");
         splashTexture.dispose();
         stage.dispose();
     }

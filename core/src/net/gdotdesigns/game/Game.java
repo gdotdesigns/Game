@@ -113,11 +113,12 @@ public class Game implements Screen{
 
     public void quitGame(){
         mainGameScreen.setScreen(mainMenu); //Saving reference to mainMenu, so I dont have to reintialize...
+        dispose();
     }
 
     public void playAgain(){
-        dispose();
         mainGameScreen.setScreen(new Game(assets, camera, spriteBatch,mainGameScreen,mainMenu));
+        dispose();
     }
 
     @Override
@@ -169,14 +170,11 @@ public class Game implements Screen{
             TextureRegion region2 = skin.getRegion("frame-2");
             TextureRegion region3 = skin.getRegion("frame-3");
             TextureRegion region4 = skin.getRegion("frame-4");
-            region1.flip(true, false);
-            region2.flip(true, false);
-            region3.flip(true, false);
-            region4.flip(true, false);
             enemyBird.add(region1);
             enemyBird.add(region2);
             enemyBird.add(region3);
             enemyBird.add(region4);
+
             playerBird = new Array<TextureRegion>();
             playerBird.add(skin.getRegion("0"));
             playerBird.add(skin.getRegion("1"));
@@ -186,8 +184,6 @@ public class Game implements Screen{
             enemyBirdHit = new Array<TextureRegion>();
             TextureRegion hitRegion1 = skin.getRegion("hit-frame-1");
             TextureRegion hitRegion2 = skin.getRegion("hit-frame-2");
-            hitRegion1.flip(true, false);
-            hitRegion2.flip(true, false);
             enemyBirdHit.add(hitRegion1);
             enemyBirdHit.add(hitRegion2);
     }
@@ -257,15 +253,11 @@ public class Game implements Screen{
 
 	@Override
 	public void dispose () {
-        System.out.println("GAMESCREEN");
+        System.out.println("GAME.DISPOSE");
         world.dispose();
         entityManager.dispose();
         debugRenderer.dispose();
         enemyPool.clear();
-        skin.dispose();
-        hud.skin.dispose();
         hud.stage.dispose();
-
-
     }
 }
