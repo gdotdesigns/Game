@@ -30,6 +30,7 @@ public class Hud {
     Label fps;
     TextButton menu;
     TextButton playAgain;
+    TextButton resume;
     public int score=0;
     public int calculateFrameRate;
     public String scoreLabel;
@@ -85,6 +86,19 @@ public class Hud {
         table.add(menu);
         table.add(playAgain);
     }
+
+    public void pause(){
+        resume= new TextButton("RESUME",skin);
+        resume.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.gameResume();
+                table.removeActor(resume);
+            }
+        });
+        table.add(resume).colspan(2).center();
+    }
+
 
     public void update(float deltaTime){
         stage.act(deltaTime);

@@ -35,6 +35,10 @@ public class MainGameScreen extends com.badlogic.gdx.Game {
         super.render();
     }
 
+    @Override
+    public void pause() {
+        super.pause();
+    }
 
     @Override
     public void dispose(){
