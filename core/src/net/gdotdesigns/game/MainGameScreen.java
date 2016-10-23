@@ -1,6 +1,5 @@
 package net.gdotdesigns.game;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
@@ -13,7 +12,6 @@ public class MainGameScreen extends com.badlogic.gdx.Game {
     //public static final int WIDTH=480,HEIGHT = 320; //small
     public static final String TITLE = "Game";
     public static final float WORLD_HEIGHT=9f;
-    public OrthographicCamera camera;
     public SpriteBatch spriteBatch;
     public Assets assets;
 
@@ -22,8 +20,6 @@ public class MainGameScreen extends com.badlogic.gdx.Game {
 
     @Override
     public void create() {
-        camera=new OrthographicCamera();
-        camera.update();
         spriteBatch = new SpriteBatch();
         assets=new Assets();
         this.setScreen(new SplashScreen(this,spriteBatch,assets));
