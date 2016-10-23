@@ -41,18 +41,13 @@ public class MainMenu implements Screen{
     SaveScore saveScore = new SaveScore();
     MainMenu mainMenu;
 
-    public MainMenu(MainGameScreen mainGameScreen,Assets assets, OrthographicCamera camera, SpriteBatch spriteBatch){
+    public MainMenu(final MainGameScreen mainGameScreen, final Assets assets, final SpriteBatch spriteBatch){
 
         this.mainGameScreen = mainGameScreen;
-        this.camera=camera;
         this.spriteBatch=spriteBatch;
         this.assets=assets;
         this.mainMenu=this;
 
-    }
-
-    @Override
-    public void show() {
         camera = new OrthographicCamera();
         //viewport = new FitViewport(1920, 1080,camera); //A ratio did not give correct response, probably due to the stage actors are not images...
         viewport = new ScreenViewport(camera);
@@ -74,8 +69,8 @@ public class MainMenu implements Screen{
 
             @Override
             public void clicked(InputEvent event, float x,float y){
-                mainGameScreen.setScreen(new Game(assets, camera, spriteBatch,mainGameScreen,mainMenu));// Couldnt use "this" because this is inside inner class...
-                dispose();
+                mainGameScreen.setScreen(new Game(assets,spriteBatch,mainGameScreen,mainMenu));// Couldnt use "this" because this is inside inner class...
+                //dispose();
             }
         });
 
@@ -112,8 +107,11 @@ public class MainMenu implements Screen{
         table.add(imageButton2);
         table.add(imageButton3);
         stage.addActor(table);
-        Gdx.input.setInputProcessor(stage);
+    }
 
+    @Override
+    public void show() {
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override

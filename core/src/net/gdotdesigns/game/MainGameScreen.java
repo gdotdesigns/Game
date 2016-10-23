@@ -2,7 +2,6 @@ package net.gdotdesigns.game;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.googlecode.gwt.crypto.util.Sys;
 
 /**
  * Created by Todd on 9/19/2016.
@@ -27,7 +26,7 @@ public class MainGameScreen extends com.badlogic.gdx.Game {
         camera.update();
         spriteBatch = new SpriteBatch();
         assets=new Assets();
-        this.setScreen(new SplashScreen(this,camera,spriteBatch,assets));
+        this.setScreen(new SplashScreen(this,spriteBatch,assets));
     }
 
     @Override

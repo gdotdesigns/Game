@@ -2,7 +2,6 @@ package net.gdotdesigns.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -21,7 +20,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.googlecode.gwt.crypto.util.Sys;
 
 public class Game implements Screen{
 
@@ -66,9 +64,9 @@ public class Game implements Screen{
     MainGameScreen mainGameScreen;
     MainMenu mainMenu;
 
-    public Game(Assets assets,OrthographicCamera camera,SpriteBatch spriteBatch,MainGameScreen mainGameScreen,MainMenu mainMenu){
+    public Game(Assets assets,SpriteBatch spriteBatch,MainGameScreen mainGameScreen,MainMenu mainMenu){
         this.assets=assets;
-        this.camera=camera;
+        this.camera= new OrthographicCamera();
         this.spriteBatch=spriteBatch;
         this.entityManager=new EntityManager();//Made an object instead of a static class due to Android issues with glitched textures...
         saveScore = new SaveScore();
@@ -119,12 +117,13 @@ public class Game implements Screen{
     }
 
     public void playAgain(){
-        mainGameScreen.setScreen(new Game(assets, camera, spriteBatch,mainGameScreen,mainMenu));
+        mainGameScreen.setScreen(new Game(assets,spriteBatch,mainGameScreen,mainMenu));
         dispose();
     }
 
     @Override
     public void render (float delta) {
+        //TODO Add delta time to the physics movement and travel to accomodate for different framerates.
             camera.update();
             if(gameRunning) {
                 deltaTime = Gdx.graphics.getDeltaTime();

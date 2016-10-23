@@ -30,9 +30,9 @@ public class SplashScreen implements Screen  {
     private boolean fadeOutComplete = false;
     private Viewport viewport;
 
-    public SplashScreen(MainGameScreen mainGameScreen,OrthographicCamera camera,SpriteBatch spriteBatch,Assets assets){
+    public SplashScreen(MainGameScreen mainGameScreen,SpriteBatch spriteBatch,Assets assets){
         this.mainGameScreen=mainGameScreen;
-        this.camera=camera;
+        this.camera=new OrthographicCamera();
         this.spriteBatch=spriteBatch;
         this.assets=assets;
         assets.loadMenuAssets();}
@@ -82,7 +82,7 @@ public class SplashScreen implements Screen  {
         }
 
         if(fadeInComplete && fadeOutComplete) {
-            mainGameScreen.setScreen(new MainMenu(mainGameScreen,assets, camera, spriteBatch));
+            mainGameScreen.setScreen(new MainMenu(mainGameScreen,assets,spriteBatch));
             spriteBatch.setColor(Color.WHITE);//Reset spriteBatch due to alpha change, it has to be done manually...
             dispose();
         }
