@@ -1,7 +1,7 @@
 
 GameAssets.png
 format: RGBA8888
-filter: Nearest,Nearest
+filter: Linear,Linear
 repeat: none
 layer_01_1920 x 1080
   rotate: false
