@@ -74,7 +74,7 @@ public class Hud {
                 game.quitGame();
             }
         });
-        playAgain = new TextButton("Play Again",skin);
+        playAgain = new TextButton("PLAY",skin);
         playAgain.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -83,8 +83,8 @@ public class Hud {
         });
         table.add(gameOver).colspan(2);
         table.row();
-        table.add(menu);
-        table.add(playAgain);
+        table.add(menu).width(200f);
+        table.add(playAgain).width(200f);
     }
 
     public void pause(){
