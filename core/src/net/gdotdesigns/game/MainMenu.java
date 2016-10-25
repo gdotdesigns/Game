@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -13,12 +12,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.googlecode.gwt.crypto.util.Sys;
 
 /**
  * Created by Todd on 9/27/2016.
@@ -37,7 +33,6 @@ public class MainMenu implements Screen{
     ImageButton imageButton1;
     ImageButton imageButton2;
     ImageButton imageButton3;
-    GlyphLayout glyphLayout;
     Label gameTitle;
     int highScore;
     Label highScoreLabel;
@@ -59,7 +54,6 @@ public class MainMenu implements Screen{
         stage=new Stage(viewport,spriteBatch);
         table = new Table();
         skin = assets.getMenuAssets();
-        glyphLayout = new GlyphLayout(skin.getFont("font"),"Play");
         //TODO find formula to scale fonts to screen size.
         //TODO 9-patch buttons are not wide enough by default for the text
         //TODO figure out how to load fonts with mip-maping MipMapLinear, Linear to help with text blurriness when scaling
@@ -67,9 +61,6 @@ public class MainMenu implements Screen{
         gameTitle = new Label("Title of Game",skin);
         gameTitle.setFontScale(2f);
         start=new TextButton("Play",skin);
-        start.getLabelCell().padBottom(30f);
-        Drawable drawable = skin.getDrawable("button");
-        float h = drawable.getMinHeight();
 
 
         start.addListener(new ClickListener(){
@@ -83,7 +74,6 @@ public class MainMenu implements Screen{
 
 
         stop=new TextButton("Exit",skin);
-        stop.getLabelCell().padBottom(30f);
         stop.addListener(new ClickListener(){
 
             @Override
@@ -105,8 +95,6 @@ public class MainMenu implements Screen{
         table.add(gameTitle).colspan(3);
         table.row();
 ;       table.add(start).colspan(3);
-
-        System.out.println(table.getCell(start).getMinHeight());
         table.row();
         table.add(stop).colspan(3);
         table.row();
