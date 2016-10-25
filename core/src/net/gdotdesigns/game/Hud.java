@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -52,6 +53,11 @@ public class Hud {
         frameRate= new String("Frame Rate: " + calculateFrameRate);
         label= new Label(scoreLabel,skin);
         fps=new Label(frameRate,skin);
+        resume= new TextButton("RESUME",skin);
+        gameOver = new Label("Game Over",skin);
+        gameOver.setFontScale(2f);
+        menu = new TextButton("Menu",skin);
+        playAgain = new TextButton("PLAY",skin);
         table.debug();
         table.setFillParent(true);
         table.align(Align.top);
@@ -65,16 +71,12 @@ public class Hud {
         table.clearChildren();
         table.setFillParent(true);
         table.center();
-        gameOver = new Label("Game Over",skin);
-        gameOver.setFontScale(2f);
-        menu = new TextButton("Menu",skin);
         menu.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.quitGame();
             }
         });
-        playAgain = new TextButton("PLAY",skin);
         playAgain.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -83,20 +85,27 @@ public class Hud {
         });
         table.add(gameOver).colspan(2);
         table.row();
-        table.add(menu).width(200f);
-        table.add(playAgain).width(200f);
+        table.add(menu);
+        table.add(playAgain);
     }
 
     public void pause(){
-        resume= new TextButton("RESUME",skin);
         resume.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.gameResume();
                 table.removeActor(resume);
+                //resume.remove();
+                table.clearChildren();
+                table.add(label).padBottom(30f).padLeft(15f).align(Align.left).expandX();
+                table.add(fps).padBottom(30f).padRight(15f).align(Align.right).expandX();
+                game.gameResume();
             }
         });
-        table.add(resume).colspan(2).center();
+        //stage.addActor(resume);
+        //resume.setPosition(stage.getViewport().getWorldWidth()/2f-resume.getWidth()/2f,stage.getViewport().getWorldHeight()/2f-resume.getHeight()/2f);
+        table.add(resume).colspan(2).padTop(Value.percentHeight(.5f,table));
+
+
     }
 
 
