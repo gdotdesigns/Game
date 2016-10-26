@@ -131,13 +131,16 @@ public class Game implements Screen{
             }
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
             Matrix4 debugMatrix = spriteBatch.getProjectionMatrix().cpy().scale(1f, 1f, 0);
-            spriteBatch.setProjectionMatrix(camera.combined);
             spriteBatch.begin();
             if(gameRunning) {
                 parallaxBackground.render(deltaTime);
             }
-            else
+            else {
                 parallaxBackground.render(0f);
+            }
+
+            spriteBatch.setProjectionMatrix(camera.combined);
+            camera.update();
             entityManager.render(spriteBatch);
             spriteBatch.end();
             hud.update(delta);

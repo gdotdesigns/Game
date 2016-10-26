@@ -48,6 +48,7 @@ public class ParallaxBackground{
 
         for(ParallaxLayer layer:layers){
             batch.setProjectionMatrix(camera.projection);
+            camera.update();
             float currentX = - camera.position.x*layer.parallaxRatio.x % (Game.backgroundWidth) ;
 
             if( speed.x < 0 )currentX += -(Game.backgroundWidth);

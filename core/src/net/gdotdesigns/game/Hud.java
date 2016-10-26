@@ -48,7 +48,8 @@ public class Hud {
         viewport = new ScreenViewport(camera);
         viewport.apply();
         stage = new Stage(viewport,spriteBatch);
-        table= new Table();
+        table= new Table(skin);
+
         scoreLabel = new String("Enemies Killed: " + score);
         frameRate= new String("Frame Rate: " + calculateFrameRate);
         label= new Label(scoreLabel,skin);
@@ -58,12 +59,40 @@ public class Hud {
         gameOver.setFontScale(2f);
         menu = new TextButton("Menu",skin);
         playAgain = new TextButton("PLAY",skin);
+        registerListeners();
+
         table.debug();
         table.setFillParent(true);
         table.align(Align.top);
-        table.add(label).padBottom(30f).padLeft(15f).align(Align.left).expandX();
-        table.add(fps).padBottom(30f).padRight(15f).align(Align.right).expandX();
-        stage.addActor(table);
+        table.add(label).padLeft(Value.percentWidth(.05f)).align(Align.left).expandX();
+        table.add(fps).padRight(Value.percentWidth(.05f)).align(Align.right).expandX();
+;       stage.addActor(table);
+    }
+
+    private void registerListeners() {
+        resume.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                resume.remove();
+                game.gameResume();
+            }
+        });
+
+        menu.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.quitGame();
+            }
+        });
+
+
+        playAgain.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.playAgain();
+            }
+        });
+
     }
 
     public void gameOver(){
@@ -71,18 +100,6 @@ public class Hud {
         table.clearChildren();
         table.setFillParent(true);
         table.center();
-        menu.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.quitGame();
-            }
-        });
-        playAgain.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.playAgain();
-            }
-        });
         table.add(gameOver).colspan(2);
         table.row();
         table.add(menu);
@@ -90,22 +107,8 @@ public class Hud {
     }
 
     public void pause(){
-        resume.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                table.removeActor(resume);
-                //resume.remove();
-                table.clearChildren();
-                table.add(label).padBottom(30f).padLeft(15f).align(Align.left).expandX();
-                table.add(fps).padBottom(30f).padRight(15f).align(Align.right).expandX();
-                game.gameResume();
-            }
-        });
-        //stage.addActor(resume);
-        //resume.setPosition(stage.getViewport().getWorldWidth()/2f-resume.getWidth()/2f,stage.getViewport().getWorldHeight()/2f-resume.getHeight()/2f);
-        table.add(resume).colspan(2).padTop(Value.percentHeight(.5f,table));
-
-
+        stage.addActor(resume);
+        resume.setPosition(stage.getViewport().getWorldWidth()/2f-resume.getWidth()/2f,stage.getViewport().getWorldHeight()/2f-resume.getHeight()/2f);
     }
 
 
@@ -115,6 +118,8 @@ public class Hud {
     }
 
     public void draw(float deltaTime){
+        spriteBatch.setProjectionMatrix(camera.combined);
+        camera.update();
         stage.draw();
         fps.setText(frameRate + calculateFrameRate);
     }
