@@ -35,7 +35,11 @@ public class SplashScreen implements Screen  {
         this.camera=new OrthographicCamera();
         this.spriteBatch=spriteBatch;
         this.assets=assets;
-        assets.loadMenuAssets();}
+        assets.loadSplashScreenAssets();
+        assets.manager.finishLoading();
+        assets.loadGameAssets();
+        splashTexture = assets.getSplashScreenAssets();
+    }
 
 
     @Override
@@ -45,8 +49,6 @@ public class SplashScreen implements Screen  {
         viewport.apply();
         stage = new Stage(viewport,spriteBatch);
 
-        //TODO Add this image to the asset manager
-        splashTexture = new Texture(Gdx.files.internal("libgdx_splash.jpg"));
         splashImage= new Image(splashTexture);
         splashImage.setPosition(camera.viewportWidth/2f-splashImage.getWidth()/2f,camera.viewportHeight/2f-splashImage.getHeight()/2f);
         splashImage.addAction(Actions.sequence(Actions.alpha(0f),Actions.fadeIn(1f),Actions.delay(2f),Actions.run(new Runnable() {
@@ -107,7 +109,7 @@ public class SplashScreen implements Screen  {
     @Override
     public void dispose() {
         System.out.println("SPLASHSCREEN.DISPOSE");
-        splashTexture.dispose();
+        assets.unloadSplashScreenAssets();
         stage.dispose();
     }
 }
