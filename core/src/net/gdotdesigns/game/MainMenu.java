@@ -54,41 +54,17 @@ public class MainMenu implements Screen{
         stage=new Stage(viewport,spriteBatch);
         table = new Table();
         skin = assets.getMenuAssets();
-        //TODO find formula to scale fonts to screen size.
-        //TODO 9-patch buttons are not wide enough by default for the text
-        //TODO figure out how to load fonts with mip-maping MipMapLinear, Linear to help with text blurriness when scaling
 
         gameTitle = new Label("Title of Game",skin);
         gameTitle.setFontScale(2f);
         start=new TextButton("Play",skin);
-
-
-        start.addListener(new ClickListener(){
-
-            @Override
-            public void clicked(InputEvent event, float x,float y){
-                mainGameScreen.setScreen(new Game(assets,spriteBatch,mainGameScreen,mainMenu));// Couldnt use "this" because this is inside inner class...
-                //dispose();
-            }
-        });
-
-
         stop=new TextButton("Exit",skin);
-        stop.addListener(new ClickListener(){
-
-            @Override
-            public void clicked(InputEvent event, float x,float y){
-                Gdx.app.exit();
-            }
-        });
-
         highScore=saveScore.readScore();
         highScoreLabel = new Label("High Score: " + String.valueOf(highScore),skin);
-
         imageButton1 = new ImageButton(skin.getDrawable("games_achievements_green"),skin.getDrawable("games_achievements"));
         imageButton2 = new ImageButton(skin.getDrawable("games_controller"),skin.getDrawable("games_controller_grey"));
         imageButton3 = new ImageButton(skin.getDrawable("games_leaderboards_green"),skin.getDrawable("games_leaderboards"));
-
+        registerListeners();
 
         table.setFillParent(true);
         table.setDebug(true);
@@ -104,6 +80,26 @@ public class MainMenu implements Screen{
         table.add(imageButton2);
         table.add(imageButton3);
         stage.addActor(table);
+    }
+
+    private void registerListeners() {
+        start.addListener(new ClickListener(){
+
+            @Override
+            public void clicked(InputEvent event, float x,float y){
+                mainGameScreen.setScreen(new Game(assets,spriteBatch,mainGameScreen,mainMenu));// Couldnt use "this" because this is inside inner class...
+                //dispose();
+            }
+        });
+
+
+        stop.addListener(new ClickListener(){
+
+            @Override
+            public void clicked(InputEvent event, float x,float y){
+                Gdx.app.exit();
+            }
+        });
     }
 
     @Override
