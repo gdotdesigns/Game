@@ -76,14 +76,14 @@ public class Hud {
             public void clicked(InputEvent event, float x, float y) {
                 resume.setOrigin(Align.center);
                 resume.setClip(true);
-                resume.addAction(Actions.sequence(Actions.scaleBy(2,2),Actions.run(new Runnable() {
+                resume.addAction(Actions.sequence(Actions.parallel(Actions.rotateTo(360,5f),Actions.scaleTo(0,0,5f)),Actions.run(new Runnable() {
                     @Override
                     public void run() {
                         resume.remove();
+                        game.gameResume();
+                        resume.addAction(Actions.sequence(Actions.scaleTo(1,1),Actions.rotateTo(-360)));
                     }
                 })));
-                //resume.remove();
-                game.gameResume();
             }
         });
 
