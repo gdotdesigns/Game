@@ -174,12 +174,12 @@ public class Game implements Screen{
             TextureRegion region2 = skin.getRegion("frame-2");
             TextureRegion region3 = skin.getRegion("frame-3");
             TextureRegion region4 = skin.getRegion("frame-4");
-            if(!region1.isFlipX()) {     //This keeps the textureregion from flipping again, since this persists through the restart of the screen...
-                region1.flip(true, false);
-                region2.flip(true, false);
-                region3.flip(true, false);
-                region4.flip(true, false);
-            }
+//            if(!region1.isFlipX()) {     //This keeps the textureregion from flipping again, since this persists through the restart of the screen...
+//                region1.flip(true, false);
+//                region2.flip(true, false);
+//                region3.flip(true, false);
+//                region4.flip(true, false);
+//            }
             enemyBird.add(region1);
             enemyBird.add(region2);
             enemyBird.add(region3);
@@ -194,10 +194,10 @@ public class Game implements Screen{
             enemyBirdHit = new Array<TextureRegion>();
             TextureRegion hitRegion1 = skin.getRegion("hit-frame-1");
             TextureRegion hitRegion2 = skin.getRegion("hit-frame-2");
-            if(!hitRegion1.isFlipX()) {
-                hitRegion1.flip(true, false);
-                hitRegion2.flip(true, false);
-            }
+//            if(!hitRegion1.isFlipX()) {
+//                hitRegion1.flip(true, false);
+//                hitRegion2.flip(true, false);
+//            }
             enemyBirdHit.add(hitRegion1);
             enemyBirdHit.add(hitRegion2);
     }

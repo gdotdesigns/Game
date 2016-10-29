@@ -3,6 +3,7 @@ package net.gdotdesigns.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -28,6 +29,7 @@ public class Hud {
     SpriteBatch spriteBatch;
     Table table;
     Label label;
+    Label scoreValueLabel;
     Label gameOver;
     Label fps;
     TextButton menu;
@@ -51,9 +53,10 @@ public class Hud {
         stage = new Stage(viewport,spriteBatch);
         table= new Table(skin);
 
-        scoreLabel = new String("Enemies Killed: " + score);
+        scoreLabel = new String("Score:");
         frameRate= new String("Frame Rate: " + calculateFrameRate);
         label= new Label(scoreLabel,skin);
+        scoreValueLabel = new Label(String.valueOf(" " + score),skin);
         fps=new Label(frameRate,skin);
         resume= new TextButton("RESUME",skin);
         gameOver = new Label("Game Over",skin);
@@ -62,10 +65,11 @@ public class Hud {
         playAgain = new TextButton("PLAY",skin);
         registerListeners();
 
-        table.debug();
+        //table.debug();
         table.setFillParent(true);
         table.align(Align.top);
-        table.add(label).padLeft(Value.percentWidth(.05f)).align(Align.left).expandX();
+        table.add(label).padLeft(Value.percentWidth(.05f)).align(Align.left);
+        table.add(scoreValueLabel).align(Align.left).expandX();
         table.add(fps).padRight(Value.percentWidth(.05f)).align(Align.right).expandX();
 ;       stage.addActor(table);
     }
@@ -76,12 +80,12 @@ public class Hud {
             public void clicked(InputEvent event, float x, float y) {
                 resume.setOrigin(Align.center);
                 resume.setClip(true);
-                resume.addAction(Actions.sequence(Actions.parallel(Actions.rotateTo(360,5f),Actions.scaleTo(0,0,5f)),Actions.run(new Runnable() {
+                resume.addAction(Actions.sequence(Actions.parallel(Actions.moveTo(resume.getX(),-stage.getViewport().getScreenHeight()/2f,.5f, Interpolation.Elastic.swingIn)),Actions.run(new Runnable() {
                     @Override
                     public void run() {
                         resume.remove();
                         game.gameResume();
-                        resume.addAction(Actions.sequence(Actions.scaleTo(1,1),Actions.rotateTo(-360)));
+                        //resume.addAction(Actions.sequence(Actions.scaleTo(1,1),Actions.rotateTo(0f))); //only need to reset actions if changing scale or rotation
                     }
                 })));
             }
@@ -111,6 +115,9 @@ public class Hud {
         table.center();
         table.add(gameOver).colspan(2);
         table.row();
+        table.add(label).align(Align.right);
+        table.add(scoreValueLabel).align(Align.left);
+        table.row();
         table.add(menu);
         table.add(playAgain);
     }
@@ -136,8 +143,7 @@ public class Hud {
 
     public  void killCount(){
         score++;
-        label.setText(scoreLabel + score);
-
+        scoreValueLabel.setText(String.valueOf(" " + score));
     }
 
 }

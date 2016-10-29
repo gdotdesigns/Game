@@ -67,7 +67,7 @@ public class MainMenu implements Screen{
         registerListeners();
 
         table.setFillParent(true);
-        table.setDebug(true);
+        //table.setDebug(true);
         table.add(gameTitle).colspan(3);
         table.row();
 ;       table.add(start).colspan(3);
