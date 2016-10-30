@@ -16,7 +16,7 @@ android {
     }
     defaultConfig {
         applicationId "net.gdotdesigns.game"
-        minSdkVersion 8
+        minSdkVersion 9 //minimum is 9 to use google play services
         targetSdkVersion 24
     }
 }

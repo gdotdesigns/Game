@@ -2,10 +2,11 @@ buildscript {
     repositories {
         mavenLocal()
         mavenCentral()
+        jcenter()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.2'
+        classpath 'com.android.tools.build:gradle:2.2.2'
     }
 }
 
@@ -62,7 +63,8 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-arm64-v8a"
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86"
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86_64"
-        compile files('../core/libs/gwt-crypto-2.3.0.jar') //Some bug causess you to have to duplicate the compile command in android project here.
+        compile files('../core/libs/gwt-crypto-2.3.0.jar') //Some bug causes you to have to duplicate the compile command in android project here.
+        compile 'com.google.android.gms:play-services:9.8.0' // this is needed for google play and admob
     }
 }
 
