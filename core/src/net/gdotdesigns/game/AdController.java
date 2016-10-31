@@ -5,4 +5,6 @@ package net.gdotdesigns.game;
  */
 
 public interface AdController {
+
+    public void showorLoadInterstitials();
 }
