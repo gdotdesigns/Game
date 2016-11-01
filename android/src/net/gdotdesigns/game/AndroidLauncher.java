@@ -29,7 +29,7 @@ public class AndroidLauncher extends AndroidApplication implements AdController 
 		initialize(new MainGameScreen(this), config);
 	}
 
-
+//TODO Check for internet connection to disable ad if no connection?????
     @Override
     public void showorLoadInterstitials(final Runnable runnable) {
         runOnUiThread(new Runnable() {
