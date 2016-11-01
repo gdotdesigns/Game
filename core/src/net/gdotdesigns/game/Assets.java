@@ -15,8 +15,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
  */
 public class Assets {
 
-    private static final String MENU_SKIN = "GameAssets.json";
-    //private static final String MENU_SKIN = "LameAssets.json";
+    //private static final String MENU_SKIN = "GameAssets.json";
+    private static final String MENU_SKIN = "LameAssets.json";
     private static final String SPLASH_IMAGE="libgdx_splash.jpg";
 
     //http://andrew.hedges.name/experiments/aspect_ratio/

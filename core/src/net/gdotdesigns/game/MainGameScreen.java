@@ -14,7 +14,7 @@ public class MainGameScreen extends com.badlogic.gdx.Game {
     public static final float WORLD_HEIGHT=9f;
     public SpriteBatch spriteBatch;
     public Assets assets;
-    public static AdController adController;
+    public AdController adController;
 
     public MainGameScreen(AdController adController){
         this.adController = adController;

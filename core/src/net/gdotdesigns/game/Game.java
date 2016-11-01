@@ -112,12 +112,20 @@ public class Game implements Screen{
     }
 
     public void quitGame(){
-        mainGameScreen.setScreen(mainMenu); //Saving reference to mainMenu, so I dont have to reintialize...
-        dispose();
+        mainGameScreen.adController.incrementPlayCount();
+        mainGameScreen.adController.showorLoadInterstitials(new Runnable() {
+            @Override
+            public void run() {
+                mainGameScreen.setScreen(mainMenu); //Saving reference to mainMenu, so I dont have to reintialize...
+                dispose();
+            }
+        });
     }
 
+
     public void playAgain(){
-        MainGameScreen.adController.showorLoadInterstitials(new Runnable() {
+        mainGameScreen.adController.incrementPlayCount();
+        mainGameScreen.adController.showorLoadInterstitials(new Runnable() {
             @Override
             public void run() {
                 mainGameScreen.setScreen(new Game(assets,spriteBatch,mainGameScreen,mainMenu));
