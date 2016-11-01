@@ -117,8 +117,14 @@ public class Game implements Screen{
     }
 
     public void playAgain(){
-        mainGameScreen.setScreen(new Game(assets,spriteBatch,mainGameScreen,mainMenu));
-        dispose();
+        MainGameScreen.adController.showorLoadInterstitials(new Runnable() {
+            @Override
+            public void run() {
+                mainGameScreen.setScreen(new Game(assets,spriteBatch,mainGameScreen,mainMenu));
+                dispose();
+            }
+        });
+
     }
 
     @Override
@@ -271,6 +277,7 @@ public class Game implements Screen{
 
     @Override
     public void resume() {
+
     }
 
     @Override
