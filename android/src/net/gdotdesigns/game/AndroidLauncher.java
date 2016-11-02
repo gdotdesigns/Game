@@ -11,42 +11,51 @@ import com.google.android.gms.ads.InterstitialAd;
 public class AndroidLauncher extends AndroidApplication implements AdController {
 
     private InterstitialAd interstitialAd;
+    private AdRequest adRequest;
     private int playCount = 0;
-    //private static final String INTERSTITIAL_UNIT_ID ="ca-app-pub-2895382750471159~5396822225";
+    private static final int MAX_PLAY_COUNT = 1;
 	private static final String INTERSTITIAL_UNIT_ID ="ca-app-pub-2895382750471159/5257221423";
 	private static final String TEST_DEVICE= "8ABB25975BCF7ED6E7C49D16043D1A12";
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
         interstitialAd = new InterstitialAd(this);
-        AdRequest adRequest = new AdRequest.Builder()
+        adRequest = new AdRequest.Builder()
                 .addTestDevice(TEST_DEVICE)
                 .build();
         interstitialAd.setAdUnitId(INTERSTITIAL_UNIT_ID);
         interstitialAd.loadAd(adRequest);
+
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		initialize(new MainGameScreen(this), config);
 	}
 
-//TODO Check for internet connection to disable ad if no connection?????
     @Override
     public void showorLoadInterstitials(final Runnable runnable) {
-        if(playCount > 1) {
+        if(playCount >= MAX_PLAY_COUNT) {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     if (runnable != null) {
-                        interstitialAd.setAdListener(new AdListener() {
-                            @Override
-                            public void onAdClosed() {
-                                Gdx.app.postRunnable(runnable);
-                                AdRequest adRequest = new AdRequest.Builder()
-                                        .addTestDevice(TEST_DEVICE)
-                                        .build();
+                        if(interstitialAd.isLoaded()) {
+                            interstitialAd.setAdListener(new AdListener() {
+                                @Override
+                                public void onAdClosed() {
+                                    Gdx.app.postRunnable(runnable);
+                                    interstitialAd.loadAd(adRequest);
+                                }
+                            });
+                        }
+                        else {
+                            if(interstitialAd.isLoading() == false) {
                                 interstitialAd.loadAd(adRequest);
                             }
-                        });
+                            Gdx.app.postRunnable(runnable);
+                            return;
+
+                        }
                     }
                     interstitialAd.show();
                     playCount = 0;
@@ -55,9 +64,9 @@ public class AndroidLauncher extends AndroidApplication implements AdController 
             });
         }
         else{
-            System.out.println("playCount: " + playCount);
             playCount++;
             Gdx.app.postRunnable(runnable);
         }
     }
+
 }
