@@ -21,11 +21,6 @@ public class DesktopLauncher implements AdController{
         Gdx.app.postRunnable(runnable);
     }
 
-    @Override
-    public void incrementPlayCount() {
-
-    }
-
 }
 
 

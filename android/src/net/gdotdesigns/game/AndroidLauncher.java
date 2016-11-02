@@ -1,7 +1,6 @@
 package net.gdotdesigns.game;
 
 import android.os.Bundle;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
@@ -34,7 +33,6 @@ public class AndroidLauncher extends AndroidApplication implements AdController 
     @Override
     public void showorLoadInterstitials(final Runnable runnable) {
         if(playCount > 1) {
-            playCount = 0;
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -51,16 +49,15 @@ public class AndroidLauncher extends AndroidApplication implements AdController 
                         });
                     }
                     interstitialAd.show();
+                    playCount = 0;
+
                 }
             });
         }
         else{
+            System.out.println("playCount: " + playCount);
+            playCount++;
             Gdx.app.postRunnable(runnable);
         }
-    }
-
-    @Override
-    public void incrementPlayCount() {
-        playCount++;
     }
 }

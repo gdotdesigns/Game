@@ -7,6 +7,4 @@ package net.gdotdesigns.game;
 public interface AdController {
 
     public void showorLoadInterstitials(Runnable runnable);
-
-    public void incrementPlayCount ();
 }

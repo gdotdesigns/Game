@@ -112,7 +112,6 @@ public class Game implements Screen{
     }
 
     public void quitGame(){
-        mainGameScreen.adController.incrementPlayCount();
         mainGameScreen.adController.showorLoadInterstitials(new Runnable() {
             @Override
             public void run() {
@@ -124,7 +123,6 @@ public class Game implements Screen{
 
 
     public void playAgain(){
-        mainGameScreen.adController.incrementPlayCount();
         mainGameScreen.adController.showorLoadInterstitials(new Runnable() {
             @Override
             public void run() {
