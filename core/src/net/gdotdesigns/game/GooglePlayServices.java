@@ -7,6 +7,8 @@ package net.gdotdesigns.game;
 public interface GooglePlayServices {
 
     //http://stackoverflow.com/questions/32982472/libgdx-google-play-game-services-in-android-studio
+    //https://developers.google.com/android/guides/permissions
+    //https://developers.google.com/games/services/android/quickstart
 
     boolean getSignedInGPGS();
     void loginGPGS();
