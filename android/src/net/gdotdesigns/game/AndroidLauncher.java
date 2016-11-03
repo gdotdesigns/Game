@@ -8,7 +8,7 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 
-public class AndroidLauncher extends AndroidApplication implements AdController {
+public class AndroidLauncher extends AndroidApplication implements AdController, GooglePlayServices {
 
     private InterstitialAd interstitialAd;
     private AdRequest adRequest;
@@ -69,4 +69,33 @@ public class AndroidLauncher extends AndroidApplication implements AdController 
         }
     }
 
+    @Override
+    public boolean getSignedInGPGS() {
+        return false;
+    }
+
+    @Override
+    public void loginGPGS() {
+
+    }
+
+    @Override
+    public void submitScoreGPGS(int score, String id) {
+
+    }
+
+    @Override
+    public void unlockAchievementGPGS(String achievementId) {
+
+    }
+
+    @Override
+    public void getLeaderboardGPGS() {
+
+    }
+
+    @Override
+    public void getAchievementsGPGS() {
+
+    }
 }
