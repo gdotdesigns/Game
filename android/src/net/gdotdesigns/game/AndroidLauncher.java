@@ -1,17 +1,24 @@
 package net.gdotdesigns.game;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.games.Games;
 
-public class AndroidLauncher extends AndroidApplication implements AdController, GooglePlayServices {
+public class AndroidLauncher extends AndroidApplication implements AdController, GooglePlayServices, GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener {
 
     private InterstitialAd interstitialAd;
     private AdRequest adRequest;
+    private GoogleApiClient googleApiClient;
     private int playCount = 0;
     private static final int MAX_PLAY_COUNT = 1;
 	private static final String INTERSTITIAL_UNIT_ID ="ca-app-pub-2895382750471159/5257221423";
@@ -21,6 +28,7 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+
         interstitialAd = new InterstitialAd(this);
         adRequest = new AdRequest.Builder()
                 .addTestDevice(TEST_DEVICE)
@@ -28,9 +36,24 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
         interstitialAd.setAdUnitId(INTERSTITIAL_UNIT_ID);
         interstitialAd.loadAd(adRequest);
 
+        googleApiClient = new GoogleApiClient.Builder(this).addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(Games.API).addScope(Games.SCOPE_GAMES)
+                .build();
+
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-		initialize(new MainGameScreen(this), config);
+		initialize(new MainGameScreen(this,this), config);
 	}
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
 
     @Override
     public void showorLoadInterstitials(final Runnable runnable) {
@@ -76,7 +99,16 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
 
     @Override
     public void loginGPGS() {
-
+        try {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    googleApiClient.connect();
+                }
+            });
+        } catch (Exception e) {
+            Gdx.app.log("MainActivity", "Log in failed: " + e.getMessage() + ".");
+        }
     }
 
     @Override
@@ -96,6 +128,22 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
 
     @Override
     public void getAchievementsGPGS() {
+
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        System.out.println("CONNNEEECCCCTTTTTTTTEEEEEEEEDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
 }
