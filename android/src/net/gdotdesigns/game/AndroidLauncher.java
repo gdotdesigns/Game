@@ -18,8 +18,6 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.games.Games;
 
-import static android.content.ContentValues.TAG;
-
 public class AndroidLauncher extends AndroidApplication implements AdController, GooglePlayServices, GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener {
 
     private InterstitialAd interstitialAd;
@@ -30,6 +28,7 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
 	private static final String INTERSTITIAL_UNIT_ID ="ca-app-pub-2895382750471159/5257221423";
 	private static final String TEST_DEVICE= "8ABB25975BCF7ED6E7C49D16043D1A12";
     public static final int REQUEST_CODE_RESOLUTION = 1;
+    public static final String TAG = "MainGameScreen";
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
@@ -63,6 +62,7 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
     @Override
     protected void onResume() {
         super.onResume();
+
 
         googleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -149,7 +149,8 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        System.out.println("CONNNEEECCCCTTTTTTTTEEEEEEEEDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
+
+        Log.i(TAG,"GoogleApiClient connection successful!");
 
     }
 
@@ -178,9 +179,10 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
     @Override
     protected void onActivityResult(int requestCode, int resultCode,
                                     Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_RESOLUTION && resultCode == RESULT_OK) {
-            googleApiClient.connect();
+      super.onActivityResult(requestCode, resultCode, data);
+       if (requestCode == REQUEST_CODE_RESOLUTION && resultCode == RESULT_OK) {
+           Log.i(TAG,"Request code resolved.");
+           googleApiClient.connect();
         }
     }
 }
