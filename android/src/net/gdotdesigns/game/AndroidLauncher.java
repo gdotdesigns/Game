@@ -1,7 +1,6 @@
 package net.gdotdesigns.game;
 
 import android.content.Intent;
-import android.content.IntentSender;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,10 +12,7 @@ import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
@@ -32,8 +28,11 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
     private static final int MAX_PLAY_COUNT = 1;
 	private static final String INTERSTITIAL_UNIT_ID ="ca-app-pub-2895382750471159/5257221423";
 	private static final String TEST_DEVICE= "8ABB25975BCF7ED6E7C49D16043D1A12";
-    public static final int REQUEST_CODE_RESOLUTION = 1;
-    public static final String TAG = "MainGameScreen";
+    private static int RC_SIGN_IN = 9001;
+    private boolean resolvingConnectionFailure = false;
+    private boolean autoStartSignInflow = true;
+    private boolean signInClicked = false;
+    public static final String TAG = "AndroidLauncher";
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
@@ -56,14 +55,11 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
     @Override
     protected void onStop() {
         super.onStop();
+        if(googleApiClient.isConnected()){
+            googleApiClient.disconnect();
+        }
 
-        Games.signOut(googleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(Status status) {
-                        // ...
-                    }
-                });
+
     }
 
     @Override
@@ -75,14 +71,10 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
     protected void onResume() {
         super.onResume();
 
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
 
         googleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
-                //.addApi(Auth.GOOGLE_SIGN_IN_API,gso)
                 .addApi(Games.API).addScope(Games.SCOPE_GAMES)
                 .build();
 
@@ -143,6 +135,7 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
         } catch (Exception e) {
             Gdx.app.log("MainActivity", "Log in failed: " + e.getMessage() + ".");
         }
+        signInClicked =true;
     }
 
     @Override
@@ -166,6 +159,21 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
     }
 
     @Override
+    public void signOutGPGS() {
+        if(googleApiClient.isConnected()) {
+            Games.signOut(googleApiClient).setResultCallback(
+                    new ResultCallback<Status>() {
+                        @Override
+                        public void onResult(Status status) {
+                            // ...
+                        }
+                    });
+
+            signInClicked = false;
+        }
+    }
+
+    @Override
     public void onConnected(@Nullable Bundle bundle) {
 
         Log.i(TAG,"GoogleApiClient connection successful!");
@@ -174,30 +182,30 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
 
     @Override
     public void onConnectionSuspended(int i) {
-
+            googleApiClient.connect();
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult result) {
         Log.i(TAG, "GoogleApiClient connection failed: " + result.toString());
-//        if (!result.hasResolution()) {
-//            // show the localized error dialog.
-//            GoogleApiAvailability.getInstance().getErrorDialog(this, result.getErrorCode(), 0).show();
-//            return;
-//        }
-//        try {
-//            result.startResolutionForResult(this, REQUEST_CODE_RESOLUTION);
-//        } catch (IntentSender.SendIntentException e) {
-//            Log.e(TAG, "Exception while starting resolution activity", e);
-//        }
 
-
-
-        if (!BaseGameUtils.resolveConnectionFailure(this,
-                googleApiClient, result,
-                9001, "WOOOPS")) {
+        if (resolvingConnectionFailure) {
+            // already resolving
+            return;
         }
 
+        if (signInClicked || autoStartSignInflow) {
+            autoStartSignInflow = false;
+            signInClicked = false;
+            resolvingConnectionFailure = true;
+
+
+            if (!BaseGameUtils.resolveConnectionFailure(this,
+                    googleApiClient, result,
+                    RC_SIGN_IN, getString(R.string.signin_other_error))) {
+                        resolvingConnectionFailure=false;
+            }
+        }
     }
 
 
@@ -205,12 +213,10 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
     protected void onActivityResult(int requestCode, int resultCode,
                                     Intent data) {
       super.onActivityResult(requestCode, resultCode, data);
-//       if (requestCode == REQUEST_CODE_RESOLUTION && resultCode == RESULT_OK) {
-//           Log.i(TAG,"Request code resolved.");
-//           googleApiClient.connect();
-//        }
 
-        if (requestCode == 9001) {
+        if (requestCode == RC_SIGN_IN) {
+            signInClicked = false;
+            resolvingConnectionFailure = false;
             if (resultCode == RESULT_OK) {
                 googleApiClient.connect();
             } else {
@@ -219,9 +225,9 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
                 // string in your strings.xml file that tells the user they
                 // could not be signed in, such as "Unable to sign in."
                 BaseGameUtils.showActivityResultError(this,
-                        requestCode, resultCode, 1);
+                        requestCode, resultCode, R.string.signin_failure);
             }
+     }
     }
-}
 }
 

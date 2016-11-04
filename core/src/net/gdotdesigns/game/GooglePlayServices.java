@@ -16,5 +16,6 @@ public interface GooglePlayServices {
     void unlockAchievementGPGS(String achievementId);
     void getLeaderboardGPGS();
     void getAchievementsGPGS();
+    void signOutGPGS();
 
 }

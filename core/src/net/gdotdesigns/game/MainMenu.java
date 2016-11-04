@@ -111,14 +111,14 @@ public class MainMenu implements Screen{
         imageButton2.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
+                MainGameScreen.googlePlayServices.loginGPGS();
             }
         });
 
         imageButton3.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
+                MainGameScreen.googlePlayServices.signOutGPGS();
             }
         });
     }
@@ -127,6 +127,7 @@ public class MainMenu implements Screen{
     public void show() {
         Gdx.input.setInputProcessor(stage);
         MainGameScreen.googlePlayServices.loginGPGS();
+
     }
 
     @Override
