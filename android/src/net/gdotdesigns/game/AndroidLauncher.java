@@ -18,7 +18,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.games.Games;
+import com.google.example.games.basegameutils.BaseGameUtils;
 
 public class AndroidLauncher extends AndroidApplication implements AdController, GooglePlayServices, GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener {
 
@@ -53,7 +56,14 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
     @Override
     protected void onStop() {
         super.onStop();
-        googleApiClient.disconnect();
+
+        Games.signOut(googleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(Status status) {
+                        // ...
+                    }
+                });
     }
 
     @Override
@@ -75,6 +85,8 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
                 //.addApi(Auth.GOOGLE_SIGN_IN_API,gso)
                 .addApi(Games.API).addScope(Games.SCOPE_GAMES)
                 .build();
+
+
     }
 
     @Override
@@ -168,15 +180,22 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult result) {
         Log.i(TAG, "GoogleApiClient connection failed: " + result.toString());
-        if (!result.hasResolution()) {
-            // show the localized error dialog.
-            GoogleApiAvailability.getInstance().getErrorDialog(this, result.getErrorCode(), 0).show();
-            return;
-        }
-        try {
-            result.startResolutionForResult(this, REQUEST_CODE_RESOLUTION);
-        } catch (IntentSender.SendIntentException e) {
-            Log.e(TAG, "Exception while starting resolution activity", e);
+//        if (!result.hasResolution()) {
+//            // show the localized error dialog.
+//            GoogleApiAvailability.getInstance().getErrorDialog(this, result.getErrorCode(), 0).show();
+//            return;
+//        }
+//        try {
+//            result.startResolutionForResult(this, REQUEST_CODE_RESOLUTION);
+//        } catch (IntentSender.SendIntentException e) {
+//            Log.e(TAG, "Exception while starting resolution activity", e);
+//        }
+
+
+
+        if (!BaseGameUtils.resolveConnectionFailure(this,
+                googleApiClient, result,
+                9001, "WOOOPS")) {
         }
 
     }
@@ -186,9 +205,23 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
     protected void onActivityResult(int requestCode, int resultCode,
                                     Intent data) {
       super.onActivityResult(requestCode, resultCode, data);
-       if (requestCode == REQUEST_CODE_RESOLUTION && resultCode == RESULT_OK) {
-           Log.i(TAG,"Request code resolved.");
-           googleApiClient.connect();
-        }
+//       if (requestCode == REQUEST_CODE_RESOLUTION && resultCode == RESULT_OK) {
+//           Log.i(TAG,"Request code resolved.");
+//           googleApiClient.connect();
+//        }
+
+        if (requestCode == 9001) {
+            if (resultCode == RESULT_OK) {
+                googleApiClient.connect();
+            } else {
+                // Bring up an error dialog to alert the user that sign-in
+                // failed. The R.string.signin_failure should reference an error
+                // string in your strings.xml file that tells the user they
+                // could not be signed in, such as "Unable to sign in."
+                BaseGameUtils.showActivityResultError(this,
+                        requestCode, resultCode, 1);
+            }
     }
 }
+}
+
