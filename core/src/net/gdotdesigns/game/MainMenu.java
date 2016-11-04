@@ -100,6 +100,27 @@ public class MainMenu implements Screen{
                 Gdx.app.exit();
             }
         });
+
+        imageButton1.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+            }
+        });
+
+        imageButton2.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+            }
+        });
+
+        imageButton3.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+            }
+        });
     }
 
     @Override
