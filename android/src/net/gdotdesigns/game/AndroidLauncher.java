@@ -30,8 +30,6 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
 	private static final String TEST_DEVICE= "8ABB25975BCF7ED6E7C49D16043D1A12";
     private static int RC_SIGN_IN = 9001;
     private boolean resolvingConnectionFailure = false;
-    private boolean autoStartSignInflow = true;
-    private boolean signInClicked = false;
     public static final String TAG = "AndroidLauncher";
 
 	@Override
@@ -77,8 +75,6 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
                 .addOnConnectionFailedListener(this)
                 .addApi(Games.API).addScope(Games.SCOPE_GAMES)
                 .build();
-
-
     }
 
     @Override
@@ -119,12 +115,17 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
     }
 
     @Override
-    public boolean getSignedInGPGS() {
-        return false;
+    public boolean isSignedInGPGS() {
+        if(googleApiClient.isConnected()){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     @Override
-    public void loginGPGS() {
+    public void signInGPGS() {
         try {
             runOnUiThread(new Runnable() {
                 @Override
@@ -135,7 +136,6 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
         } catch (Exception e) {
             Gdx.app.log("MainActivity", "Log in failed: " + e.getMessage() + ".");
         }
-        signInClicked =true;
     }
 
     @Override
@@ -160,16 +160,24 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
 
     @Override
     public void signOutGPGS() {
-        if(googleApiClient.isConnected()) {
-            Games.signOut(googleApiClient).setResultCallback(
-                    new ResultCallback<Status>() {
+
+        try {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if(googleApiClient.isConnected()) {
+                        Games.signOut(googleApiClient).setResultCallback(
+                        new ResultCallback<Status>() {
                         @Override
                         public void onResult(Status status) {
                             // ...
                         }
                     });
-
-            signInClicked = false;
+        }
+                }
+            });
+        } catch (Exception e) {
+            Gdx.app.log("MainActivity", "Log in failed: " + e.getMessage() + ".");
         }
     }
 
@@ -193,19 +201,15 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
             // already resolving
             return;
         }
-
-        if (signInClicked || autoStartSignInflow) {
-            autoStartSignInflow = false;
-            signInClicked = false;
             resolvingConnectionFailure = true;
-
 
             if (!BaseGameUtils.resolveConnectionFailure(this,
                     googleApiClient, result,
                     RC_SIGN_IN, getString(R.string.signin_other_error))) {
+
                         resolvingConnectionFailure=false;
             }
-        }
+
     }
 
 
@@ -215,7 +219,6 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
       super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == RC_SIGN_IN) {
-            signInClicked = false;
             resolvingConnectionFailure = false;
             if (resultCode == RESULT_OK) {
                 googleApiClient.connect();

@@ -10,12 +10,11 @@ public interface GooglePlayServices {
     //https://developers.google.com/android/guides/permissions
     //https://developers.google.com/games/services/android/quickstart
 
-    boolean getSignedInGPGS();
-    void loginGPGS();
+    boolean isSignedInGPGS();
+    void signInGPGS();
     void submitScoreGPGS(int score, String id);
     void unlockAchievementGPGS(String achievementId);
     void getLeaderboardGPGS();
     void getAchievementsGPGS();
     void signOutGPGS();
-
 }

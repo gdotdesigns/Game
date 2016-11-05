@@ -111,7 +111,7 @@ public class MainMenu implements Screen{
         imageButton2.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                MainGameScreen.googlePlayServices.loginGPGS();
+                MainGameScreen.googlePlayServices.signInGPGS();
             }
         });
 
@@ -126,8 +126,9 @@ public class MainMenu implements Screen{
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
-        MainGameScreen.googlePlayServices.loginGPGS();
-
+        if(!MainGameScreen.googlePlayServices.isSignedInGPGS()){
+            MainGameScreen.googlePlayServices.signInGPGS();
+        }
     }
 
     @Override
