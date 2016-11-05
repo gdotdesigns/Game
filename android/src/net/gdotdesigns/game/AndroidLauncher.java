@@ -130,7 +130,9 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    googleApiClient.connect();
+                    if(!googleApiClient.isConnected()){
+                        googleApiClient.connect();
+                    }
                 }
             });
         } catch (Exception e) {
