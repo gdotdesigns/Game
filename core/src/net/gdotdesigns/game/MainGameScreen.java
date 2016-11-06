@@ -15,7 +15,7 @@ public class MainGameScreen extends com.badlogic.gdx.Game {
     public SpriteBatch spriteBatch;
     public Assets assets;
     public AdController adController;
-    public static GooglePlayServices googlePlayServices;
+    public GooglePlayServices googlePlayServices;
 
     public MainGameScreen(AdController adController,GooglePlayServices googlePlayServices){
         this.adController = adController;
@@ -27,7 +27,7 @@ public class MainGameScreen extends com.badlogic.gdx.Game {
     public void create() {
         spriteBatch = new SpriteBatch();
         assets=new Assets();
-        this.setScreen(new SplashScreen(this,spriteBatch,assets));
+        this.setScreen(new SplashScreen(this,spriteBatch,assets,googlePlayServices));
     }
 
     @Override

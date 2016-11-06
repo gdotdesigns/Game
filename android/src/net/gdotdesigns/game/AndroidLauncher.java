@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.android.AndroidApplication;
@@ -21,6 +22,12 @@ import com.google.example.games.basegameutils.BaseGameUtils;
 
 public class AndroidLauncher extends AndroidApplication implements AdController, GooglePlayServices, GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener {
 
+    //TODO Google play Icons are too small.
+    //TODO Need to add Google sign in button to atlas.
+    //TODO Need to add sign out button to atlas.
+    //TODO Implement way to remember if someone wants to remain signed out.
+    //TODO Implement way to record score while signed out so that it can be uploaded when signed in.
+
     private InterstitialAd interstitialAd;
     private AdRequest adRequest;
     private GoogleApiClient googleApiClient;
@@ -30,6 +37,7 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
 	private static final String TEST_DEVICE= "8ABB25975BCF7ED6E7C49D16043D1A12";
     private static int RC_SIGN_IN = 9001;
     private boolean resolvingConnectionFailure = false;
+    private boolean signingOut = false;
     public static final String TAG = "AndroidLauncher";
 
 	@Override
@@ -44,7 +52,11 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
         interstitialAd.setAdUnitId(INTERSTITIAL_UNIT_ID);
         interstitialAd.loadAd(adRequest);
 
-
+        googleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(Games.API).addScope(Games.SCOPE_GAMES)
+                .build();
 
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		initialize(new MainGameScreen(this,this), config);
@@ -54,7 +66,7 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
     protected void onStop() {
         super.onStop();
         if(googleApiClient.isConnected()){
-            googleApiClient.disconnect();
+            disconnectGPGS();
         }
 
 
@@ -68,13 +80,6 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
     @Override
     protected void onResume() {
         super.onResume();
-
-
-        googleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(Games.API).addScope(Games.SCOPE_GAMES)
-                .build();
     }
 
     @Override
@@ -137,12 +142,13 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
             });
         } catch (Exception e) {
             Gdx.app.log("MainActivity", "Log in failed: " + e.getMessage() + ".");
+
         }
     }
 
     @Override
     public void submitScoreGPGS(int score, String id) {
-
+        Games.Leaderboards.submitScore(googleApiClient,id,score);
     }
 
     @Override
@@ -152,7 +158,6 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
 
     @Override
     public void getLeaderboardGPGS() {
-
     }
 
     @Override
@@ -165,28 +170,53 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
 
         try {
             runOnUiThread(new Runnable() {
+
                 @Override
                 public void run() {
-                    if(googleApiClient.isConnected()) {
+                    if(googleApiClient.isConnected() && !signingOut) {
+                        signingOut = true;
                         Games.signOut(googleApiClient).setResultCallback(
                         new ResultCallback<Status>() {
                         @Override
                         public void onResult(Status status) {
-                            // ...
+                            googleApiClient.disconnect();
+                            signingOut = false;
+                            Toast.makeText(getContext(),"Signed out of Google Play.", Toast.LENGTH_SHORT).show();
+
                         }
                     });
         }
                 }
             });
         } catch (Exception e) {
-            Gdx.app.log("MainActivity", "Log in failed: " + e.getMessage() + ".");
+            Gdx.app.log("MainActivity", "Log out failed: " + e.getMessage() + ".");
         }
     }
 
     @Override
-    public void onConnected(@Nullable Bundle bundle) {
+    public void disconnectGPGS() {
 
+        try {
+            runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+                    if(googleApiClient.isConnected()) {
+                        googleApiClient.disconnect();
+                        Toast.makeText(getContext(),"Disconnected from Google Play.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        } catch (Exception e) {
+            Gdx.app.log("MainActivity", "Disconnection failed: " + e.getMessage() + ".");
+        }
+
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
         Log.i(TAG,"GoogleApiClient connection successful!");
+        submitScoreGPGS(100,getString(R.string.leaderboard_id));
 
     }
 
@@ -223,7 +253,8 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
         if (requestCode == RC_SIGN_IN) {
             resolvingConnectionFailure = false;
             if (resultCode == RESULT_OK) {
-                googleApiClient.connect();
+                Log.i(TAG,"Signing in.");
+                signInGPGS();
             } else {
                 // Bring up an error dialog to alert the user that sign-in
                 // failed. The R.string.signin_failure should reference an error

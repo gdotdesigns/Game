@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+
 /**
  * Created by Todd on 9/27/2016.
  */
@@ -39,13 +40,16 @@ public class MainMenu implements Screen{
     Viewport viewport;
     SaveScore saveScore = new SaveScore();
     MainMenu mainMenu;
+    GooglePlayServices googlePlayServices;
+    private static final String TAG = "MainMenu";
 
-    public MainMenu(final MainGameScreen mainGameScreen, final Assets assets, final SpriteBatch spriteBatch){
+    public MainMenu(final MainGameScreen mainGameScreen, final Assets assets, final SpriteBatch spriteBatch,GooglePlayServices googlePlayServices){
 
         this.mainGameScreen = mainGameScreen;
         this.spriteBatch=spriteBatch;
         this.assets=assets;
         this.mainMenu=this;
+        this.googlePlayServices = googlePlayServices;
 
         camera = new OrthographicCamera();
         //viewport = new FitViewport(1920, 1080,camera); //A ratio did not give correct response, probably due to the stage actors are not images...
@@ -80,6 +84,10 @@ public class MainMenu implements Screen{
         table.add(imageButton2);
         table.add(imageButton3);
         stage.addActor(table);
+
+        if(!googlePlayServices.isSignedInGPGS()){
+            googlePlayServices.signInGPGS();
+        }
     }
 
     private void registerListeners() {
@@ -111,8 +119,8 @@ public class MainMenu implements Screen{
         imageButton2.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(!MainGameScreen.googlePlayServices.isSignedInGPGS()){
-                    MainGameScreen.googlePlayServices.signInGPGS();
+                if(!googlePlayServices.isSignedInGPGS()){
+                    googlePlayServices.signInGPGS();
                 }
             }
         });
@@ -120,8 +128,9 @@ public class MainMenu implements Screen{
         imageButton3.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(MainGameScreen.googlePlayServices.isSignedInGPGS()){
-                    MainGameScreen.googlePlayServices.signOutGPGS();
+                if(googlePlayServices.isSignedInGPGS()){
+                  googlePlayServices.signOutGPGS();
+                    //googlePlayServices.disconnectGPGS();
                 }
             }
         });
@@ -130,9 +139,6 @@ public class MainMenu implements Screen{
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
-        if(!MainGameScreen.googlePlayServices.isSignedInGPGS()){
-            MainGameScreen.googlePlayServices.signInGPGS();
-        }
     }
 
     @Override

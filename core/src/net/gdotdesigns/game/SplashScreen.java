@@ -25,12 +25,13 @@ public class SplashScreen implements Screen  {
     Texture splashTexture;
     Image splashImage;
     Stage stage;
+    GooglePlayServices googlePlayServices;
 
     private boolean fadeInComplete =false;
     private boolean fadeOutComplete = false;
     private Viewport viewport;
 
-    public SplashScreen(MainGameScreen mainGameScreen,SpriteBatch spriteBatch,Assets assets){
+    public SplashScreen(MainGameScreen mainGameScreen,SpriteBatch spriteBatch,Assets assets,GooglePlayServices googlePlayServices){
         this.mainGameScreen=mainGameScreen;
         this.camera=new OrthographicCamera();
         this.spriteBatch=spriteBatch;
@@ -39,6 +40,7 @@ public class SplashScreen implements Screen  {
         assets.manager.finishLoading();
         assets.loadGameAssets();
         splashTexture = assets.getSplashScreenAssets();
+        this.googlePlayServices = googlePlayServices;
     }
 
 
@@ -84,7 +86,7 @@ public class SplashScreen implements Screen  {
         }
 
         if(fadeInComplete && fadeOutComplete) {
-            mainGameScreen.setScreen(new MainMenu(mainGameScreen,assets,spriteBatch));
+            mainGameScreen.setScreen(new MainMenu(mainGameScreen,assets,spriteBatch,googlePlayServices));
             spriteBatch.setColor(Color.WHITE);//Reset spriteBatch due to alpha change, it has to be done manually...
             dispose();
         }
