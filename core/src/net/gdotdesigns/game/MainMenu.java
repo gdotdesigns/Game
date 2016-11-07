@@ -193,6 +193,8 @@ public class MainMenu implements Screen{
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
+        highScore=saveScore.readScore();
+        highScoreLabel.setText("High Score: " + String.valueOf(highScore));
     }
 
     @Override
