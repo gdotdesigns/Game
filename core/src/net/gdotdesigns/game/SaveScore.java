@@ -18,13 +18,14 @@ import com.googlecode.gwt.crypto.client.TripleDesCipher;
  */
 
 public class SaveScore {
-    //TODO Make a more unique ecypher key.
+    //TODO Make a more unique cypher key.
     private static final byte[] GWT_DES_KEY = new byte[]{(byte)1,(byte)5,(byte)1,(byte)1,(byte)1,(byte)1,(byte)1,(byte)1,(byte)1,(byte)1,
             (byte)6,(byte)1,(byte)1,(byte)1,(byte)6,(byte)1,(byte)7,(byte)1,(byte)1,(byte)1,(byte)1,(byte)1,(byte)1,(byte)1};
     Preferences preferences;
     Json json;
     String savedScore;
     TripleDesCipher tripleDesCipher;
+    boolean status;
 
     public SaveScore(){
         //TODO Encrypt the preference key and obfuscate this class.
@@ -70,4 +71,16 @@ public class SaveScore {
         int score  = json.fromJson(int.class,Base64Coder.decodeString(savedScore));
         return score;
     }
+
+    public void writePlayServiceStatus(boolean status){
+        preferences.putBoolean("status",status);
+        preferences.flush();
+    }
+
+    public boolean readPlayServiceStatus(){
+        status = preferences.getBoolean("status",false);
+        return status;
+    }
+
+
 }

@@ -65,7 +65,7 @@ public class Hud {
         playAgain = new TextButton("PLAY",skin);
         registerListeners();
 
-        //table.debug();
+        //menuTable.debug();
         table.setFillParent(true);
         table.align(Align.top);
         table.add(label).padLeft(Value.percentWidth(.05f)).align(Align.left);

@@ -262,6 +262,38 @@ com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle: {
 		downFontColor: text-selected
 		checkedFontColor: text-selected
 	}
+
+	games_achievements: {
+		imageUp: games_achievements_green
+		imageDown: games_achievements
+		font: font
+		fontColor: text
+		downFontColor: text-selected
+	}
+
+    games_leaderboard: {
+      imageUp: games_leaderboards_green
+      imageDown: games_leaderboards
+      font: font
+      fontColor: text
+      downFontColor: text-selected
+    }
+
+    signout: {
+      imageUp: games_achievements_green
+      imageDown: games_achievements
+      font: font
+      fontColor: text
+      downFontColor: text-selected
+    }
+
+    continue: {
+      imageUp: games_achievements_green
+      imageDown: games_achievements
+      font: font
+      fontColor: text
+      downFontColor: text-selected
+  }
 }
 com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	default: {

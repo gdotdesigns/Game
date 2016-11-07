@@ -8,11 +8,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -27,13 +29,16 @@ public class MainMenu implements Screen{
     SpriteBatch spriteBatch;
     Assets assets;
     Stage stage;
-    Table table;
+    Table menuTable;
+    Table googlePlayTable;
     Skin skin;
     TextButton start;
     TextButton stop;
-    ImageButton imageButton1;
-    ImageButton imageButton2;
-    ImageButton imageButton3;
+    ImageButton googlePlayButton;
+    ImageTextButton achievementButton;
+    ImageTextButton leaderBoardButton;
+    ImageTextButton signOutButton;
+    ImageTextButton continueButton;
     Label gameTitle;
     int highScore;
     Label highScoreLabel;
@@ -56,7 +61,8 @@ public class MainMenu implements Screen{
         viewport = new ScreenViewport(camera);
         viewport.apply();
         stage=new Stage(viewport,spriteBatch);
-        table = new Table();
+        menuTable = new Table();
+        googlePlayTable = new Table();
         skin = assets.getMenuAssets();
 
         gameTitle = new Label("Title of Game",skin);
@@ -65,27 +71,43 @@ public class MainMenu implements Screen{
         stop=new TextButton("Exit",skin);
         highScore=saveScore.readScore();
         highScoreLabel = new Label("High Score: " + String.valueOf(highScore),skin);
-        imageButton1 = new ImageButton(skin.getDrawable("games_achievements_green"),skin.getDrawable("games_achievements"));
-        imageButton2 = new ImageButton(skin.getDrawable("games_controller"),skin.getDrawable("games_controller_grey"));
-        imageButton3 = new ImageButton(skin.getDrawable("games_leaderboards_green"),skin.getDrawable("games_leaderboards"));
+        googlePlayButton = new ImageButton(skin.getDrawable("games_controller"),skin.getDrawable("games_controller_grey"));
+        achievementButton = new ImageTextButton("Achievements",skin,"games_achievements");
+        achievementButton.getLabel().setAlignment(Align.center);
+        leaderBoardButton = new ImageTextButton("LeaderBoard",skin,"games_leaderboard");
+        leaderBoardButton.getLabel().setAlignment(Align.center);
+        signOutButton = new ImageTextButton("Sign Out",skin,"signout");
+        signOutButton.getLabel().setAlignment(Align.center);
+        continueButton = new ImageTextButton("Continue",skin,"continue");
+        continueButton.getLabel().setAlignment(Align.center);
+
         registerListeners();
 
-        table.setFillParent(true);
-        //table.setDebug(true);
-        table.add(gameTitle).colspan(3);
-        table.row();
-;       table.add(start).colspan(3);
-        table.row();
-        table.add(stop).colspan(3);
-        table.row();
-        table.add(highScoreLabel).colspan(3);
-        table.row();
-        table.add(imageButton1);
-        table.add(imageButton2);
-        table.add(imageButton3);
-        stage.addActor(table);
+        menuTable.setFillParent(true);
+        //menuTable.setDebug(true);
+        menuTable.add(gameTitle).colspan(3);
+        menuTable.row();
+;       menuTable.add(start).colspan(3);
+        menuTable.row();
+        menuTable.add(stop).colspan(3);
+        menuTable.row();
+        menuTable.add(highScoreLabel).colspan(3);
+        menuTable.row();
+        menuTable.add(googlePlayButton).expandX();
+        stage.addActor(menuTable);
 
-        if(!googlePlayServices.isSignedInGPGS()){
+        googlePlayTable.setFillParent(true);
+        googlePlayTable.add(achievementButton).align(Align.center);
+        googlePlayTable.row();
+        googlePlayTable.add(leaderBoardButton).align(Align.center);
+        googlePlayTable.row();
+        googlePlayTable.add(signOutButton).align(Align.center);
+        googlePlayTable.row();
+        googlePlayTable.add(continueButton).align(Align.center);
+        stage.addActor(googlePlayTable);
+        googlePlayTable.setVisible(false);
+
+        if(!googlePlayServices.isSignedInGPGS() && saveScore.readPlayServiceStatus()){
             googlePlayServices.signInGPGS();
         }
     }
@@ -109,29 +131,61 @@ public class MainMenu implements Screen{
             }
         });
 
-        imageButton1.addListener(new ClickListener(){
+        googlePlayButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
-            }
-        });
-
-        imageButton2.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if(!googlePlayServices.isSignedInGPGS()){
+                if(!googlePlayServices.isSignedInGPGS() && !saveScore.readPlayServiceStatus()){
                     googlePlayServices.signInGPGS();
+                    saveScore.writePlayServiceStatus(true);
+                }
+
+                else if(!googlePlayServices.isSignedInGPGS() && saveScore.readPlayServiceStatus()){
+                    googlePlayServices.signInGPGS();
+                    menuTable.setVisible(false);
+                    googlePlayTable.setVisible(true);
+                }
+
+                else if (googlePlayServices.isSignedInGPGS()){
+                    menuTable.setVisible(false);
+                    googlePlayTable.setVisible(true);
                 }
             }
         });
 
-        imageButton3.addListener(new ClickListener(){
+        achievementButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if(googlePlayServices.isSignedInGPGS()){
-                  googlePlayServices.signOutGPGS();
-                    //googlePlayServices.disconnectGPGS();
+
                 }
+            }
+        });
+
+        leaderBoardButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if(googlePlayServices.isSignedInGPGS()){
+                }
+            }
+        });
+
+        signOutButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if(googlePlayServices.isSignedInGPGS()){
+                    googlePlayServices.signOutGPGS();
+                    googlePlayTable.setVisible(false);
+                    menuTable.setVisible(true);
+                    saveScore.writePlayServiceStatus(false);
+                }
+            }
+        });
+
+        continueButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                googlePlayTable.setVisible(false);
+                menuTable.setVisible(true);
             }
         });
     }

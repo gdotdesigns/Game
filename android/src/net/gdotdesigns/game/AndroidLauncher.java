@@ -216,8 +216,6 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         Log.i(TAG,"GoogleApiClient connection successful!");
-        submitScoreGPGS(100,getString(R.string.leaderboard_id));
-
     }
 
     @Override
