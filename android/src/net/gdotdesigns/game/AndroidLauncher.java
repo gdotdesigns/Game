@@ -27,6 +27,7 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
     //TODO Need to add sign out button to atlas.
     //TODO Implement way to remember if someone wants to remain signed out.
     //TODO Implement way to record score while signed out so that it can be uploaded when signed in.
+    //TODO Change to selective imports for google play services.
 
     private InterstitialAd interstitialAd;
     private AdRequest adRequest;
