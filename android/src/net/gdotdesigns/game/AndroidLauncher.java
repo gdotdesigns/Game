@@ -37,6 +37,8 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
 	private static final String TEST_DEVICE= "8ABB25975BCF7ED6E7C49D16043D1A12";
     private static int RC_SIGN_IN = 9001;
     private static int REQUEST_LEADERBOARD = 1;
+    private static int REQUEST_ACHIEVEMENTS = 2;
+
     private boolean resolvingConnectionFailure = false;
     private boolean signingOut = false;
     public static final String TAG = "AndroidLauncher";

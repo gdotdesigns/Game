@@ -29,6 +29,7 @@ public class SaveScore {
 
     public SaveScore(){
         //TODO Encrypt the preference key and obfuscate this class.
+        //TODO Change the name of the SaveScore class.
         preferences= Gdx.app.getPreferences("High Score");
         json = new Json();
         tripleDesCipher = new TripleDesCipher();
