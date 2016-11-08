@@ -36,6 +36,7 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
 	private static final String INTERSTITIAL_UNIT_ID ="ca-app-pub-2895382750471159/5257221423";
 	private static final String TEST_DEVICE= "8ABB25975BCF7ED6E7C49D16043D1A12";
     private static int RC_SIGN_IN = 9001;
+    private static int REQUEST_LEADERBOARD = 1;
     private boolean resolvingConnectionFailure = false;
     private boolean signingOut = false;
     public static final String TAG = "AndroidLauncher";
@@ -148,7 +149,9 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
 
     @Override
     public void submitScoreGPGS(int score, String id) {
-        Games.Leaderboards.submitScore(googleApiClient,id,score);
+        if(googleApiClient != null && googleApiClient.isConnected()){
+            Games.Leaderboards.submitScore(googleApiClient,id,score);
+        }
     }
 
     @Override
@@ -157,7 +160,25 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
     }
 
     @Override
-    public void getLeaderboardGPGS() {
+    public void getLeaderboardGPGS(final String id) {
+        try{
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+
+                    if(googleApiClient != null && googleApiClient.isConnected()){
+
+                        startActivityForResult(Games.Leaderboards.getLeaderboardIntent(googleApiClient,
+                                id), REQUEST_LEADERBOARD);
+                    }
+
+                }
+            });
+        }
+        catch (Exception e) {
+            Gdx.app.log("MainActivity", "LeaderBoard Failed: " + e.getMessage() + ".");
+        }
+
     }
 
     @Override

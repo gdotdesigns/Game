@@ -46,6 +46,7 @@ public class MainMenu implements Screen{
     SaveScore saveScore = new SaveScore();
     MainMenu mainMenu;
     GooglePlayServices googlePlayServices;
+    private static final String LEADERBOARD_ID = "CgkIhoTXsMgaEAIQBg";
     private static final String TAG = "MainMenu";
 
     public MainMenu(final MainGameScreen mainGameScreen, final Assets assets, final SpriteBatch spriteBatch,GooglePlayServices googlePlayServices){
@@ -165,6 +166,7 @@ public class MainMenu implements Screen{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if(googlePlayServices.isSignedInGPGS()){
+                    googlePlayServices.getLeaderboardGPGS(LEADERBOARD_ID);
                 }
             }
         });
