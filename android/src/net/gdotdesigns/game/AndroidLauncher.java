@@ -142,8 +142,6 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
                 public void run() {
                     if(!googleApiClient.isConnected()){
                         googleApiClient.connect();
-                        Toast.makeText(getContext(),"Signing in.", Toast.LENGTH_SHORT).show();
-
                     }
                 }
             });
@@ -259,7 +257,7 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        Log.i(TAG,"GoogleApiClient connection successful!");
+        Toast.makeText(getContext(),"Signed in.", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -269,7 +267,6 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult result) {
-        Log.i(TAG, "GoogleApiClient connection failed: " + result.toString());
 
         if (resolvingConnectionFailure) {
             // already resolving

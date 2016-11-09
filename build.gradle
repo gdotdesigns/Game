@@ -65,7 +65,9 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86"
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86_64"
         compile files('../core/libs/gwt-crypto-2.3.0.jar') //Some bug causes you to have to duplicate the compile command in android project here.
-        compile 'com.google.android.gms:play-services:9.8.0' // this is needed for google play and admob
+        //compile 'com.google.android.gms:play-services:9.8.0' // this is needed for google play and admob
+        compile 'com.google.android.gms:play-services-ads:9.8.0'
+        compile 'com.google.android.gms:play-services-games:9.8.0'
     }
 }
 
