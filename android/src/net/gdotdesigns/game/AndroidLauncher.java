@@ -18,6 +18,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.games.Games;
+import com.google.android.gms.games.GamesActivityResultCodes;
 import com.google.example.games.basegameutils.BaseGameUtils;
 
 public class AndroidLauncher extends AndroidApplication implements AdController, GooglePlayServices, GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener {
@@ -286,6 +287,24 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
                         requestCode, resultCode, R.string.signin_failure);
             }
      }
+
+        else if(requestCode == REQUEST_LEADERBOARD ){
+            resolvingConnectionFailure = false;
+            if(resultCode == GamesActivityResultCodes.RESULT_RECONNECT_REQUIRED){
+                Log.i(TAG,"Signing in.");
+                disconnectGPGS();
+                //signInGPGS();
+            }
+            else {
+                // Bring up an error dialog to alert the user that sign-in
+                // failed. The R.string.signin_failure should reference an error
+                // string in your strings.xml file that tells the user they
+                // could not be signed in, such as "Unable to sign in."
+                BaseGameUtils.showActivityResultError(this,
+                        requestCode, resultCode, R.string.signin_failure);
+            }
+        }
+
     }
 }
 

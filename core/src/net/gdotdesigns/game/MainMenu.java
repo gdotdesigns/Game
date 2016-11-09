@@ -107,6 +107,10 @@ public class MainMenu implements Screen{
         googlePlayTable.add(continueButton).align(Align.center);
         stage.addActor(googlePlayTable);
         googlePlayTable.setVisible(false);
+
+        if(!googlePlayServices.isSignedInGPGS() && saveScore.readPlayServiceStatus()){
+            googlePlayServices.signInGPGS();
+        }
     }
 
     private void registerListeners() {
@@ -193,10 +197,6 @@ public class MainMenu implements Screen{
         Gdx.input.setInputProcessor(stage);
         highScore=saveScore.readScore();
         highScoreLabel.setText("High Score: " + String.valueOf(highScore));
-        if(!googlePlayServices.isSignedInGPGS() && saveScore.readPlayServiceStatus()){
-            googlePlayServices.signInGPGS();
-        }
-
     }
 
     @Override
