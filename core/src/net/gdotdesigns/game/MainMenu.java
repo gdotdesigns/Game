@@ -157,7 +157,7 @@ public class MainMenu implements Screen{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if(googlePlayServices.isSignedInGPGS()){
-
+                    googlePlayServices.getAchievementsGPGS();
                 }
             }
         });
