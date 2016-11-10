@@ -48,6 +48,7 @@ public class MainMenu implements Screen{
     GooglePlayServices googlePlayServices;
     private static final String LEADERBOARD_ID = "CgkIhoTXsMgaEAIQBg";
     private static final String TAG = "MainMenu";
+    private boolean displayGoogleTable = false;
 
     public MainMenu(final MainGameScreen mainGameScreen, final Assets assets, final SpriteBatch spriteBatch,GooglePlayServices googlePlayServices){
 
@@ -142,13 +143,15 @@ public class MainMenu implements Screen{
 
                 else if(!googlePlayServices.isSignedInGPGS() && saveScore.readPlayServiceStatus()){
                     googlePlayServices.signInGPGS();
-                    menuTable.setVisible(false);
-                    googlePlayTable.setVisible(true);
+//                    menuTable.setVisible(false);
+//                    googlePlayTable.setVisible(true);
+                    displayGoogleTable = true;
                 }
 
                 else if (googlePlayServices.isSignedInGPGS()){
-                    menuTable.setVisible(false);
-                    googlePlayTable.setVisible(true);
+//                    menuTable.setVisible(false);
+//                    googlePlayTable.setVisible(true);
+                    displayGoogleTable = true;
                 }
             }
         });
@@ -176,8 +179,9 @@ public class MainMenu implements Screen{
             public void clicked(InputEvent event, float x, float y) {
                 if(googlePlayServices.isSignedInGPGS()){
                     googlePlayServices.signOutGPGS();
-                    googlePlayTable.setVisible(false);
-                    menuTable.setVisible(true);
+//                    googlePlayTable.setVisible(false);
+//                    menuTable.setVisible(true);
+                    displayGoogleTable =false;
                     saveScore.writePlayServiceStatus(false);
                 }
             }
@@ -186,8 +190,9 @@ public class MainMenu implements Screen{
         continueButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                googlePlayTable.setVisible(false);
-                menuTable.setVisible(true);
+//                googlePlayTable.setVisible(false);
+//                menuTable.setVisible(true);
+                displayGoogleTable = false;
             }
         });
     }
@@ -205,7 +210,28 @@ public class MainMenu implements Screen{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(delta);
         stage.draw();
+
+        if(displayGoogleTable){
+            displayGoogleTable = false;
+            if(googlePlayServices.getConnectionStatus()){
+                showGoogleTable();
+            }
+        }
+        else {
+            showMenuTable();
+        }
     }
+
+    public void showMenuTable(){
+        googlePlayTable.setVisible(false);
+        menuTable.setVisible(true);
+    }
+
+    public void showGoogleTable(){
+        menuTable.setVisible(false);
+        googlePlayTable.setVisible(true);
+    }
+
 
     @Override
     public void resize(int width, int height) {

@@ -18,4 +18,5 @@ public interface GooglePlayServices {
     void getAchievementsGPGS();
     void signOutGPGS();
     void disconnectGPGS();
+    boolean getConnectionStatus();
 }

@@ -43,6 +43,7 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
 
     public boolean resolvingConnectionFailure = false;
     private boolean signingOut = false;
+    private boolean isConnected = false;
     public static final String TAG = "AndroidLauncher";
 
 	@Override
@@ -222,6 +223,7 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
                         public void onResult(Status status) {
                             googleApiClient.disconnect();
                             signingOut = false;
+                            isConnected = false;
                             Toast.makeText(getContext(),"Signed out of Google Play.", Toast.LENGTH_SHORT).show();
 
                         }
@@ -244,6 +246,7 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
                 public void run() {
                     if(googleApiClient.isConnected()) {
                         googleApiClient.disconnect();
+                        isConnected=false;
                         Toast.makeText(getContext(),"Disconnected from Google Play.", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -254,9 +257,15 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
 
     }
 
+    @Override
+    public boolean getConnectionStatus() {
+        return isConnected;
+    }
+
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
+        isConnected = true;
         Toast.makeText(getContext(),"Signed in.", Toast.LENGTH_SHORT).show();
     }
 
