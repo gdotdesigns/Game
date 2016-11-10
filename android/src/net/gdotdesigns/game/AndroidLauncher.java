@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.badlogic.gdx.Gdx;
@@ -224,7 +223,7 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
                             googleApiClient.disconnect();
                             signingOut = false;
                             isConnected = false;
-                            Toast.makeText(getContext(),"Signed out of Google Play.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(),"Signed out.", Toast.LENGTH_SHORT).show();
 
                         }
                     });
@@ -266,11 +265,11 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         isConnected = true;
-        Toast.makeText(getContext(),"Signed in.", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onConnectionSuspended(int i) {
+
             googleApiClient.connect();
     }
 

@@ -49,6 +49,7 @@ public class MainMenu implements Screen{
     private static final String LEADERBOARD_ID = "CgkIhoTXsMgaEAIQBg";
     private static final String TAG = "MainMenu";
     private boolean displayGoogleTable = false;
+    private boolean switchedMenu = false;
 
     public MainMenu(final MainGameScreen mainGameScreen, final Assets assets, final SpriteBatch spriteBatch,GooglePlayServices googlePlayServices){
 
@@ -139,6 +140,7 @@ public class MainMenu implements Screen{
                 if(!googlePlayServices.isSignedInGPGS() && !saveScore.readPlayServiceStatus()){
                     googlePlayServices.signInGPGS();
                     saveScore.writePlayServiceStatus(true);
+                    displayGoogleTable = true;
                 }
 
                 else if(!googlePlayServices.isSignedInGPGS() && saveScore.readPlayServiceStatus()){
@@ -211,13 +213,14 @@ public class MainMenu implements Screen{
         stage.act(delta);
         stage.draw();
 
-        if(displayGoogleTable){
-            displayGoogleTable = false;
+        if(displayGoogleTable && !switchedMenu){
             if(googlePlayServices.getConnectionStatus()){
+                switchedMenu = true;
                 showGoogleTable();
             }
         }
-        else {
+        else if (!displayGoogleTable && switchedMenu) {
+            switchedMenu = false;
             showMenuTable();
         }
     }
