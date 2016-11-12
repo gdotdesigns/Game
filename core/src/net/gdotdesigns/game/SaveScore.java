@@ -36,8 +36,11 @@ public class SaveScore {
         tripleDesCipher.setKey(GWT_DES_KEY);
     }
 
+    public void flush(){
+        preferences.flush();
+    }
+
     public void writeScore(int currentScore){
-        if(currentScore> readScore() ){
             String score = json.toJson(currentScore);
             try {
                 score=tripleDesCipher.encrypt(Base64Coder.encodeString(score));
@@ -50,9 +53,7 @@ public class SaveScore {
                 e1.printStackTrace();
             }
             preferences.putString("savedScore",score );
-            preferences.flush();
         }
-    }
 
     public int readScore(){
         savedScore = preferences.getString("savedScore","0");
@@ -85,7 +86,6 @@ public class SaveScore {
 
     public void writeScoreSavedStatus(boolean savedStatus){
         preferences.putBoolean("savedStatus", savedStatus);
-        preferences.flush();
     }
 
     public boolean readScoreSavedStatus(){
@@ -93,5 +93,40 @@ public class SaveScore {
         return savedStatus;
     }
 
+    public void writeAchievement1(int value){
+        preferences.putInteger("Achievement1",value);
+    }
+    public void writeAchievement2(int value){
+        preferences.putInteger("Achievement2",value);
+    }
+    public void writeAchievement3(int value){
+        preferences.putInteger("Achievement3",value);
+    }
+    public void writeAchievement4(int value){
+        preferences.putInteger("Achievement4",value);
+    }
+    public void writeAchievement5(int value){
+        preferences.putInteger("Achievement5",value);
+    }
 
+    public int readAchievement1(){
+        int value = preferences.getInteger("Achievement1",0);
+        return value;
+    }
+    public int readAchievement2(){
+        int value = preferences.getInteger("Achievement2",0);
+        return value;
+    }
+    public int readAchievement3(){
+        int value = preferences.getInteger("Achievement3",0);
+        return value;
+    }
+    public int readAchievement4(){
+        int value = preferences.getInteger("Achievement4",0);
+        return value;
+    }
+    public int readAchievement5(){
+        int value = preferences.getInteger("Achievement5",0);
+        return value;
+    }
 }
