@@ -83,5 +83,15 @@ public class SaveScore {
         return status;
     }
 
+    public void writeScoreSavedStatus(boolean savedStatus){
+        preferences.putBoolean("savedStatus", savedStatus);
+        preferences.flush();
+    }
+
+    public boolean readScoreSavedStatus(){
+        boolean savedStatus = preferences.getBoolean("savedStatus",false);
+        return savedStatus;
+    }
+
 
 }

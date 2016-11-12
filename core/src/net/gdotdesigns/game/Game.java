@@ -103,7 +103,7 @@ public class Game implements Screen{
 
 
 
-    public  void gameOver(){
+    public void gameOver(){
         gameRunning=false;
         hud.gameOver();
         inputMultiplexer.removeProcessor(inputs);

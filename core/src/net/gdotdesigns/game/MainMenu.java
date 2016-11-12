@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.googlecode.gwt.crypto.util.Sys;
 
 
 /**
@@ -145,14 +146,10 @@ public class MainMenu implements Screen{
 
                 else if(!googlePlayServices.isSignedInGPGS() && saveScore.readPlayServiceStatus()){
                     googlePlayServices.signInGPGS();
-//                    menuTable.setVisible(false);
-//                    googlePlayTable.setVisible(true);
                     displayGoogleTable = true;
                 }
 
                 else if (googlePlayServices.isSignedInGPGS()){
-//                    menuTable.setVisible(false);
-//                    googlePlayTable.setVisible(true);
                     displayGoogleTable = true;
                 }
             }
@@ -181,8 +178,6 @@ public class MainMenu implements Screen{
             public void clicked(InputEvent event, float x, float y) {
                 if(googlePlayServices.isSignedInGPGS()){
                     googlePlayServices.signOutGPGS();
-//                    googlePlayTable.setVisible(false);
-//                    menuTable.setVisible(true);
                     displayGoogleTable =false;
                     saveScore.writePlayServiceStatus(false);
                 }
@@ -192,8 +187,6 @@ public class MainMenu implements Screen{
         continueButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-//                googlePlayTable.setVisible(false);
-//                menuTable.setVisible(true);
                 displayGoogleTable = false;
             }
         });
@@ -228,11 +221,16 @@ public class MainMenu implements Screen{
     public void showMenuTable(){
         googlePlayTable.setVisible(false);
         menuTable.setVisible(true);
+
     }
 
     public void showGoogleTable(){
         menuTable.setVisible(false);
         googlePlayTable.setVisible(true);
+        if(!saveScore.readScoreSavedStatus()){
+            googlePlayServices.submitScoreGPGS(saveScore.readScore(),LEADERBOARD_ID);
+            saveScore.writeScoreSavedStatus(true);
+        }
     }
 
 
@@ -252,8 +250,15 @@ public class MainMenu implements Screen{
     }
 
     public void updateLeaderBoard(int score){
-        googlePlayServices.submitScoreGPGS(score, LEADERBOARD_ID);
-
+            if(googlePlayServices != null && googlePlayServices.getConnectionStatus()){
+                googlePlayServices.submitScoreGPGS(score, LEADERBOARD_ID);
+                if(!saveScore.readScoreSavedStatus()){
+                    saveScore.writeScoreSavedStatus(true);
+                }
+            }
+            else if(saveScore.readScoreSavedStatus()){
+                saveScore.writeScoreSavedStatus(false);
+            }
     }
 
     @Override
