@@ -160,6 +160,9 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
 
     @Override
     public void unlockAchievementGPGS(String achievementId) {
+        if(googleApiClient != null && googleApiClient.isConnected()){
+            Games.Achievements.unlock(googleApiClient,achievementId);
+        }
 
     }
 
