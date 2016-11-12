@@ -108,7 +108,8 @@ public class Game implements Screen{
         hud.gameOver();
         inputMultiplexer.removeProcessor(inputs);
         System.out.println("SAVING SCORE");
-        saveScore.writeScore(hud.score);
+        saveScore.writeScore(hud.score); //local save
+        mainMenu.updateLeaderBoard(hud.score); //google leaderboard save
     }
 
     public void quitGame(){

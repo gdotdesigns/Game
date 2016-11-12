@@ -236,6 +236,7 @@ public class MainMenu implements Screen{
     }
 
 
+
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width,height,true);
@@ -247,6 +248,11 @@ public class MainMenu implements Screen{
 
     @Override
     public void resume() {
+
+    }
+
+    public void updateLeaderBoard(int score){
+        googlePlayServices.submitScoreGPGS(score, LEADERBOARD_ID);
 
     }
 
