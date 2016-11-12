@@ -17,7 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.googlecode.gwt.crypto.util.Sys;
 
 
 /**
@@ -161,6 +160,9 @@ public class MainMenu implements Screen{
                 if(googlePlayServices.isSignedInGPGS()){
                     googlePlayServices.getAchievementsGPGS();
                 }
+                else{
+                    displayGoogleTable = false;
+                }
             }
         });
 
@@ -169,6 +171,9 @@ public class MainMenu implements Screen{
             public void clicked(InputEvent event, float x, float y) {
                 if(googlePlayServices.isSignedInGPGS()){
                     googlePlayServices.getLeaderboardGPGS(LEADERBOARD_ID);
+                }
+                else{
+                    displayGoogleTable = false;
                 }
             }
         });
@@ -180,6 +185,9 @@ public class MainMenu implements Screen{
                     googlePlayServices.signOutGPGS();
                     displayGoogleTable =false;
                     saveScore.writePlayServiceStatus(false);
+                }
+                else{
+                    displayGoogleTable = false;
                 }
             }
         });
@@ -216,6 +224,11 @@ public class MainMenu implements Screen{
             switchedMenu = false;
             showMenuTable();
         }
+
+        else if(displayGoogleTable && !googlePlayServices.getConnectionStatus()){
+            displayGoogleTable = false;
+        }
+
     }
 
     public void showMenuTable(){
