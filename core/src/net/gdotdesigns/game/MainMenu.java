@@ -47,6 +47,12 @@ public class MainMenu implements Screen{
     MainMenu mainMenu;
     GooglePlayServices googlePlayServices;
     private static final String LEADERBOARD_ID = "CgkIhoTXsMgaEAIQBg";
+    private static final String ACHIEVEMENT_ID_NUM_1 = "CgkIhoTXsMgaEAIQAQ";
+    private static final String ACHIEVEMENT_ID_NUM_2 = "CgkIhoTXsMgaEAIQAg";
+    private static final String ACHIEVEMENT_ID_NUM_3 = "CgkIhoTXsMgaEAIQAw";
+    private static final String ACHIEVEMENT_ID_NUM_4 = "CgkIhoTXsMgaEAIQBA";
+    private static final String ACHIEVEMENT_ID_NUM_5 = "CgkIhoTXsMgaEAIQBQ";
+
     private static final String TAG = "MainMenu";
     private boolean displayGoogleTable = false;
     private boolean switchedMenu = false;
