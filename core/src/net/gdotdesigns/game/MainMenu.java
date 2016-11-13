@@ -24,6 +24,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
  */
 public class MainMenu implements Screen{
 
+    //TODO Add facebook and twitter.
+
     MainGameScreen mainGameScreen;
     OrthographicCamera camera;
     SpriteBatch spriteBatch;
