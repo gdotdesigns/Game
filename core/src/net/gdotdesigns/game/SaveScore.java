@@ -93,6 +93,8 @@ public class SaveScore {
         return savedStatus;
     }
 
+
+    //TODO Change this to some map to reduce code?
     public void writeAchievement1(int value){
         preferences.putInteger("Achievement1",value);
     }
