@@ -52,6 +52,8 @@ public class MainMenu implements Screen{
     private static final String ACHIEVEMENT_ID_NUM_3 = "CgkIhoTXsMgaEAIQAw";
     private static final String ACHIEVEMENT_ID_NUM_4 = "CgkIhoTXsMgaEAIQBA";
     private static final String ACHIEVEMENT_ID_NUM_5 = "CgkIhoTXsMgaEAIQBQ";
+    private static final int LOCAL_SAVE = 1;
+    private static final int GOOGLE_SAVE = 2;
 
     private static final String TAG = "MainMenu";
     private boolean displayGoogleTable = false;
@@ -296,76 +298,51 @@ public class MainMenu implements Screen{
                 if (!saveScore.readScoreSavedStatus()) {
                     saveScore.writeScoreSavedStatus(true);
                 }
-                if (score >= 10) {
-                    if (saveScore.readAchievement1() != 1 || saveScore.readAchievement1() != 2) {
-                        googlePlayServices.unlockAchievementGPGS(ACHIEVEMENT_ID_NUM_1);
-                        saveScore.writeAchievement1(2);
-                    }
-                }
-                if (score >= 20) {
-                    if (saveScore.readAchievement2() != 1 || saveScore.readAchievement2() != 2) {
-                        googlePlayServices.unlockAchievementGPGS(ACHIEVEMENT_ID_NUM_2);
-                        saveScore.writeAchievement2(2);
-                    }
-                }
-                if (score >= 30) {
-                    if (saveScore.readAchievement3() != 1 || saveScore.readAchievement3() != 2) {
-                        googlePlayServices.unlockAchievementGPGS(ACHIEVEMENT_ID_NUM_3);
-                        saveScore.writeAchievement3(2);
-                    }
-                }
-                if (score >= 40) {
-                    if (saveScore.readAchievement4() != 1 || saveScore.readAchievement4() != 2) {
-                        googlePlayServices.unlockAchievementGPGS(ACHIEVEMENT_ID_NUM_4);
-                        saveScore.writeAchievement4(2);
-                    }
-                }
-                if (score >= 50) {
-                    if (saveScore.readAchievement5() != 1 || saveScore.readAchievement5() != 2) {
-                        googlePlayServices.unlockAchievementGPGS(ACHIEVEMENT_ID_NUM_5);
-                        saveScore.writeAchievement5(2);
-
-                    }
-                    saveScore.flush();
-                }
+                achievementSaveState(score, GOOGLE_SAVE);
             }
 
             else {
                 if(saveScore.readScoreSavedStatus()) {
                     saveScore.writeScoreSavedStatus(false);
                 }
-                if(score >= 10){
-                    if(saveScore.readAchievement1() != 1 || saveScore.readAchievement1() != 2) {
-                        googlePlayServices.unlockAchievementGPGS(ACHIEVEMENT_ID_NUM_1);
-                        saveScore.writeAchievement1(1);
-                    }
-                }
-                if(score >= 20){
-                    if(saveScore.readAchievement2() != 1 || saveScore.readAchievement2() != 2) {
-                        googlePlayServices.unlockAchievementGPGS(ACHIEVEMENT_ID_NUM_2);
-                        saveScore.writeAchievement2(1);
-                    }
-                }
-                if(score >= 30){
-                    if(saveScore.readAchievement3() != 1 || saveScore.readAchievement3() != 2) {
-                        googlePlayServices.unlockAchievementGPGS(ACHIEVEMENT_ID_NUM_3);
-                        saveScore.writeAchievement3(1);
-                    }
-                }
-                if(score >= 40){
-                    if(saveScore.readAchievement4() != 1 || saveScore.readAchievement4() != 2) {
-                        googlePlayServices.unlockAchievementGPGS(ACHIEVEMENT_ID_NUM_4);
-                        saveScore.writeAchievement4(1);
-                    }
-                }
-                if(score >= 50){
-                    if(saveScore.readAchievement5() != 1 || saveScore.readAchievement5() != 2) {
-                        googlePlayServices.unlockAchievementGPGS(ACHIEVEMENT_ID_NUM_5);
-                        saveScore.writeAchievement5(1);
-                    }
-                }
-                saveScore.flush();            }
+               achievementSaveState(score, LOCAL_SAVE);
+            }
         }
+    }
+
+    public void achievementSaveState(int score, int saveStateValue){
+        if (score >= 10) {
+        if (saveScore.readAchievement1() != LOCAL_SAVE || saveScore.readAchievement1() != GOOGLE_SAVE) {
+            googlePlayServices.unlockAchievementGPGS(ACHIEVEMENT_ID_NUM_1);
+            saveScore.writeAchievement1(saveStateValue);
+        }
+    }
+        if (score >= 20) {
+            if (saveScore.readAchievement2() != LOCAL_SAVE || saveScore.readAchievement2() != GOOGLE_SAVE) {
+                googlePlayServices.unlockAchievementGPGS(ACHIEVEMENT_ID_NUM_2);
+                saveScore.writeAchievement2(saveStateValue);
+            }
+        }
+        if (score >= 30) {
+            if (saveScore.readAchievement3() != LOCAL_SAVE || saveScore.readAchievement3() != GOOGLE_SAVE) {
+                googlePlayServices.unlockAchievementGPGS(ACHIEVEMENT_ID_NUM_3);
+                saveScore.writeAchievement3(saveStateValue);
+            }
+        }
+        if (score >= 40) {
+            if (saveScore.readAchievement4() != LOCAL_SAVE || saveScore.readAchievement4() != GOOGLE_SAVE) {
+                googlePlayServices.unlockAchievementGPGS(ACHIEVEMENT_ID_NUM_4);
+                saveScore.writeAchievement4(saveStateValue);
+            }
+        }
+        if (score >= 50) {
+            if (saveScore.readAchievement5() != LOCAL_SAVE || saveScore.readAchievement5() != GOOGLE_SAVE) {
+                googlePlayServices.unlockAchievementGPGS(ACHIEVEMENT_ID_NUM_5);
+                saveScore.writeAchievement5(saveStateValue);
+
+            }
+        }
+        saveScore.flush();
     }
 
     @Override
