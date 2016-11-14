@@ -49,7 +49,6 @@ public class MainMenu implements Screen{
     Viewport viewport;
     SaveScore saveScore = new SaveScore();
     MainMenu mainMenu;
-    GooglePlayServices googlePlayServices;
     private static final String LEADERBOARD_ID = "CgkIhoTXsMgaEAIQBg";
     private static final String ACHIEVEMENT_ID_NUM_1 = "CgkIhoTXsMgaEAIQAQ";
     private static final String ACHIEVEMENT_ID_NUM_2 = "CgkIhoTXsMgaEAIQAg";
@@ -63,13 +62,12 @@ public class MainMenu implements Screen{
     private boolean displayGoogleTable = false;
     private boolean switchedMenu = false;
 
-    public MainMenu(final MainGameScreen mainGameScreen, final Assets assets, final SpriteBatch spriteBatch,GooglePlayServices googlePlayServices){
+    public MainMenu(final MainGameScreen mainGameScreen, final Assets assets, final SpriteBatch spriteBatch){
 
         this.mainGameScreen = mainGameScreen;
         this.spriteBatch=spriteBatch;
         this.assets=assets;
         this.mainMenu=this;
-        this.googlePlayServices = googlePlayServices;
 
         camera = new OrthographicCamera();
         //viewport = new FitViewport(1920, 1080,camera); //A ratio did not give correct response, probably due to the stage actors are not images...
@@ -126,8 +124,8 @@ public class MainMenu implements Screen{
         stage.addActor(googlePlayTable);
         googlePlayTable.setVisible(false);
 
-        if(!googlePlayServices.isSignedInGPGS() && saveScore.readPlayServiceStatus()){
-            googlePlayServices.signInGPGS();
+        if(!mainGameScreen.googlePlayServices.isSignedInGPGS() && saveScore.readPlayServiceStatus()){
+            mainGameScreen.googlePlayServices.signInGPGS();
         }
     }
 
@@ -153,18 +151,18 @@ public class MainMenu implements Screen{
         googlePlayButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(!googlePlayServices.isSignedInGPGS() && !saveScore.readPlayServiceStatus()){
-                    googlePlayServices.signInGPGS();
+                if(!mainGameScreen.googlePlayServices.isSignedInGPGS() && !saveScore.readPlayServiceStatus()){
+                    mainGameScreen.googlePlayServices.signInGPGS();
                     saveScore.writePlayServiceStatus(true);
                     displayGoogleTable = true;
                 }
 
-                else if(!googlePlayServices.isSignedInGPGS() && saveScore.readPlayServiceStatus()){
-                    googlePlayServices.signInGPGS();
+                else if(!mainGameScreen.googlePlayServices.isSignedInGPGS() && saveScore.readPlayServiceStatus()){
+                    mainGameScreen.googlePlayServices.signInGPGS();
                     displayGoogleTable = true;
                 }
 
-                else if (googlePlayServices.isSignedInGPGS()){
+                else if (mainGameScreen.googlePlayServices.isSignedInGPGS()){
                     displayGoogleTable = true;
                 }
             }
@@ -173,22 +171,22 @@ public class MainMenu implements Screen{
         twitterbutton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
+                mainGameScreen.socialMediaInterface.shareTwitter();
             }
         });
 
         facebookButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
+                mainGameScreen.socialMediaInterface.shareFacebook();
             }
         });
 
         achievementButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(googlePlayServices.isSignedInGPGS()){
-                    googlePlayServices.getAchievementsGPGS();
+                if(mainGameScreen.googlePlayServices.isSignedInGPGS()){
+                    mainGameScreen.googlePlayServices.getAchievementsGPGS();
                 }
                 else{
                     displayGoogleTable = false;
@@ -199,8 +197,8 @@ public class MainMenu implements Screen{
         leaderBoardButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(googlePlayServices.isSignedInGPGS()){
-                    googlePlayServices.getLeaderboardGPGS(LEADERBOARD_ID);
+                if(mainGameScreen.googlePlayServices.isSignedInGPGS()){
+                    mainGameScreen.googlePlayServices.getLeaderboardGPGS(LEADERBOARD_ID);
                 }
                 else{
                     displayGoogleTable = false;
@@ -211,8 +209,8 @@ public class MainMenu implements Screen{
         signOutButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(googlePlayServices.isSignedInGPGS()){
-                    googlePlayServices.signOutGPGS();
+                if(mainGameScreen.googlePlayServices.isSignedInGPGS()){
+                    mainGameScreen.googlePlayServices.signOutGPGS();
                     displayGoogleTable =false;
                     saveScore.writePlayServiceStatus(false);
                 }
@@ -245,7 +243,7 @@ public class MainMenu implements Screen{
         stage.draw();
 
         if(displayGoogleTable && !switchedMenu){
-            if(googlePlayServices.getConnectionStatus()){
+            if(mainGameScreen.googlePlayServices.getConnectionStatus()){
                 switchedMenu = true;
                 showGoogleTable();
             }
@@ -255,7 +253,7 @@ public class MainMenu implements Screen{
             showMenuTable();
         }
 
-        else if(displayGoogleTable && !googlePlayServices.getConnectionStatus()){
+        else if(displayGoogleTable && !mainGameScreen.googlePlayServices.getConnectionStatus()){
             displayGoogleTable = false;
         }
 
@@ -270,27 +268,27 @@ public class MainMenu implements Screen{
         menuTable.setVisible(false);
         googlePlayTable.setVisible(true);
         if(!saveScore.readScoreSavedStatus()){
-            googlePlayServices.submitScoreGPGS(saveScore.readScore(),LEADERBOARD_ID);
+            mainGameScreen.googlePlayServices.submitScoreGPGS(saveScore.readScore(),LEADERBOARD_ID);
             saveScore.writeScoreSavedStatus(true);
         }
         if (saveScore.readAchievement1() == 1 ){
-            googlePlayServices.unlockAchievementGPGS(ACHIEVEMENT_ID_NUM_1);
+            mainGameScreen.googlePlayServices.unlockAchievementGPGS(ACHIEVEMENT_ID_NUM_1);
             saveScore.writeAchievement1(2);
         }
         if (saveScore.readAchievement2() == 1 ){
-            googlePlayServices.unlockAchievementGPGS(ACHIEVEMENT_ID_NUM_2);
+            mainGameScreen.googlePlayServices.unlockAchievementGPGS(ACHIEVEMENT_ID_NUM_2);
             saveScore.writeAchievement2(2);
         }
         if (saveScore.readAchievement3() == 1 ){
-            googlePlayServices.unlockAchievementGPGS(ACHIEVEMENT_ID_NUM_3);
+            mainGameScreen.googlePlayServices.unlockAchievementGPGS(ACHIEVEMENT_ID_NUM_3);
             saveScore.writeAchievement3(2);
         }
         if (saveScore.readAchievement4() == 1 ){
-            googlePlayServices.unlockAchievementGPGS(ACHIEVEMENT_ID_NUM_4);
+            mainGameScreen.googlePlayServices.unlockAchievementGPGS(ACHIEVEMENT_ID_NUM_4);
             saveScore.writeAchievement4(2);
         }
         if (saveScore.readAchievement5() == 1 ){
-            googlePlayServices.unlockAchievementGPGS(ACHIEVEMENT_ID_NUM_5);
+            mainGameScreen.googlePlayServices.unlockAchievementGPGS(ACHIEVEMENT_ID_NUM_5);
             saveScore.writeAchievement5(2);
         }
         saveScore.flush();
@@ -315,8 +313,8 @@ public class MainMenu implements Screen{
     public void updateGooglePlayStats(int score){
         if(score > saveScore.readScore()){
             saveScore.writeScore(score);
-            if(googlePlayServices != null && googlePlayServices.getConnectionStatus()) {
-                googlePlayServices.submitScoreGPGS(score, LEADERBOARD_ID);
+            if(mainGameScreen.googlePlayServices != null && mainGameScreen.googlePlayServices.getConnectionStatus()) {
+                mainGameScreen.googlePlayServices.submitScoreGPGS(score, LEADERBOARD_ID);
                 if (!saveScore.readScoreSavedStatus()) {
                     saveScore.writeScoreSavedStatus(true);
                 }
@@ -335,31 +333,31 @@ public class MainMenu implements Screen{
     public void achievementSaveState(int score, int saveStateValue){
         if (score >= 10) {
         if (saveScore.readAchievement1() != LOCAL_SAVE || saveScore.readAchievement1() != GOOGLE_SAVE) {
-            googlePlayServices.unlockAchievementGPGS(ACHIEVEMENT_ID_NUM_1);
+            mainGameScreen.googlePlayServices.unlockAchievementGPGS(ACHIEVEMENT_ID_NUM_1);
             saveScore.writeAchievement1(saveStateValue);
         }
     }
         if (score >= 20) {
             if (saveScore.readAchievement2() != LOCAL_SAVE || saveScore.readAchievement2() != GOOGLE_SAVE) {
-                googlePlayServices.unlockAchievementGPGS(ACHIEVEMENT_ID_NUM_2);
+                mainGameScreen.googlePlayServices.unlockAchievementGPGS(ACHIEVEMENT_ID_NUM_2);
                 saveScore.writeAchievement2(saveStateValue);
             }
         }
         if (score >= 30) {
             if (saveScore.readAchievement3() != LOCAL_SAVE || saveScore.readAchievement3() != GOOGLE_SAVE) {
-                googlePlayServices.unlockAchievementGPGS(ACHIEVEMENT_ID_NUM_3);
+                mainGameScreen.googlePlayServices.unlockAchievementGPGS(ACHIEVEMENT_ID_NUM_3);
                 saveScore.writeAchievement3(saveStateValue);
             }
         }
         if (score >= 40) {
             if (saveScore.readAchievement4() != LOCAL_SAVE || saveScore.readAchievement4() != GOOGLE_SAVE) {
-                googlePlayServices.unlockAchievementGPGS(ACHIEVEMENT_ID_NUM_4);
+                mainGameScreen.googlePlayServices.unlockAchievementGPGS(ACHIEVEMENT_ID_NUM_4);
                 saveScore.writeAchievement4(saveStateValue);
             }
         }
         if (score >= 50) {
             if (saveScore.readAchievement5() != LOCAL_SAVE || saveScore.readAchievement5() != GOOGLE_SAVE) {
-                googlePlayServices.unlockAchievementGPGS(ACHIEVEMENT_ID_NUM_5);
+                mainGameScreen.googlePlayServices.unlockAchievementGPGS(ACHIEVEMENT_ID_NUM_5);
                 saveScore.writeAchievement5(saveStateValue);
 
             }

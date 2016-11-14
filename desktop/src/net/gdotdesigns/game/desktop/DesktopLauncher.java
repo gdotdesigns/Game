@@ -7,15 +7,17 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import net.gdotdesigns.game.AdController;
 import net.gdotdesigns.game.GooglePlayServices;
 import net.gdotdesigns.game.MainGameScreen;
+import net.gdotdesigns.game.SocialMediaInterface;
 
-public class DesktopLauncher implements AdController ,GooglePlayServices {
+public class DesktopLauncher implements AdController ,GooglePlayServices, SocialMediaInterface {
 
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width= MainGameScreen.WIDTH;
 		config.height =MainGameScreen.HEIGHT;
 		config.title=MainGameScreen.TITLE;
-		new LwjglApplication(new MainGameScreen(new DesktopLauncher(),new DesktopLauncher()), config);
+		DesktopLauncher desktopLauncher = new DesktopLauncher();
+		new LwjglApplication(new MainGameScreen(desktopLauncher,desktopLauncher,desktopLauncher), config);
 	}
 
 	@Override
@@ -66,6 +68,16 @@ public class DesktopLauncher implements AdController ,GooglePlayServices {
 	@Override
 	public boolean getConnectionStatus() {
 		return false;
+	}
+
+	@Override
+	public void shareTwitter() {
+
+	}
+
+	@Override
+	public void shareFacebook() {
+
 	}
 }
 

@@ -20,7 +20,7 @@ import com.google.android.gms.games.Games;
 import com.google.android.gms.games.GamesActivityResultCodes;
 import com.google.example.games.basegameutils.BaseGameUtils;
 
-public class AndroidLauncher extends AndroidApplication implements AdController, GooglePlayServices, GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener {
+public class AndroidLauncher extends AndroidApplication implements AdController, GooglePlayServices, GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener, SocialMediaInterface {
 
     //TODO Move AD and google player services to seperate classes
 
@@ -59,7 +59,7 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
                 .build();
 
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-		initialize(new MainGameScreen(this,this), config);
+		initialize(new MainGameScreen(this,this,this), config);
 	}
 
     @Override
@@ -320,6 +320,16 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
             }
 
         }
+
+    }
+
+    @Override
+    public void shareTwitter() {
+
+    }
+
+    @Override
+    public void shareFacebook() {
 
     }
 }

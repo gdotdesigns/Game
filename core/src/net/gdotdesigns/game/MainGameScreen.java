@@ -16,10 +16,12 @@ public class MainGameScreen extends com.badlogic.gdx.Game {
     public Assets assets;
     public AdController adController;
     public GooglePlayServices googlePlayServices;
+    public SocialMediaInterface socialMediaInterface;
 
-    public MainGameScreen(AdController adController,GooglePlayServices googlePlayServices){
+    public MainGameScreen(AdController adController,GooglePlayServices googlePlayServices,SocialMediaInterface socialMediaInterface){
         this.adController = adController;
         this.googlePlayServices = googlePlayServices;
+        this.socialMediaInterface = socialMediaInterface;
     }
 
 
@@ -27,7 +29,7 @@ public class MainGameScreen extends com.badlogic.gdx.Game {
     public void create() {
         spriteBatch = new SpriteBatch();
         assets=new Assets();
-        this.setScreen(new SplashScreen(this,spriteBatch,assets,googlePlayServices));
+        this.setScreen(new SplashScreen(this,spriteBatch,assets));
     }
 
     @Override
@@ -53,8 +55,4 @@ public class MainGameScreen extends com.badlogic.gdx.Game {
     public void resize(int width, int height){
         super.resize(width, height);
     }
-
-
-
-
 }
