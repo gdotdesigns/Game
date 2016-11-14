@@ -170,6 +170,20 @@ public class MainMenu implements Screen{
             }
         });
 
+        twitterbutton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+            }
+        });
+
+        facebookButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+            }
+        });
+
         achievementButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
