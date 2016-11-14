@@ -1,6 +1,7 @@
 package net.gdotdesigns.game;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -323,13 +324,66 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
 
     }
 
+    private boolean isAppInstalled(String uri) {
+        PackageManager pm = getPackageManager();
+        boolean installed = false;
+        try {
+            pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);
+            installed = true;
+        } catch (PackageManager.NameNotFoundException e) {
+            installed = false;
+        }
+        return installed;
+    }
+
     @Override
     public void shareTwitter() {
 
+        if(isAppInstalled("com.twitter.android")){
+
+                runOnUiThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                            Toast.makeText(getContext(),"Twitter is installed.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+        }
+
+        else{
+            runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+                    Toast.makeText(getContext(),"Twitter is not installed.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     @Override
     public void shareFacebook() {
+
+        if(isAppInstalled("com.facebook.katana")){
+
+            runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+                    Toast.makeText(getContext(),"Facebook is installed.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+        else{
+            runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+                    Toast.makeText(getContext(),"Facebook is not installed.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
 
     }
 }
