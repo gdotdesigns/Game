@@ -22,9 +22,6 @@ import com.google.example.games.basegameutils.BaseGameUtils;
 
 public class AndroidLauncher extends AndroidApplication implements AdController, GooglePlayServices, GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener {
 
-    //TODO Google play Icons are too small.
-    //TODO Need to add Google sign in button to atlas.
-    //TODO Need to add sign out button to atlas.
     //TODO Move AD and google player services to seperate classes
 
     private InterstitialAd interstitialAd;

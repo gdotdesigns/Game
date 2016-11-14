@@ -109,7 +109,6 @@ public class Hud {
     }
 
     public void gameOver(){
-        //TODO Make textbutton auto span the width of the text.
         table.clearChildren();
         table.setFillParent(true);
         table.center();
