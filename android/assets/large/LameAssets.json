@@ -280,16 +280,16 @@ com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle: {
     }
 
     signout: {
-      imageUp: games_achievements_green
-      imageDown: games_achievements
+      imageUp: signout
+      imageDown: signout
       font: font
       fontColor: text
       downFontColor: text-selected
     }
 
     continue: {
-      imageUp: games_achievements_green
-      imageDown: games_achievements
+      imageUp: continue
+      imageDown: continue
       font: font
       fontColor: text
       downFontColor: text-selected
