@@ -37,6 +37,8 @@ public class MainMenu implements Screen{
     TextButton start;
     TextButton stop;
     ImageButton googlePlayButton;
+    ImageButton twitterbutton;
+    ImageButton facebookButton;
     ImageTextButton achievementButton;
     ImageTextButton leaderBoardButton;
     ImageTextButton signOutButton;
@@ -85,6 +87,8 @@ public class MainMenu implements Screen{
         highScore=saveScore.readScore();
         highScoreLabel = new Label("High Score: " + String.valueOf(highScore),skin);
         googlePlayButton = new ImageButton(skin.getDrawable("games_controller"),skin.getDrawable("games_controller_grey"));
+        twitterbutton = new ImageButton(skin.getDrawable("Twitter_Social_Icon_Rounded_Square_Color"));
+        facebookButton = new ImageButton(skin.getDrawable("FB-f-Logo__blue"));
         achievementButton = new ImageTextButton("Achievements",skin,"games_achievements");
         achievementButton.getLabel().setAlignment(Align.center);
         leaderBoardButton = new ImageTextButton("LeaderBoard",skin,"games_leaderboard");
@@ -106,7 +110,9 @@ public class MainMenu implements Screen{
         menuTable.row();
         menuTable.add(highScoreLabel).colspan(3);
         menuTable.row();
-        menuTable.add(googlePlayButton).expandX();
+        menuTable.add(twitterbutton);
+        menuTable.add(googlePlayButton);
+        menuTable.add(facebookButton);
         stage.addActor(menuTable);
 
         googlePlayTable.setFillParent(true);
