@@ -28,6 +28,7 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
     private InterstitialAd interstitialAd;
     private AdRequest adRequest;
     private GoogleApiClient googleApiClient;
+    private PackageManager pm;
     private int playCount = 0;
     private static final int MAX_PLAY_COUNT = 1;
 	private static final String INTERSTITIAL_UNIT_ID ="ca-app-pub-2895382750471159/5257221423";
@@ -325,7 +326,7 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
     }
 
     private boolean isAppInstalled(String uri) {
-        PackageManager pm = getPackageManager();
+        pm = getPackageManager();
         boolean installed = false;
         try {
             pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);
@@ -334,6 +335,18 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
             installed = false;
         }
         return installed;
+    }
+
+    public void startIntentChooser(){
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT,"TEST");
+        startActivity(Intent.createChooser(shareIntent,"Share"));
+    }
+
+    public void startSocialApp(String uri){
+
     }
 
     @Override
@@ -345,7 +358,19 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
 
                     @Override
                     public void run() {
-                            Toast.makeText(getContext(),"Twitter is installed.", Toast.LENGTH_SHORT).show();
+                        try{
+                            pm.getPackageInfo("com.twitter.android", 0);
+                            Intent intent = new Intent(Intent.ACTION_SEND);
+                            intent.setClassName("com.twitter.android", "com.twitter.android.composer.ComposerActivity");
+                            intent.setType("text/plain");
+                            intent.putExtra(Intent.EXTRA_TEXT, "Your text");
+                            startActivity(intent);
+                        }
+
+                        catch (Exception e){
+
+                        }
+
                     }
                 });
         }
@@ -355,7 +380,7 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
 
                 @Override
                 public void run() {
-                    Toast.makeText(getContext(),"Twitter is not installed.", Toast.LENGTH_SHORT).show();
+                    startIntentChooser();
                 }
             });
         }
@@ -370,7 +395,6 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
 
                 @Override
                 public void run() {
-                    Toast.makeText(getContext(),"Facebook is installed.", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -380,7 +404,7 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
 
                 @Override
                 public void run() {
-                    Toast.makeText(getContext(),"Facebook is not installed.", Toast.LENGTH_SHORT).show();
+                    startIntentChooser();
                 }
             });
         }
