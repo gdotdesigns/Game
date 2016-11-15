@@ -3,7 +3,6 @@ package net.gdotdesigns.game;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -33,7 +32,6 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
     private InterstitialAd interstitialAd;
     private AdRequest adRequest;
     private GoogleApiClient googleApiClient;
-    private PackageManager pm;
     private int playCount = 0;
     private static final int MAX_PLAY_COUNT = 1;
 	private static final String INTERSTITIAL_UNIT_ID ="ca-app-pub-2895382750471159/5257221423";
