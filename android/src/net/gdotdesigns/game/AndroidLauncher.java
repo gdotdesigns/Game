@@ -2,6 +2,7 @@ package net.gdotdesigns.game;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,9 +22,11 @@ import com.google.android.gms.games.Games;
 import com.google.android.gms.games.GamesActivityResultCodes;
 import com.google.example.games.basegameutils.BaseGameUtils;
 
+import java.util.List;
+
 public class AndroidLauncher extends AndroidApplication implements AdController, GooglePlayServices, GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener, SocialMediaInterface {
 
-    //TODO Move AD and google player services to seperate classes
+    //TODO Move AD, google player and twitter/facbook  services to seperate classes
 
     private InterstitialAd interstitialAd;
     private AdRequest adRequest;
@@ -325,90 +328,60 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
 
     }
 
-    private boolean isAppInstalled(String uri) {
-        pm = getPackageManager();
-        boolean installed = false;
-        try {
-            pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);
-            installed = true;
-        } catch (PackageManager.NameNotFoundException e) {
-            installed = false;
-        }
-        return installed;
-    }
-
-    public void startIntentChooser(){
-        Intent shareIntent = new Intent();
-        shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_TEXT,"TEST");
-        startActivity(Intent.createChooser(shareIntent,"Share"));
-    }
 
     public void startSocialApp(String uri){
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_TEXT, "This is a Test.");
+        intent.setType("text/plain");
 
+        PackageManager packManager = getPackageManager();
+        List<ResolveInfo> resolvedInfoList = packManager.queryIntentActivities(intent,  PackageManager.MATCH_DEFAULT_ONLY);
+
+        boolean resolved = false;
+        for(ResolveInfo resolveInfo: resolvedInfoList){
+            if(resolveInfo.activityInfo.packageName.startsWith(uri)){
+                intent.setClassName(
+                        resolveInfo.activityInfo.packageName,
+                        resolveInfo.activityInfo.name );
+                resolved = true;
+                break;
+            }
+        }
+        if(resolved){
+            startActivity(intent);
+        }else{
+            startActivity(Intent.createChooser(intent,"Share"));
+        }
     }
 
     @Override
     public void shareTwitter() {
 
-        if(isAppInstalled("com.twitter.android")){
+        runOnUiThread(new Runnable() {
 
-                runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
 
-                    @Override
-                    public void run() {
-                        try{
-                            pm.getPackageInfo("com.twitter.android", 0);
-                            Intent intent = new Intent(Intent.ACTION_SEND);
-                            intent.setClassName("com.twitter.android", "com.twitter.android.composer.ComposerActivity");
-                            intent.setType("text/plain");
-                            intent.putExtra(Intent.EXTRA_TEXT, "Your text");
-                            startActivity(intent);
-                        }
-
-                        catch (Exception e){
-
-                        }
-
-                    }
-                });
-        }
-
-        else{
-            runOnUiThread(new Runnable() {
-
-                @Override
-                public void run() {
-                    startIntentChooser();
-                }
-            });
-        }
+                startSocialApp("com.twitter.android");
+            }
+        });
     }
+
+
 
     @Override
     public void shareFacebook() {
 
-        if(isAppInstalled("com.facebook.katana")){
+        runOnUiThread(new Runnable() {
 
-            runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
 
-                @Override
-                public void run() {
-                }
-            });
-        }
+                startSocialApp("com.facebook.katana");
 
-        else{
-            runOnUiThread(new Runnable() {
-
-                @Override
-                public void run() {
-                    startIntentChooser();
-                }
-            });
-        }
-
+            }
+        });
     }
+
 }
 
