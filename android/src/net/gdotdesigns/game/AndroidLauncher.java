@@ -3,6 +3,7 @@ package net.gdotdesigns.game;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -331,7 +332,7 @@ public class AndroidLauncher extends AndroidApplication implements AdController,
 
     public void startSocialApp(String uri){
         Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.putExtra(Intent.EXTRA_TEXT, "This is a Test.");
+        intent.putExtra(Intent.EXTRA_TEXT, "http://play.google.com/store/apps/details?id=net.gdot.badgeswipe");
         intent.setType("text/plain");
 
         PackageManager packManager = getPackageManager();
