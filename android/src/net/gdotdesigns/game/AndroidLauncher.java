@@ -88,7 +88,7 @@ public class AndroidLauncher extends AndroidApplication implements AdControllerI
         super.onResume();
     }
 
-    //If Ad is loadedAfter, run code in runnable after ad is closed  , otherwise load an Ad.
+    //If Ad is loaded, run code in runnable after ad is closed  , otherwise load an Ad.
     @Override
     public void showorLoadInterstitials(final Runnable runnable) {
         if(playCount >= MAX_PLAY_COUNT) {
@@ -313,6 +313,7 @@ public class AndroidLauncher extends AndroidApplication implements AdControllerI
                         requestCode, resultCode, R.string.signin_failure);
             }
      }
+        //Call backs for signing out of GPGS from GPGS menu outside of app.
 
         else if(requestCode == REQUEST_LEADERBOARD ){
             resolvingConnectionFailure = false;
@@ -332,7 +333,7 @@ public class AndroidLauncher extends AndroidApplication implements AdControllerI
 
     }
 
-
+    //Load twitter or facebook app if installed and not disabled, otherwise load app chooser.
     public void startSocialApp(String uri){
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.putExtra(Intent.EXTRA_TEXT, "http://play.google.com/store/apps/details?id=net.gdot.badgeswipe");
