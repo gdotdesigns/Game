@@ -50,7 +50,7 @@ public class Game implements Screen{
     private  ParallaxBackground parallaxBackground;
     private EntityManager entityManager;
     private Hud hud;
-    SaveScore saveScore;
+    SaveState saveScore;
     InputMultiplexer inputMultiplexer;
     Inputs inputs;
     private boolean gameRunning=true;
@@ -69,7 +69,7 @@ public class Game implements Screen{
         this.camera= new OrthographicCamera();
         this.spriteBatch=spriteBatch;
         this.entityManager=new EntityManager();//Made an object instead of a static class due to Android issues with glitched textures...
-        saveScore = new SaveScore();
+        saveScore = new SaveState();
         this.mainGameScreen=mainGameScreen;
         this.mainMenu=mainMenu;
     }

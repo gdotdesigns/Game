@@ -17,8 +17,8 @@ import com.googlecode.gwt.crypto.client.TripleDesCipher;
  *
  */
 
-public class SaveScore {
-    //TODO Make a more unique cypher key.
+public class SaveState {
+    //TODO Make a more unique cypher key.Do last since this is on public Github repo.
     private static final byte[] GWT_DES_KEY = new byte[]{(byte)1,(byte)5,(byte)1,(byte)1,(byte)1,(byte)1,(byte)1,(byte)1,(byte)1,(byte)1,
             (byte)6,(byte)1,(byte)1,(byte)1,(byte)6,(byte)1,(byte)7,(byte)1,(byte)1,(byte)1,(byte)1,(byte)1,(byte)1,(byte)1};
     Preferences preferences;
@@ -27,9 +27,8 @@ public class SaveScore {
     TripleDesCipher tripleDesCipher;
     boolean status;
 
-    public SaveScore(){
+    public SaveState(){
         //TODO Encrypt the preference key and obfuscate this class.
-        //TODO Change the name of the SaveScore class.
         preferences= Gdx.app.getPreferences("High Score");
         json = new Json();
         tripleDesCipher = new TripleDesCipher();

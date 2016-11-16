@@ -47,7 +47,7 @@ public class MainMenu implements Screen{
     int highScore;
     Label highScoreLabel;
     Viewport viewport;
-    SaveScore saveScore = new SaveScore();
+    SaveState saveScore = new SaveState();
     MainMenu mainMenu;
     private static final String LEADERBOARD_ID = "CgkIhoTXsMgaEAIQBg";
     private static final String ACHIEVEMENT_ID_NUM_1 = "CgkIhoTXsMgaEAIQAQ";
