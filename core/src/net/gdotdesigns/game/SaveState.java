@@ -28,7 +28,6 @@ public class SaveState {
     boolean status;
 
     public SaveState(){
-        //TODO Encrypt the preference key and obfuscate this class.
         preferences= Gdx.app.getPreferences("High Score");
         json = new Json();
         tripleDesCipher = new TripleDesCipher();
@@ -43,7 +42,7 @@ public class SaveState {
             String score = json.toJson(currentScore);
             try {
                 score=tripleDesCipher.encrypt(Base64Coder.encodeString(score));
-                //TODO Add functionality to the error code... ie. load a default score of 0 maybe.
+
             } catch (DataLengthException e1) {
 
             } catch (IllegalStateException e1) {
@@ -73,6 +72,7 @@ public class SaveState {
         return score;
     }
 
+    //Decide if to auto log in to GPGS.
     public void writePlayServiceStatus(boolean status){
         preferences.putBoolean("status",status);
         preferences.flush();
@@ -83,6 +83,7 @@ public class SaveState {
         return status;
     }
 
+    //Track if local score has been uploaded to GPGS.
     public void writeScoreSavedStatus(boolean savedStatus){
         preferences.putBoolean("savedStatus", savedStatus);
     }
@@ -93,7 +94,7 @@ public class SaveState {
     }
 
 
-    //stores a value stating (0 = locked, 1 = unlocked but not updated to GPGS, 2 = unlocked and updated on GPGS.
+    //stores a value stating (0 = locked, 1 = unlocked but not updated to GPGS, 2 = unlocked and updated to GPGS.
     public void writeAchievement1(int value){
         preferences.putInteger("Achievement1",value);
     }
