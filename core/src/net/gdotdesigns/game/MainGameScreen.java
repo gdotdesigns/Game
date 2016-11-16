@@ -18,10 +18,10 @@ public class MainGameScreen extends com.badlogic.gdx.Game {
     public GooglePlayServicesInterface googlePlayServices;
     public SocialMediaInterface socialMediaInterface;
 
-    public MainGameScreen(AdControllerInterface adController, GooglePlayServicesInterface googlePlayServices, SocialMediaInterface socialMediaInterface){
+    public MainGameScreen(AdControllerInterface adController, GooglePlayServicesInterface googlePlayServices, SocialMediaInterface socialMedia){
         this.adController = adController;
         this.googlePlayServices = googlePlayServices;
-        this.socialMediaInterface = socialMediaInterface;
+        this.socialMediaInterface = socialMedia;
     }
 
 
