@@ -269,6 +269,8 @@ public class AndroidLauncher extends AndroidApplication implements AdControllerI
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
+        //track connection for render loop in mainmenu. Some issue with isConnected method still returning true
+        //after signing out in GPGS menu.
         isConnected = true;
     }
 
