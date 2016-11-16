@@ -42,7 +42,6 @@ public class AndroidLauncher extends AndroidApplication implements AdControllerI
     public boolean resolvingConnectionFailure = false;
     private boolean signingOut = false;
     private boolean isConnected = false;
-    public static final String TAG = "AndroidLauncher";
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
