@@ -171,14 +171,14 @@ public class MainMenu implements Screen{
         twitterbutton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                mainGameScreen.socialMediaInterface.shareTwitter();
+                mainGameScreen.socialMedia.shareTwitter();
             }
         });
 
         facebookButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                mainGameScreen.socialMediaInterface.shareFacebook();
+                mainGameScreen.socialMedia.shareFacebook();
             }
         });
 
