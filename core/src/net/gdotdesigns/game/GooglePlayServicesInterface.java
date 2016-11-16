@@ -4,7 +4,7 @@ package net.gdotdesigns.game;
  * Created by Todd on 11/2/2016.
  */
 
-public interface GooglePlayServices {
+public interface GooglePlayServicesInterface {
 
     //http://stackoverflow.com/questions/32982472/libgdx-google-play-game-services-in-android-studio
     //https://developers.google.com/android/guides/permissions

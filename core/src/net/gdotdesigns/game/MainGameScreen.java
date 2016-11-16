@@ -14,11 +14,11 @@ public class MainGameScreen extends com.badlogic.gdx.Game {
     public static final float WORLD_HEIGHT=9f;
     public SpriteBatch spriteBatch;
     public Assets assets;
-    public AdController adController;
-    public GooglePlayServices googlePlayServices;
+    public AdControllerInterface adController;
+    public GooglePlayServicesInterface googlePlayServices;
     public SocialMediaInterface socialMediaInterface;
 
-    public MainGameScreen(AdController adController,GooglePlayServices googlePlayServices,SocialMediaInterface socialMediaInterface){
+    public MainGameScreen(AdControllerInterface adController, GooglePlayServicesInterface googlePlayServices, SocialMediaInterface socialMediaInterface){
         this.adController = adController;
         this.googlePlayServices = googlePlayServices;
         this.socialMediaInterface = socialMediaInterface;

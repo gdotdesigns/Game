@@ -24,7 +24,7 @@ import com.google.example.games.basegameutils.BaseGameUtils;
 
 import java.util.List;
 
-public class AndroidLauncher extends AndroidApplication implements AdController, GooglePlayServices, GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener, SocialMediaInterface {
+public class AndroidLauncher extends AndroidApplication implements AdControllerInterface, GooglePlayServicesInterface, GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener, SocialMediaInterface {
 
     //TODO Move AD, google player and twitter/facbook  services to seperate classes
     //TODO Enter app name for social media links when game is complete.
