@@ -26,7 +26,6 @@ import java.util.List;
 
 public class AndroidLauncher extends AndroidApplication implements AdControllerInterface, GooglePlayServicesInterface, GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener, SocialMediaInterface {
 
-    //TODO Move AD, google player and twitter/facbook  services to seperate classes
     //TODO Enter app name for social media links when game is complete.
 
     private InterstitialAd interstitialAd;
