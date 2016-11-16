@@ -45,11 +45,11 @@ public class SaveState {
                 score=tripleDesCipher.encrypt(Base64Coder.encodeString(score));
                 //TODO Add functionality to the error code... ie. load a default score of 0 maybe.
             } catch (DataLengthException e1) {
-                e1.printStackTrace();
+
             } catch (IllegalStateException e1) {
-                e1.printStackTrace();
+
             } catch (InvalidCipherTextException e1) {
-                e1.printStackTrace();
+
             }
             preferences.putString("savedScore",score );
         }
@@ -63,11 +63,11 @@ public class SaveState {
             savedScore=tripleDesCipher.decrypt(savedScore);
             //TODO Add functionality to the error code... ie. load a default score of 0 maybe.
         } catch (DataLengthException e) {
-            e.printStackTrace();
+            return 0;
         } catch (IllegalStateException e) {
-            e.printStackTrace();
+            return 0;
         } catch (InvalidCipherTextException e) {
-            e.printStackTrace();
+            return 0;
         }
         int score  = json.fromJson(int.class,Base64Coder.decodeString(savedScore));
         return score;
@@ -93,7 +93,7 @@ public class SaveState {
     }
 
 
-    //TODO Change this to some map to reduce code?
+    //stores a value stating (0 = locked, 1 = unlocked but not updated to GPGS, 2 = unlocked and updated on GPGS.
     public void writeAchievement1(int value){
         preferences.putInteger("Achievement1",value);
     }
