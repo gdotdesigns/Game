@@ -35,6 +35,7 @@ public class AndroidLauncher extends AndroidApplication implements AdControllerI
     private static final int MAX_PLAY_COUNT = 1;
 	private static final String INTERSTITIAL_UNIT_ID ="ca-app-pub-2895382750471159/5257221423";
 	private static final String TEST_DEVICE= "8ABB25975BCF7ED6E7C49D16043D1A12";
+    //These are arbitrary numbers to specify which activity called onActivityResult
     private static int RC_SIGN_IN = 9001;
     private static int REQUEST_LEADERBOARD = 1;
     private static int REQUEST_ACHIEVEMENTS = 2;
@@ -47,7 +48,7 @@ public class AndroidLauncher extends AndroidApplication implements AdControllerI
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-
+        //Builds an interstitial ad
         interstitialAd = new InterstitialAd(this);
         adRequest = new AdRequest.Builder()
                 .addTestDevice(TEST_DEVICE)
@@ -55,6 +56,7 @@ public class AndroidLauncher extends AndroidApplication implements AdControllerI
         interstitialAd.setAdUnitId(INTERSTITIAL_UNIT_ID);
         interstitialAd.loadAd(adRequest);
 
+        //Builds a google api client for Games.api (Google Play Services)
         googleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -62,6 +64,7 @@ public class AndroidLauncher extends AndroidApplication implements AdControllerI
                 .build();
 
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
+        //Pass this object to the maingamescreen to make native android code usable in libgdx
 		initialize(new MainGameScreen(this,this,this), config);
 	}
 
@@ -85,6 +88,7 @@ public class AndroidLauncher extends AndroidApplication implements AdControllerI
         super.onResume();
     }
 
+    //If Ad is loadedAfter, run code in runnable after ad is closed  , otherwise load an Ad.
     @Override
     public void showorLoadInterstitials(final Runnable runnable) {
         if(playCount >= MAX_PLAY_COUNT) {
@@ -274,6 +278,7 @@ public class AndroidLauncher extends AndroidApplication implements AdControllerI
             googleApiClient.connect();
     }
 
+    //Call back for connection failure to signInGPGS.
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult result) {
 
@@ -293,6 +298,7 @@ public class AndroidLauncher extends AndroidApplication implements AdControllerI
     }
 
 
+    //Call back for successfull / unsuccessful resolution from onConnectionFailed.
     @Override
     protected void onActivityResult(int requestCode, int resultCode,Intent data) {
       super.onActivityResult(requestCode, resultCode, data);
