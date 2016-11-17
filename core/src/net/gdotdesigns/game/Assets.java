@@ -24,8 +24,11 @@ public class Assets {
     Resolution small =new Resolution(320, 480, "small"); //3:2
     Resolution medium =new Resolution(480, 800, "medium"); //5:3
     Resolution large =new Resolution(1080, 1920, "large"); //16:9
-    ResolutionFileResolver resolver = new ResolutionFileResolver(new InternalFileHandleResolver(),small,medium,large);
+    //ResolutionFileResolver resolver = new ResolutionFileResolver(new InternalFileHandleResolver(),small,medium,large);
+    ResolutionFileResolver resolver = new ResolutionFileResolver(new InternalFileHandleResolver(),large);
+
     Resolution res = ResolutionFileResolver.choose(small,medium,large);
+
 
 
    public void loadGameAssets() {

@@ -82,8 +82,9 @@ public class MainMenu implements Screen{
         gameTitle.setFontScale(2f);
         start=new TextButton("Play",skin);
         stop=new TextButton("Exit",skin);
-        highScore=saveScore.readScore();
-        highScoreLabel = new Label("High Score: " + String.valueOf(highScore),skin);
+        //highScore=saveScore.readScore();
+        //highScoreLabel = new Label("High Score: " + String.valueOf(highScore),skin)
+        highScoreLabel = new Label("",skin);
         googlePlayButton = new ImageButton(skin.getDrawable("games_controller"),skin.getDrawable("games_controller_grey"));
         twitterbutton = new ImageButton(skin.getDrawable("Twitter_Social_Icon_Rounded_Square_Color"));
         facebookButton = new ImageButton(skin.getDrawable("FB-f-Logo__blue"));

@@ -60,12 +60,17 @@ public class SaveState {
         }
         try {
             savedScore=tripleDesCipher.decrypt(savedScore);
-            //TODO Add functionality to the error code... ie. load a default score of 0 maybe.
-        } catch (DataLengthException e) {
+        }
+        catch (DataLengthException e) {
             return 0;
-        } catch (IllegalStateException e) {
+        }
+        catch (IllegalStateException e) {
             return 0;
-        } catch (InvalidCipherTextException e) {
+        }
+        catch (InvalidCipherTextException e) {
+            return 0;
+        }
+        catch (ArrayIndexOutOfBoundsException e) {
             return 0;
         }
         int score  = json.fromJson(int.class,Base64Coder.decodeString(savedScore));
