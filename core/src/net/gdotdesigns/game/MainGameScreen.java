@@ -7,9 +7,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  */
 
 public class MainGameScreen extends com.badlogic.gdx.Game {
-    public static final int WIDTH=1920, HEIGHT =1080; //large
-    //public static final int WIDTH=800,HEIGHT = 480; //medium
-    //public static final int WIDTH=480,HEIGHT = 320; //small
+//    public static final int WIDTH=1920, HEIGHT =1080; //large
+    public static final int WIDTH=800,HEIGHT = 480; //medium
+//    public static final int WIDTH=480,HEIGHT = 320; //small
     public static final String TITLE = "Game";
     public static final float WORLD_HEIGHT=9f;
     public SpriteBatch spriteBatch;

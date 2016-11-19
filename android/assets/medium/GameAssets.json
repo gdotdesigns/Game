@@ -1,7 +1,7 @@
 {
 com.badlogic.gdx.graphics.g2d.BitmapFont: {
 	font: {
-		file: infected64.fnt
+		file: Boing64.fnt
 	}
 }
 com.badlogic.gdx.graphics.Color: {
@@ -81,10 +81,6 @@ com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
 	}
 	progress-bar-c: {
 		name: progress-bar
-		color: color
-	}
-	progress-bar-knob-c: {
-		name: progress-bar-knob
 		color: color
 	}
 	progress-bar-vertical-c: {
@@ -199,14 +195,7 @@ com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
 		name: checkbox-pressed-over
 		color: color
 	}
-	progress-bar-big-c: {
-		name: progress-bar-big
-		color: color
-	}
-	progress-bar-big-knob-c: {
-		name: progress-bar-big-knob
-		color: color
-	}
+
 }
 com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
 	default: {
@@ -273,6 +262,38 @@ com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle: {
 		downFontColor: text-selected
 		checkedFontColor: text-selected
 	}
+
+	games_achievements: {
+		imageUp: games_achievements_green
+		imageDown: games_achievements
+		font: font
+		fontColor: text
+		downFontColor: text-selected
+	}
+
+    games_leaderboard: {
+      imageUp: games_leaderboards_green
+      imageDown: games_leaderboards
+      font: font
+      fontColor: text
+      downFontColor: text-selected
+    }
+
+    signout: {
+      imageUp: signout
+      imageDown: signout
+      font: font
+      fontColor: text
+      downFontColor: text-selected
+    }
+
+    continue: {
+      imageUp: continue
+      imageDown: continue
+      font: font
+      fontColor: text
+      downFontColor: text-selected
+  }
 }
 com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	default: {
@@ -297,20 +318,7 @@ com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
 		background: list-c
 	}
 }
-com.badlogic.gdx.scenes.scene2d.ui.ProgressBar$ProgressBarStyle: {
-	default-horizontal: {
-		background: progress-bar-c
-		knobBefore: progress-bar-knob-c
-	}
-	default-vertical: {
-		background: progress-bar-vertical-c
-		knobBefore: progress-bar-vertical-knob-c
-	}
-	big: {
-		background: progress-bar-big-c
-		knobBefore: progress-bar-big-knob-c
-	}
-}
+
 com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle: {
 	default: {
 		hScrollKnob: scroll-horizontal-c

@@ -15,8 +15,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
  */
 public class Assets {
 
-    //private static final String MENU_SKIN = "GameAssets.json";
-     private static final String MENU_SKIN = "LameAssets.json";
+    private static final String MENU_SKIN = "GameAssets.json";
+     //private static final String MENU_SKIN = "LameAssets.json";
     private static final String SPLASH_IMAGE="libgdx_splash.jpg";
 
     //http://andrew.hedges.name/experiments/aspect_ratio/
@@ -24,8 +24,8 @@ public class Assets {
     Resolution small =new Resolution(320, 480, "small"); //3:2
     Resolution medium =new Resolution(480, 800, "medium"); //5:3
     Resolution large =new Resolution(1080, 1920, "large"); //16:9
-    //ResolutionFileResolver resolver = new ResolutionFileResolver(new InternalFileHandleResolver(),small,medium,large);
-    ResolutionFileResolver resolver = new ResolutionFileResolver(new InternalFileHandleResolver(),large);
+    ResolutionFileResolver resolver = new ResolutionFileResolver(new InternalFileHandleResolver(),small,medium,large);
+    //ResolutionFileResolver resolver = new ResolutionFileResolver(new InternalFileHandleResolver(),large);
 
     Resolution res = ResolutionFileResolver.choose(small,medium,large);
 
