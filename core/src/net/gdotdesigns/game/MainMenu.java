@@ -69,7 +69,7 @@ public class MainMenu implements Screen{
         this.mainMenu=this;
 
         camera = new OrthographicCamera();
-        //viewport = new FitViewport(1920, 1080,camera); //A ratio did not give correct response, probably due to the stage actors are not images...
+//        viewport = new FitViewport(1920, 1080,camera); //A ratio did not give correct response, probably due to the stage actors are not images...
         viewport = new ScreenViewport(camera);
         viewport.apply();
         stage=new Stage(viewport,spriteBatch);
