@@ -7,12 +7,17 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.2'
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.13.0'
     }
 }
+
+
 
 allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
+    //Type gradle dependencyUpdates in terminal to check which dependencies need updated. This command uses the plugin: below.
+    apply plugin: 'com.github.ben-manes.versions'
 
     version = '1.0'
     ext {
