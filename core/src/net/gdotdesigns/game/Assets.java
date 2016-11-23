@@ -7,7 +7,6 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.assets.loaders.resolvers.ResolutionFileResolver;
 import com.badlogic.gdx.assets.loaders.resolvers.ResolutionFileResolver.Resolution;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 /**
@@ -15,8 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
  */
 public class Assets {
 
-    private static final String MENU_SKIN = "GameAssets.json";
-     //private static final String MENU_SKIN = "LameAssets.json";
+    private static final String ASSETS_SKIN = "GameAssets.json";
     private static final String SPLASH_IMAGE="libgdx_splash.jpg";
 
     //http://andrew.hedges.name/experiments/aspect_ratio/
@@ -34,7 +32,7 @@ public class Assets {
    public void loadGameAssets() {
        System.out.println("Asset Folder: " + res.folder);
        manager.setLoader(Skin.class,new SkinLoader(resolver));
-       manager.load(MENU_SKIN, Skin.class);// Delete the _0,_1, ... in the atlas and the .fnt file.
+       manager.load(ASSETS_SKIN, Skin.class);// Delete the _0,_1, ... in the atlas and the .fnt file.
    }
 
     public void loadSplashScreenAssets(){
@@ -46,8 +44,8 @@ public class Assets {
         manager.unload(SPLASH_IMAGE);
     }
 
-    public Skin getMenuAssets(){
-        return manager.get(MENU_SKIN,Skin.class);
+    public Skin getGameAssets(){
+        return manager.get(ASSETS_SKIN,Skin.class);
     }
 
     public Texture getSplashScreenAssets(){

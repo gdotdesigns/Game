@@ -75,7 +75,7 @@ public class MainMenu implements Screen{
         stage=new Stage(viewport,spriteBatch);
         menuTable = new Table();
         googlePlayTable = new Table();
-        skin = assets.getMenuAssets();
+        skin = assets.getGameAssets();
 
         gameTitle = new Label("Title of Game",skin);
         gameTitle.setFontScale(2f);
