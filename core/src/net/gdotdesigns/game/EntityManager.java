@@ -2,6 +2,8 @@ package net.gdotdesigns.game;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Transform;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
@@ -37,8 +39,21 @@ public class EntityManager {
             }
         }
         deadEntityList.clear();
-
     }
+
+    public void interpolate(float alpha) {
+        for (Entity entity : activeEntityList) {
+            Transform transform = entity.getBody().getTransform();
+            Vector2 bodyPosition = transform.getPosition();
+            Vector2 position = entity.getPosition();
+            float angle = entity.getAngle();
+            float bodyAngle = transform.getRotation();
+            position.x = bodyPosition.x * alpha + position.x * (1.0f - alpha);
+            position.y = bodyPosition.y * alpha + position.y * (1.0f - alpha);
+            entity.setBody(position.x,position.y,bodyAngle * alpha + angle * (1.0f - alpha));
+        }
+    }
+
 
 
 

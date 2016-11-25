@@ -27,4 +27,10 @@ public abstract class Entity {
 
     public abstract void dispose( );
 
+    public abstract Vector2 getPosition();
+
+    public abstract float getAngle();
+
+    public abstract void setBody(float x, float y, float angle);
+
 }

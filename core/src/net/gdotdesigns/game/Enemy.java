@@ -33,6 +33,7 @@ public class Enemy extends Entity implements Pool.Poolable{
     Animation hitAnimation;
     Sprite sprite;
     Vector2 enemyBirdVector;
+    Vector2 bodyPosition;
     Fixture temp;
     float bodyloc_x;
     float bodyloc_y;
@@ -155,6 +156,23 @@ public class Enemy extends Entity implements Pool.Poolable{
 
     @Override
     public void dispose() {
+    }
+
+    @Override
+    public Vector2 getPosition() {
+        bodyPosition = new Vector2(this.getBody().getPosition().x,this.getBody().getPosition().y);
+        return bodyPosition;
+    }
+
+    @Override
+    public float getAngle() {
+        float bodyAngle = this.getBody().getAngle();
+        return bodyAngle;
+    }
+
+    @Override
+    public void setBody(float x, float y,float angle) {
+        this.getBody().setTransform(x,y,angle);
     }
 
     @Override

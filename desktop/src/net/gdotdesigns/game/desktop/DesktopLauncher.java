@@ -16,6 +16,7 @@ public class DesktopLauncher implements AdControllerInterface,GooglePlayServices
 		config.width= MainGameScreen.WIDTH;
 		config.height =MainGameScreen.HEIGHT;
 		config.title=MainGameScreen.TITLE;
+		config.foregroundFPS=30;
 		DesktopLauncher desktopLauncher = new DesktopLauncher();
 		new LwjglApplication(new MainGameScreen(desktopLauncher,desktopLauncher,desktopLauncher), config);
 	}

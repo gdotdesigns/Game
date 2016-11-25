@@ -35,6 +35,8 @@ public class Game implements Screen{
     public static final float GRAVITY = -9.8f;
 
     public  World world;
+    public static final float TIME_STEP = 1f / 60f;
+    public float accumulator = 0;
     public  static Body groundBody;
     public  static Body leftWallBody;
     public  static Body rightWallBody;
@@ -136,39 +138,58 @@ public class Game implements Screen{
     @Override
     public void render (float delta) {
         //TODO Add delta time to the physics movement and travel to accomodate for different framerates.
-            camera.update();
-            if(gameRunning) {
-                deltaTime = Gdx.graphics.getDeltaTime();
-                update(deltaTime);
-            }
-            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-            Matrix4 debugMatrix = spriteBatch.getProjectionMatrix().cpy().scale(1f, 1f, 0);
-            spriteBatch.begin();
-            if(gameRunning) {
-                parallaxBackground.render(deltaTime);
-            }
-            else {
-                parallaxBackground.render(0f);
-            }
+        camera.update();
+        Matrix4 debugMatrix = spriteBatch.getProjectionMatrix().cpy().scale(1f, 1f, 0);
+        if(gameRunning) {
+            deltaTime = Gdx.graphics.getDeltaTime();
+            update(deltaTime);
+        }
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        spriteBatch.begin();
+        if(gameRunning) {
+            parallaxBackground.render(deltaTime);
+        }
+        else {
+            parallaxBackground.render(0f);
+        }
 
-            spriteBatch.setProjectionMatrix(camera.combined);
-            camera.update();
-            entityManager.render(spriteBatch);
-            spriteBatch.end();
+        spriteBatch.setProjectionMatrix(camera.combined);
+        camera.update();
+        entityManager.render(spriteBatch);
+        //debugRenderer.render(world, debugMatrix);
+        spriteBatch.end();
             hud.update(delta);
             hud.draw(delta);
-            debugRenderer.render(world, debugMatrix);
+
+
     }
 
     public void update(float deltaTime) {
         elapsedTime+=deltaTime;
-        world.step(1f / 60f, 6, 2);
+//        world.step(TIME_STEP, 6, 2);
+        worldStep(deltaTime);
         entityManager.destroyEntity(world);
 
         if(elapsedTime - deltaTime > ENEMY_SPAWN_TIME){
             spawnEnemy();
         }
         entityManager.update(deltaTime, camera);
+    }
+
+
+    public void worldStep(float deltaTime){
+
+        float frameTime = Math.min(deltaTime, 0.25f);
+        accumulator += frameTime;
+        while(accumulator >= TIME_STEP){
+            world.step(TIME_STEP, 6, 2);
+            accumulator -= TIME_STEP;
+        }
+
+        entityManager.interpolate(accumulator/TIME_STEP);
+
+
+
     }
 
     public void spawnEnemy(){
@@ -233,7 +254,6 @@ public class Game implements Screen{
         //leftWallBody=createStaticBody(0,0,-camera.viewportWidth/2f,-camera.viewportHeight/2f,-camera.viewportWidth/2f,camera.viewportHeight/2f);
         //rightWallBody=createStaticBody(0,0,camera.viewportWidth/2f,-camera.viewportHeight/2f,camera.viewportWidth/2f,camera.viewportHeight/2f);
         topWallBody=createStaticBody(0f,0f,-camera.viewportWidth/2f,camera.viewportHeight/2f,camera.viewportWidth/2f,camera.viewportHeight/2f);
-
         debugRenderer=new Box2DDebugRenderer();
     }
 

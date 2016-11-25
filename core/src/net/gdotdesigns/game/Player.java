@@ -33,6 +33,7 @@ public class Player extends Entity {
     float restitution;
     float elapsedTime;
     boolean isAlive;
+    Vector2 bodyPosition;
 
     public Player(float bodyloc_x, float bodyloc_y, float shapesize_x, float shapesize_y, float density, float restitution, World world, Array<TextureRegion> playerBird){
         this.bodyloc_x = bodyloc_x;
@@ -117,5 +118,20 @@ public class Player extends Entity {
     @Override
     public void dispose() {
 
+    }
+
+    @Override
+    public Vector2 getPosition() {
+        bodyPosition = new Vector2(this.getBody().getPosition().x,this.getBody().getPosition().y);
+        return bodyPosition;    }
+
+    @Override
+    public float getAngle() {
+        float bodyAngle = this.getBody().getAngle();
+        return bodyAngle;   }
+
+    @Override
+    public void setBody(float x, float y,float angle) {
+        this.getBody().setTransform(x,y,angle);
     }
 }
