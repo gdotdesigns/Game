@@ -137,6 +137,9 @@ public class Game implements Screen{
 
     @Override
     public void render (float delta) {
+        entityManager.copyPosition();
+
+
         //TODO Add delta time to the physics movement and travel to accomodate for different framerates.
         camera.update();
         if(gameRunning) {
@@ -146,10 +149,10 @@ public class Game implements Screen{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         spriteBatch.begin();
         if(gameRunning) {
-            parallaxBackground.render(deltaTime);
+            //parallaxBackground.render(deltaTime);
         }
         else {
-            parallaxBackground.render(0f);
+            //parallaxBackground.render(0f);
         }
 
         spriteBatch.setProjectionMatrix(camera.combined);
@@ -174,6 +177,10 @@ public class Game implements Screen{
             spawnEnemy();
         }
         entityManager.update(deltaTime, camera);
+        entityManager.interpolate(accumulator/TIME_STEP);
+
+
+
     }
 
 
@@ -185,10 +192,6 @@ public class Game implements Screen{
             world.step(TIME_STEP, 6, 2);
             accumulator -= TIME_STEP;
         }
-
-        entityManager.interpolate(accumulator/TIME_STEP);
-
-
 
     }
 

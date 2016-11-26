@@ -34,6 +34,8 @@ public class Enemy extends Entity implements Pool.Poolable{
     Sprite sprite;
     Vector2 enemyBirdVector;
     Vector2 bodyPosition;
+    public Vector2 previousPosition;
+    public float previousAngle;
     Fixture temp;
     float bodyloc_x;
     float bodyloc_y;
@@ -69,6 +71,7 @@ public class Enemy extends Entity implements Pool.Poolable{
         enemyBirdVector = new Vector2();
         createDynamicBody();
         this.hud=hud;
+        previousPosition = new Vector2();
     }
 
     private void createDynamicBody() {
@@ -138,8 +141,8 @@ public class Enemy extends Entity implements Pool.Poolable{
             currentFrame = hitAnimation.getKeyFrame(elapsedTime, true);
         }
         sprite.setRegion(currentFrame);
-        sprite.setPosition(body.getPosition().x-shapesize_x/2f,body.getPosition().y-shapesize_y/2f);
-        sprite.setRotation((float) Math.toDegrees(body.getAngle()));
+//        sprite.setPosition(body.getPosition().x-shapesize_x/2f,body.getPosition().y-shapesize_y/2f);
+//        sprite.setRotation((float) Math.toDegrees(body.getAngle()));
         flapTimer+= deltaTime;
         elapsedTime+= deltaTime;
         if(isAlive && flapTimer>=timeToFlap){
@@ -159,22 +162,40 @@ public class Enemy extends Entity implements Pool.Poolable{
     }
 
     @Override
-    public Vector2 getPosition() {
+    public Vector2 getCurrentPosition() {
         bodyPosition = new Vector2(this.getBody().getPosition().x,this.getBody().getPosition().y);
         return bodyPosition;
     }
 
     @Override
-    public float getAngle() {
+    public float getCurrentAngle() {
         float bodyAngle = this.getBody().getAngle();
         return bodyAngle;
     }
 
     @Override
+    public void savePreviousPosition() {
+        this.previousPosition.x = this.body.getPosition().x;
+        this.previousPosition.y = this.body.getPosition().y;
+        this.previousAngle = this.body.getAngle();
+    }
+
+    @Override
+    public Vector2 getPreviousPosition() {
+        return previousPosition;
+    }
+
+    @Override
+    public float getPreviousAngle() {
+        return previousAngle;
+    }
+
+    @Override
     public void setBody(float x, float y,float angle) {
-        this.getBody().setTransform(x,y,angle);
-        //sprite.setPosition(x,y);
-        //sprite.setRotation(angle);
+        //this.getBody().setTransform(x,y,angle);
+        sprite.setPosition(x,y);
+        sprite.setRotation(angle);
+        //sprite.setScale(2f);
     }
 
     @Override

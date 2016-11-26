@@ -3,7 +3,6 @@ package net.gdotdesigns.game;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Transform;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
@@ -41,18 +40,41 @@ public class EntityManager {
         deadEntityList.clear();
     }
 
-    public void interpolate(float alpha) {
-        for (Entity entity : activeEntityList) {
-            Transform transform = entity.getBody().getTransform();
-            Vector2 bodyPosition = transform.getPosition();
-            Vector2 position = entity.getPosition();
-            float angle = entity.getAngle();
-            float bodyAngle = transform.getRotation();
-            position.x = bodyPosition.x * alpha + position.x * (1.0f - alpha);
-            position.y = bodyPosition.y * alpha + position.y * (1.0f - alpha);
-            entity.setBody(position.x,position.y,bodyAngle * alpha + angle * (1.0f - alpha));
+    public void copyPosition(){
+        for(Entity entity:activeEntityList){
+            entity.savePreviousPosition();
         }
     }
+
+
+    public void interpolate(float alpha){
+        for(Entity entity:activeEntityList){
+
+            Vector2 currentPosition = entity.getCurrentPosition();
+            float currentAngle = entity.getCurrentAngle();
+            Vector2 previousPosition = entity.getPreviousPosition();
+            float previousAngle = entity.getPreviousAngle();
+
+            currentPosition.x = currentPosition.x * alpha + previousPosition.x * (1.0f - alpha);
+            currentPosition.y = currentPosition.y * alpha + previousPosition.y * (1.0f - alpha);
+            currentAngle = currentAngle * alpha + previousAngle * (1.0f - alpha);
+
+            entity.setBody(currentPosition.x, currentPosition.y,currentAngle);
+        }
+    }
+
+//    public void interpolate(float alpha) {
+//        for (Entity entity : activeEntityList) {
+//            Transform transform = entity.getBody().getTransform();
+//            Vector2 bodyPosition = transform.getCurrentPosition();
+//            Vector2 position = entity.getCurrentPosition();
+//            float angle = entity.getCurrentAngle();
+//            float bodyAngle = transform.getRotation();
+//            position.x = bodyPosition.x * alpha + position.x * (1.0f - alpha);
+//            position.y = bodyPosition.y * alpha + position.y * (1.0f - alpha);
+//            entity.setBody(position.x,position.y,bodyAngle * alpha + angle * (1.0f - alpha));
+//        }
+//    }
 
 
 

@@ -34,6 +34,9 @@ public class Player extends Entity {
     float elapsedTime;
     boolean isAlive;
     Vector2 bodyPosition;
+    public Vector2 previousPosition;
+    public float previousAngle;
+
 
     public Player(float bodyloc_x, float bodyloc_y, float shapesize_x, float shapesize_y, float density, float restitution, World world, Array<TextureRegion> playerBird){
         this.bodyloc_x = bodyloc_x;
@@ -50,6 +53,7 @@ public class Player extends Entity {
         sprite.setOriginCenter();
         sprite.setScale(1f,1f);
         createDynamicBody();
+        previousPosition = new Vector2();
     }
 
     private void createDynamicBody() {
@@ -121,17 +125,39 @@ public class Player extends Entity {
     }
 
     @Override
-    public Vector2 getPosition() {
+    public Vector2 getCurrentPosition() {
         bodyPosition = new Vector2(this.getBody().getPosition().x,this.getBody().getPosition().y);
         return bodyPosition;    }
 
     @Override
-    public float getAngle() {
+    public float getCurrentAngle() {
         float bodyAngle = this.getBody().getAngle();
         return bodyAngle;   }
 
     @Override
+    public void savePreviousPosition() {
+        if(this.body != null){
+            this.previousPosition.x = this.getBody().getPosition().x;
+            this.previousPosition.y = this.getBody().getPosition().y;
+            this.previousAngle = this.getBody().getAngle();
+        }
+
+    }
+
+    @Override
+    public Vector2 getPreviousPosition() {
+        return previousPosition;
+    }
+
+    @Override
+    public float getPreviousAngle() {
+        return previousAngle;
+    }
+
+    @Override
     public void setBody(float x, float y,float angle) {
-        this.getBody().setTransform(x,y,angle);
+        //this.getBody().setTransform(x,y,angle);
+        sprite.setPosition(x,y);
+        sprite.setRotation(angle);
     }
 }
