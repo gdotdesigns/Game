@@ -139,7 +139,6 @@ public class Game implements Screen{
     public void render (float delta) {
         //TODO Add delta time to the physics movement and travel to accomodate for different framerates.
         camera.update();
-        Matrix4 debugMatrix = spriteBatch.getProjectionMatrix().cpy().scale(1f, 1f, 0);
         if(gameRunning) {
             deltaTime = Gdx.graphics.getDeltaTime();
             update(deltaTime);
@@ -156,10 +155,11 @@ public class Game implements Screen{
         spriteBatch.setProjectionMatrix(camera.combined);
         camera.update();
         entityManager.render(spriteBatch);
-        //debugRenderer.render(world, debugMatrix);
+        Matrix4 debugMatrix = spriteBatch.getProjectionMatrix().cpy().scale(1f, 1f, 0);
         spriteBatch.end();
             hud.update(delta);
             hud.draw(delta);
+        debugRenderer.render(world, debugMatrix);
 
 
     }
