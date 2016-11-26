@@ -35,7 +35,7 @@ public class Game implements Screen{
     public static final float GRAVITY = -9.8f;
 
     public  World world;
-    public static final float TIME_STEP = 1f / 60f;
+    public static final float TIME_STEP = 1f / 300f;
     public float accumulator = 0;
     public  static Body groundBody;
     public  static Body leftWallBody;
@@ -137,9 +137,6 @@ public class Game implements Screen{
 
     @Override
     public void render (float delta) {
-        entityManager.copyPosition();
-
-
         //TODO Add delta time to the physics movement and travel to accomodate for different framerates.
         camera.update();
         if(gameRunning) {
@@ -177,10 +174,6 @@ public class Game implements Screen{
             spawnEnemy();
         }
         entityManager.update(deltaTime, camera);
-        entityManager.interpolate(accumulator/TIME_STEP);
-
-
-
     }
 
 
@@ -189,9 +182,12 @@ public class Game implements Screen{
         float frameTime = Math.min(deltaTime, 0.25f);
         accumulator += frameTime;
         while(accumulator >= TIME_STEP){
+            entityManager.copyPosition();
             world.step(TIME_STEP, 6, 2);
             accumulator -= TIME_STEP;
         }
+        entityManager.interpolate(accumulator/TIME_STEP);
+
 
     }
 

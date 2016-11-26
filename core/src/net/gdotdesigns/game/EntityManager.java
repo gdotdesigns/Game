@@ -13,6 +13,10 @@ public class EntityManager {
 
     private Array<Entity> activeEntityList = new Array<Entity>();
     private Array<Entity> deadEntityList = new Array<Entity>();
+    Vector2 currentPosition = new Vector2();
+    Vector2 previousPosition = new Vector2();
+    float currentAngle;
+    float previousAngle;
 
 
     public void addEntity (Entity newEntity){
@@ -50,10 +54,10 @@ public class EntityManager {
     public void interpolate(float alpha){
         for(Entity entity:activeEntityList){
 
-            Vector2 currentPosition = entity.getCurrentPosition();
-            float currentAngle = entity.getCurrentAngle();
-            Vector2 previousPosition = entity.getPreviousPosition();
-            float previousAngle = entity.getPreviousAngle();
+            currentPosition = entity.getCurrentPosition();
+            currentAngle = entity.getCurrentAngle();
+            previousPosition = entity.getPreviousPosition();
+            previousAngle = entity.getPreviousAngle();
 
             currentPosition.x = currentPosition.x * alpha + previousPosition.x * (1.0f - alpha);
             currentPosition.y = currentPosition.y * alpha + previousPosition.y * (1.0f - alpha);

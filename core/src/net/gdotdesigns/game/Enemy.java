@@ -141,8 +141,8 @@ public class Enemy extends Entity implements Pool.Poolable{
             currentFrame = hitAnimation.getKeyFrame(elapsedTime, true);
         }
         sprite.setRegion(currentFrame);
-//        sprite.setPosition(body.getPosition().x-shapesize_x/2f,body.getPosition().y-shapesize_y/2f);
-//        sprite.setRotation((float) Math.toDegrees(body.getAngle()));
+        //sprite.setPosition(body.getPosition().x-shapesize_x/2f,body.getPosition().y-shapesize_y/2f);
+        //sprite.setRotation((float) Math.toDegrees(body.getAngle()));
         flapTimer+= deltaTime;
         elapsedTime+= deltaTime;
         if(isAlive && flapTimer>=timeToFlap){
@@ -195,12 +195,13 @@ public class Enemy extends Entity implements Pool.Poolable{
         //this.getBody().setTransform(x,y,angle);
         sprite.setPosition(x,y);
         sprite.setRotation(angle);
-        //sprite.setScale(2f);
     }
 
     @Override
     public void reset() {
         body.setUserData(null);
         body=null;
+        bodyPosition = null;
+        previousPosition = null;
     }
 }
