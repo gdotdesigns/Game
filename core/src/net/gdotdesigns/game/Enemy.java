@@ -173,6 +173,8 @@ public class Enemy extends Entity implements Pool.Poolable{
     @Override
     public void setBody(float x, float y,float angle) {
         this.getBody().setTransform(x,y,angle);
+        //sprite.setPosition(x,y);
+        //sprite.setRotation(angle);
     }
 
     @Override
