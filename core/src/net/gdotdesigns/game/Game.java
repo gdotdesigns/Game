@@ -169,7 +169,6 @@ public class Game implements Screen{
 //        world.step(TIME_STEP, 6, 2);
         worldStep(deltaTime);
         entityManager.destroyEntity(world);
-
         if(elapsedTime - deltaTime > ENEMY_SPAWN_TIME){
             spawnEnemy();
         }

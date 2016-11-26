@@ -27,8 +27,8 @@ public class EntityManager {
 
     public void setToDestroyEntity(Entity oldEntity){
 
-        //deadEntityList.add(oldEntity);
-        //activeEntityList.removeValue(oldEntity,true);
+        deadEntityList.add(oldEntity);
+        activeEntityList.removeValue(oldEntity,true);
         oldEntity.setDead();
     }
 
@@ -66,21 +66,6 @@ public class EntityManager {
             entity.setBody(currentPosition.x, currentPosition.y,currentAngle);
         }
     }
-
-//    public void interpolate(float alpha) {
-//        for (Entity entity : activeEntityList) {
-//            Transform transform = entity.getBody().getTransform();
-//            Vector2 bodyPosition = transform.getCurrentPosition();
-//            Vector2 position = entity.getCurrentPosition();
-//            float angle = entity.getCurrentAngle();
-//            float bodyAngle = transform.getRotation();
-//            position.x = bodyPosition.x * alpha + position.x * (1.0f - alpha);
-//            position.y = bodyPosition.y * alpha + position.y * (1.0f - alpha);
-//            entity.setBody(position.x,position.y,bodyAngle * alpha + angle * (1.0f - alpha));
-//        }
-//    }
-
-
 
 
     public void update(float deltaTime,Camera cam){

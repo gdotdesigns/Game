@@ -141,8 +141,8 @@ public class Enemy extends Entity implements Pool.Poolable{
             currentFrame = hitAnimation.getKeyFrame(elapsedTime, true);
         }
         sprite.setRegion(currentFrame);
-        //sprite.setPosition(body.getPosition().x-shapesize_x/2f,body.getPosition().y-shapesize_y/2f);
-        //sprite.setRotation((float) Math.toDegrees(body.getAngle()));
+        sprite.setPosition(body.getPosition().x-shapesize_x/2f,body.getPosition().y-shapesize_y/2f);
+        sprite.setRotation((float) Math.toDegrees(body.getAngle()));
         flapTimer+= deltaTime;
         elapsedTime+= deltaTime;
         if(isAlive && flapTimer>=timeToFlap){

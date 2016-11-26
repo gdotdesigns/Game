@@ -29,7 +29,7 @@ public class EntityCollision implements ContactListener {
                 bodyA.getUserData() instanceof Enemy && bodyB.getUserData() instanceof Player) {
             Body player = bodyA.getUserData() instanceof Player ? bodyA : bodyB;
             Body enemy = player == bodyA ? bodyB : bodyA;
-            entityManager.setToDestroyEntity((Entity)enemy.getUserData());
+            //.setToDestroyEntity((Entity)enemy.getUserData());
         }
 
 
