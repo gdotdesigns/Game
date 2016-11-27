@@ -160,8 +160,6 @@ public class Game implements Screen{
             hud.update(delta);
             hud.draw(delta);
         debugRenderer.render(world, debugMatrix);
-
-
     }
 
     public void update(float deltaTime) {
@@ -192,7 +190,7 @@ public class Game implements Screen{
 
     public void spawnEnemy(){
         Enemy enemy = enemyPool.obtain();
-        enemy.init(camera.viewportWidth/2f+ENEMY_BIRD_WIDTH, 0, ENEMY_BIRD_WIDTH, ENEMY_BIRD_HEIGHT, 1f, .001f, world, enemyBird,enemyBirdHit,enemyPool,hud);
+        enemy.init(camera.viewportWidth/2f-ENEMY_BIRD_WIDTH, 0, ENEMY_BIRD_WIDTH, ENEMY_BIRD_HEIGHT, 1f, .001f, world, enemyBird,enemyBirdHit,enemyPool,hud);
         entityManager.addEntity(enemy);
         elapsedTime=0;
     }
