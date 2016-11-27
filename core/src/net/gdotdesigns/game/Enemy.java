@@ -39,7 +39,7 @@ public class Enemy extends Entity implements Pool.Poolable{
     Fixture temp;
     float bodyloc_x;
     float bodyloc_y;
-    float shapesize_x,shapesize_y;
+    public float shapesize_x,shapesize_y;
     float density;
     float restitution;
     float elapsedTime;
@@ -64,16 +64,16 @@ public class Enemy extends Entity implements Pool.Poolable{
         this.enemyBirdHit =enemyBirdHit;
         animation = new Animation(1 / 7f, enemyBird);
         hitAnimation = new Animation(1 / 7f, enemyBirdHit);
+        createDynamicBody();
         sprite=new Sprite();
-        sprite.setSize(shapesize_x,shapesize_y);
         sprite.setOriginCenter();
+        sprite.setSize(shapesize_x,shapesize_y);
         sprite.setScale(1f,1f);
         enemyBirdVector = new Vector2();
-        createDynamicBody();
         this.hud=hud;
         previousPosition = new Vector2();
-        sprite.setPosition(body.getPosition().x-shapesize_x/2f,body.getPosition().y-shapesize_y/2f);
-        sprite.setRotation((float) Math.toDegrees(body.getAngle()));
+//        sprite.setPosition(body.getPosition().x-shapesize_x/2f,body.getPosition().y-shapesize_y/2f);
+//        sprite.setRotation((float) Math.toDegrees(body.getAngle()));
     }
 
     private void createDynamicBody() {
@@ -145,7 +145,6 @@ public class Enemy extends Entity implements Pool.Poolable{
             currentFrame = hitAnimation.getKeyFrame(elapsedTime, true);
         }
         sprite.setRegion(currentFrame);
-
         flapTimer+= deltaTime;
         elapsedTime+= deltaTime;
         if(isAlive && flapTimer>=timeToFlap){

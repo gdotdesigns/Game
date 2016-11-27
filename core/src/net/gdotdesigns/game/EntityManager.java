@@ -15,6 +15,7 @@ public class EntityManager {
     private Array<Entity> deadEntityList = new Array<Entity>();
     Vector2 currentPosition = new Vector2();
     Vector2 previousPosition = new Vector2();
+    Vector2 spriteOffsetPosition = new Vector2();
     float currentAngle;
     float previousAngle;
 

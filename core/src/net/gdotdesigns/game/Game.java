@@ -32,7 +32,9 @@ public class Game implements Screen{
 
     public static float backgroundWidth;
 	public static final float BACKGROUND_HEIGHT=MainGameScreen.WORLD_HEIGHT;
-    public static final float GRAVITY = -9.8f;
+    //public static final float GRAVITY = -9.8f;
+    public static final float GRAVITY = 0;
+
 
     public  World world;
     public static final float TIME_STEP = 1f / 300f;
@@ -163,14 +165,15 @@ public class Game implements Screen{
     }
 
     public void update(float deltaTime) {
-        elapsedTime+=deltaTime;
-//        world.step(TIME_STEP, 6, 2);
-        worldStep(deltaTime);
         entityManager.destroyEntity(world);
+        elapsedTime+=deltaTime;
         if(elapsedTime - deltaTime > ENEMY_SPAWN_TIME){
             spawnEnemy();
         }
         entityManager.update(deltaTime, camera);
+        worldStep(deltaTime);
+
+
     }
 
 
@@ -184,8 +187,6 @@ public class Game implements Screen{
             accumulator -= TIME_STEP;
         }
         entityManager.interpolate(accumulator/TIME_STEP);
-
-
     }
 
     public void spawnEnemy(){
