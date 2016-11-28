@@ -32,8 +32,8 @@ public class Game implements Screen{
 
     public static float backgroundWidth;
 	public static final float BACKGROUND_HEIGHT=MainGameScreen.WORLD_HEIGHT;
-    //public static final float GRAVITY = -9.8f;
-    public static final float GRAVITY = 0;
+    public static final float GRAVITY = -9.8f;
+    //public static final float GRAVITY = 0;
 
 
     public  World world;
@@ -248,7 +248,7 @@ public class Game implements Screen{
         Box2D.init();
         world = new World(new Vector2(0,GRAVITY),true);
         groundBody=createStaticBody(0f,0f,-camera.viewportWidth/2f,-camera.viewportHeight/2f,camera.viewportWidth,-camera.viewportHeight/2f);
-        //leftWallBody=createStaticBody(0,0,-camera.viewportWidth/2f,-camera.viewportHeight/2f,-camera.viewportWidth/2f,camera.viewportHeight/2f);
+        leftWallBody=createStaticBody(0,0,-camera.viewportWidth/2f,-camera.viewportHeight/2f,-camera.viewportWidth/2f,camera.viewportHeight/2f);
         //rightWallBody=createStaticBody(0,0,camera.viewportWidth/2f,-camera.viewportHeight/2f,camera.viewportWidth/2f,camera.viewportHeight/2f);
         topWallBody=createStaticBody(0f,0f,-camera.viewportWidth/2f,camera.viewportHeight/2f,camera.viewportWidth/2f,camera.viewportHeight/2f);
         debugRenderer=new Box2DDebugRenderer();

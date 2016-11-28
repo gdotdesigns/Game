@@ -66,14 +66,16 @@ public class Enemy extends Entity implements Pool.Poolable{
         hitAnimation = new Animation(1 / 7f, enemyBirdHit);
         createDynamicBody();
         sprite=new Sprite();
-        sprite.setOriginCenter();
         sprite.setSize(shapesize_x,shapesize_y);
         sprite.setScale(1f,1f);
         enemyBirdVector = new Vector2();
         this.hud=hud;
         previousPosition = new Vector2();
-//        sprite.setPosition(body.getPosition().x-shapesize_x/2f,body.getPosition().y-shapesize_y/2f);
-//        sprite.setRotation((float) Math.toDegrees(body.getAngle()));
+        sprite.setPosition(body.getPosition().x-shapesize_x/2f,body.getPosition().y-shapesize_y/2f);
+        //setOriginCenter has to be called after sprite position is set.
+        sprite.setOriginCenter();
+        sprite.setRotation((float) Math.toDegrees(body.getAngle()));
+
     }
 
     private void createDynamicBody() {
@@ -90,7 +92,7 @@ public class Enemy extends Entity implements Pool.Poolable{
         fixtureDef.restitution=restitution;
         //fixtureDef.isSensor=true;
         body.createFixture(fixtureDef);
-        body.setFixedRotation(true);
+        body.setFixedRotation(false);
         body.setLinearVelocity(-5f, 0f);
         shape.dispose();
     }
@@ -136,6 +138,7 @@ public class Enemy extends Entity implements Pool.Poolable{
 
     @Override
     public void update(float deltaTime) {
+//        Sprite setPosition not needed in update due to using interpolation in EntityManager.
 //        sprite.setPosition(body.getPosition().x-shapesize_x/2f,body.getPosition().y-shapesize_y/2f);
 //        sprite.setRotation((float) Math.toDegrees(body.getAngle()));
         if(isAlive) {
@@ -195,8 +198,8 @@ public class Enemy extends Entity implements Pool.Poolable{
     @Override
     public void setBody(float x, float y,float angle) {
         //this.getBody().setTransform(x,y,angle);
-        sprite.setPosition(x,y);
-        sprite.setRotation(angle);
+        sprite.setPosition(x - shapesize_x / 2f,y - shapesize_y / 2f);
+        sprite.setRotation((float) Math.toDegrees(angle));
     }
 
     @Override

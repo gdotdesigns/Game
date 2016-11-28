@@ -158,6 +158,7 @@ public class Player extends Entity {
     public void setBody(float x, float y,float angle) {
         //this.getBody().setTransform(x,y,angle);
         sprite.setPosition(x,y);
+        sprite.setCenter(x,y);
         sprite.setRotation(angle);
     }
 }

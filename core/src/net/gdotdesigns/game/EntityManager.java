@@ -28,8 +28,8 @@ public class EntityManager {
 
     public void setToDestroyEntity(Entity oldEntity){
 
-        deadEntityList.add(oldEntity);
-        activeEntityList.removeValue(oldEntity,true);
+//        deadEntityList.add(oldEntity);
+//        activeEntityList.removeValue(oldEntity,true);
         oldEntity.setDead();
     }
 
@@ -75,7 +75,7 @@ public class EntityManager {
             e.update(deltaTime);
 
             if(e instanceof Enemy) {
-                if ((e.findEntityLocation().x < -cam.viewportWidth / 3f || !e.isAlive() && e.findEntityLocation().y < -cam.viewportHeight / 2f)) {
+                if ((e.findEntityLocation().x < -cam.viewportWidth / 2f || !e.isAlive() && e.findEntityLocation().y < -cam.viewportHeight / 2f)) {
                     if(!deadEntityList.contains(e,true)) {
                         deadEntityList.add(e);
                         activeEntityList.removeValue(e, true);
