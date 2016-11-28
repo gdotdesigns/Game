@@ -69,7 +69,7 @@ public class Player extends Entity {
         fixtureDef.density=density;
         fixtureDef.restitution=restitution;
         body.createFixture(fixtureDef);
-        body.setFixedRotation(true);
+        body.setFixedRotation(false);
         body.setGravityScale(1.5f);
         shape.dispose();
     }
@@ -108,9 +108,9 @@ public class Player extends Entity {
     public void update(float deltaTime) {
         elapsedTime+= deltaTime;
         currentFrame = animation.getKeyFrame(elapsedTime,true);
-        sprite.setRegion(currentFrame);
-        sprite.setPosition(body.getPosition().x-shapesize_x/2f,body.getPosition().y-shapesize_y/2f);
-        sprite.setRotation((float) Math.toDegrees(body.getAngle()));
+//        Sprite setPosition not needed in update due to using interpolation in EntityManager.
+//        sprite.setPosition(body.getPosition().x-shapesize_x/2f,body.getPosition().y-shapesize_y/2f);
+//        sprite.setRotation((float) Math.toDegrees(body.getAngle()));
 
     }
 
@@ -157,8 +157,7 @@ public class Player extends Entity {
     @Override
     public void setBody(float x, float y,float angle) {
         //this.getBody().setTransform(x,y,angle);
-        sprite.setPosition(x,y);
-        sprite.setCenter(x,y);
-        sprite.setRotation(angle);
+        sprite.setPosition(x - shapesize_x / 2f,y - shapesize_y / 2f);
+        sprite.setRotation((float) Math.toDegrees(angle));
     }
 }
