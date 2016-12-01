@@ -108,6 +108,7 @@ public class Player extends Entity {
     public void update(float deltaTime) {
         elapsedTime+= deltaTime;
         currentFrame = animation.getKeyFrame(elapsedTime,true);
+        sprite.setRegion(currentFrame);
 //        Sprite setPosition not needed in update due to using interpolation in EntityManager.
 //        sprite.setPosition(body.getPosition().x-shapesize_x/2f,body.getPosition().y-shapesize_y/2f);
 //        sprite.setRotation((float) Math.toDegrees(body.getAngle()));
