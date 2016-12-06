@@ -1,186 +1,251 @@
 package net.gdotdesigns.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Cubemap;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.VertexAttributes;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g3d.Environment;
+import com.badlogic.gdx.graphics.VertexAttributes.Usage;
+import com.badlogic.gdx.graphics.g3d.Attribute;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
+import com.badlogic.gdx.graphics.g3d.Renderable;
+import com.badlogic.gdx.graphics.g3d.Shader;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
-import com.badlogic.gdx.graphics.g3d.attributes.CubemapAttribute;
-import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
+import com.badlogic.gdx.graphics.g3d.model.Node;
+import com.badlogic.gdx.graphics.g3d.shaders.BaseShader;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.graphics.g3d.utils.DefaultShaderProvider;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
-import com.badlogic.gdx.graphics.glutils.KTXTextureData;
+import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 
-/**
- * Created by Todd on 12/2/2016.
- */
+public class Test implements Screen {
+    // Create a custom attribute, see https://github.com/libgdx/libgdx/wiki/Material-and-environment
+    // See also: http://blog.xoppa.com/using-materials-with-libgdx/
+    public static class TestAttribute extends Attribute {
+        public final static String Alias = "Test";
+        public final static long ID = register(Alias);
 
-public class Test extends InputAdapter implements Screen {
+        public float value;
+
+        protected TestAttribute (final float value) {
+            super(ID);
+            this.value = value;
+        }
+
+        @Override
+        public Attribute copy () {
+            return new TestAttribute(value);
+        }
+
+        @Override
+        protected boolean equals (Attribute other) {
+            return ((TestAttribute)other).value == value;
+        }
+
+        @Override
+        public int compareTo (Attribute o) {
+            if (type != o.type) return type < o.type ? -1 : 1;
+            float otherValue = ((TestAttribute)o).value;
+            return MathUtils.isEqual(value, otherValue) ? 0 : (value < otherValue ? -1 : 1);
+        }
+    }
+
+    // Create a custom shader, see also http://blog.xoppa.com/creating-a-shader-with-libgdx
+    // BaseShader adds some basic functionality used to manage uniforms etc.
+    public static class TestShader extends BaseShader {
+        // @off
+        public final static String vertexShader =
+                "attribute vec3 a_position;\n"
+                        + "uniform mat4 u_projTrans;\n"
+                        + "uniform mat4 u_worldTrans;\n"
+                        + "void main() {\n"
+                        + "	gl_Position = u_projTrans * u_worldTrans * vec4(a_position, 1.0);\n"
+                        + "}\n";
+
+        public final static String fragmentShader =
+                "#ifdef GL_ES\n"
+                        + "#define LOWP lowp\n"
+                        + "precision mediump float;\n"
+                        + "#else\n"
+                        + "#define LOWP\n"
+                        + "#endif\n"
+
+                        + "uniform float u_test;\n"
+                        + "#ifdef HasDiffuseColor\n"
+                        + "uniform vec4 u_color;\n"
+                        + "#endif //HasDiffuseColor\n"
+
+                        + "void main() {\n"
+                        + "#ifdef HasDiffuseColor\n"
+                        + "	gl_FragColor.rgb = u_color.rgb * vec3(u_test);\n"
+                        + "#else\n"
+                        + "	gl_FragColor.rgb = vec3(u_test);\n"
+                        + "#endif //HasDiffuseColor\n"
+                        + "}\n";
+        // @on
+
+        protected final int u_projTrans = register(new Uniform("u_projTrans"));
+        protected final int u_worldTrans = register(new Uniform("u_worldTrans"));
+        protected final int u_test = register(new Uniform("u_test"));
+        protected final int u_color = register(new Uniform("u_color"));
+
+        protected final ShaderProgram program;
+        private boolean withColor;
+
+        public TestShader (Renderable renderable) {
+            super();
+            withColor = renderable.material.has(ColorAttribute.Diffuse);
+            if (withColor)
+                Gdx.app.log("ShaderTest", "Compiling test shader with u_color uniform");
+            else
+                Gdx.app.log("ShaderTest", "Compiling test shader without u_color uniform");
+
+            String prefix = withColor ? "#define HasDiffuseColor\n" : "";
+            program = new ShaderProgram(vertexShader, prefix + fragmentShader);
+
+            if (!program.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader " + program.getLog());
+            String log = program.getLog();
+            if (log.length() > 0) Gdx.app.error("ShaderTest", "Shader compilation log: " + log);
+        }
+
+        @Override
+        public void init () {
+            super.init(program, null);
+        }
+
+        @Override
+        public int compareTo (Shader other) {
+            return 0;
+        }
+
+        @Override
+        public boolean canRender (Renderable instance) {
+            return instance.material.has(TestAttribute.ID) && (instance.material.has(ColorAttribute.Diffuse) == withColor);
+        }
+
+        @Override
+        public void begin (Camera camera, RenderContext context) {
+            program.begin();
+            context.setDepthTest(GL20.GL_LEQUAL, 0f, 1f);
+            context.setDepthMask(true);
+            set(u_projTrans, camera.combined);
+        }
+
+        @Override
+        public void render (Renderable renderable) {
+            set(u_worldTrans, renderable.worldTransform);
+
+            TestAttribute testAttr = (TestAttribute)renderable.material.get(TestAttribute.ID);
+            set(u_test, testAttr.value);
+
+            if (withColor) {
+                ColorAttribute colorAttr = (ColorAttribute)renderable.material.get(ColorAttribute.Diffuse);
+                set(u_color, colorAttr.color);
+            }
+
+            renderable.meshPart.render(program);
+        }
+
+        @Override
+        public void end () {
+            program.end();
+        }
+
+        @Override
+        public void dispose () {
+            super.dispose();
+            program.dispose();
+        }
+    }
+
+    public PerspectiveCamera cam;
+    public CameraInputController camController;
+    public ModelBatch modelBatch;
+    public Model model;
+    public Array<ModelInstance> instances = new Array<ModelInstance>();
+    public TestAttribute testAttribute1, testAttribute2;
 
 
-    private PerspectiveCamera perspectiveCamera;
-    private CameraInputController inputController;
-    private ModelBatch modelBatch;
-    private Model model;
-    private ModelInstance instance;
-    private Environment environment;
-    private Cubemap cubemap;
 
-    // 2D texture alpha ETC1 example
-    private OrthographicCamera orthoCamera;
-    private Texture image;
-    private SpriteBatch batch;
-    private ShaderProgram etc1aShader;
+    private float counter;
 
-    // animation
-    private float time;
+    @Override
+    public void render (float delta) {
+        counter = (counter + Gdx.graphics.getDeltaTime()) % 2.f;
+        testAttribute1.value = Math.abs(1f - counter);
+        testAttribute2.value = 1f - testAttribute1.value;
 
+        camController.update();
+
+        Gdx.gl.glViewport(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+
+        modelBatch.begin(cam);
+        modelBatch.render(instances);
+        modelBatch.end();
+    }
 
     @Override
     public void show() {
 
+        modelBatch = new ModelBatch(new DefaultShaderProvider() {
+            @Override
+            protected Shader createShader (Renderable renderable) {
+                if (renderable.material.has(TestAttribute.ID)) return new TestShader(renderable);
+                return super.createShader(renderable);
+            }
+        });
 
-        // Cubemap test
+        cam = new PerspectiveCamera(67, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        cam.position.set(0f, 0f, 20f);
+        cam.lookAt(0, 0, 0);
+        cam.near = 1f;
+        cam.far = 300f;
+        cam.update();
 
-        String cubemapVS = "" //
-                + "attribute vec3 a_position;\n"//
-                + "uniform mat4 u_projViewTrans;\n"//
-                + "uniform mat4 u_worldTrans;\n"//
-                + "\n"//
-                + "varying vec3 v_cubeMapUV;\n"//
-                + "\n"//
-                + "void main() {\n"//
-                + "   vec4 g_position = vec4(a_position, 1.0);\n"//
-                + "   g_position = u_worldTrans * g_position;\n"//
-                + "   v_cubeMapUV = normalize(g_position.xyz);\n"//
-                + "   gl_Position = u_projViewTrans * g_position;\n"//
-                + "}";
+        camController = new CameraInputController(cam);
+        Gdx.input.setInputProcessor(camController);
 
-        String cubemapFS = ""//
-                + "#ifdef GL_ES\n"//
-                + "precision mediump float;\n"//
-                + "#endif\n"//
-                + "uniform samplerCube u_environmentCubemap;\n"//
-                + "varying vec3 v_cubeMapUV;\n"//
-                + "void main() {\n" //
-                + "	gl_FragColor = vec4(textureCube(u_environmentCubemap, v_cubeMapUV).rgb, 1.0);\n" //
-                + "}\n";
+        Material testMaterial1 = new Material("TestMaterial1", new TestAttribute(1f));
+        Material redMaterial = new Material("RedMaterial", ColorAttribute.createDiffuse(Color.RED));
+        Material testMaterial2 = new Material("TestMaterial2", new TestAttribute(1f), ColorAttribute.createDiffuse(Color.BLUE));
 
-        modelBatch = new ModelBatch(new DefaultShaderProvider(cubemapVS, cubemapFS));
+        ModelBuilder builder = new ModelBuilder();
+        Node node;
 
-        cubemap = new Cubemap(new KTXTextureData(Gdx.files.internal("data/cubemap.zktx"), true));
-        cubemap.setFilter(Texture.TextureFilter.MipMapLinearLinear, Texture.TextureFilter.Linear);
+        builder.begin();
+        node = builder.node();
+        node.id = "testCone1";
+        node.translation.set(-10, 0f, 0f);
+        builder.part("testCone", GL20.GL_TRIANGLES, Usage.Position, testMaterial1).cone(5, 5, 5, 20);
 
-        environment = new Environment();
-        environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.1f, 0.1f, 0.1f, 1.f));
-        environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -0.5f, -1.0f, -0.8f));
-        environment.set(new CubemapAttribute(CubemapAttribute.EnvironmentMap, cubemap));
+        node = builder.node();
+        node.id = "redSphere";
+        builder.part("redSphere", GL20.GL_TRIANGLES, Usage.Position, redMaterial).sphere(5, 5, 5, 20, 20);
 
-        perspectiveCamera = new PerspectiveCamera(67, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        perspectiveCamera.position.set(10f, 10f, 10f);
-        perspectiveCamera.lookAt(0, 0, 0);
-        perspectiveCamera.near = 0.1f;
-        perspectiveCamera.far = 300f;
-        perspectiveCamera.update();
+        node = builder.node();
+        node.id = "testCone1";
+        node.translation.set(10, 0f, 0f);
+        builder.part("testCone", GL20.GL_TRIANGLES, Usage.Position, testMaterial2).cone(5, 5, 5, 20);
 
-        ModelBuilder modelBuilder = new ModelBuilder();
-        model = modelBuilder.createBox(5f, 5f, 5f, new Material(ColorAttribute.createDiffuse(Color.GREEN)), VertexAttributes.Usage.Position
-                | VertexAttributes.Usage.Normal);
-        instance = new ModelInstance(model);
+        model = builder.end();
 
-        Gdx.input.setInputProcessor(new InputMultiplexer(this, inputController = new CameraInputController(perspectiveCamera)));
-
-        // 2D texture test
-        String etc1aVS = "" //
-                + "uniform mat4 u_projTrans;\n"//
-                + "\n"//
-                + "attribute vec4 a_position;\n"//
-                + "attribute vec2 a_texCoord0;\n"//
-                + "attribute vec4 a_color;\n"//
-                + "\n"//
-                + "varying vec4 v_color;\n"//
-                + "varying vec2 v_texCoord;\n"//
-                + "\n"//
-                + "void main() {\n"//
-                + "   gl_Position = u_projTrans * a_position;\n"//
-                + "   v_texCoord = a_texCoord0;\n"//
-                + "   v_color = a_color;\n"//
-                + "}\n";//
-        String etc1aFS = ""//
-                + "#ifdef GL_ES\n"//
-                + "precision mediump float;\n"//
-                + "#endif\n"//
-                + "uniform sampler2D u_texture;\n"//
-                + "\n"//
-                + "varying vec4 v_color;\n"//
-                + "varying vec2 v_texCoord;\n"//
-                + "\n"//
-                + "void main() {\n"//
-                + "   vec3 col = texture2D(u_texture, v_texCoord.st).rgb;\n"//
-                + "   float alpha = texture2D(u_texture, v_texCoord.st + vec2(0.0, 0.5)).r;\n"//
-                + "   gl_FragColor = vec4(col, alpha) * v_color;\n"//
-                + "}\n";//
-        etc1aShader = new ShaderProgram(etc1aVS, etc1aFS);
-        orthoCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        image = new Texture("data/egg.zktx");
-        batch = new SpriteBatch(100, etc1aShader);
+        ModelInstance modelInstance;
+        modelInstance = new ModelInstance(model);
+        testAttribute1 = (TestAttribute)modelInstance.getMaterial("TestMaterial1").get(TestAttribute.ID);
+        testAttribute2 = (TestAttribute)modelInstance.getMaterial("TestMaterial2").get(TestAttribute.ID);
+        instances.add(modelInstance);
 
     }
 
-    @Override
-    public void render(float delta) {
-
-        time += Gdx.graphics.getDeltaTime();
-        inputController.update();
-        int gw = Gdx.graphics.getWidth(), gh = Gdx.graphics.getHeight();
-        int pw = gw > gh ? gw / 2 : gw, ph = gw > gh ? gh : gh / 2;
-
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-
-        // cubemap
-        Gdx.gl.glViewport(gw - pw, gh - ph, pw, ph);
-        perspectiveCamera.viewportWidth = pw;
-        perspectiveCamera.viewportHeight = ph;
-        perspectiveCamera.update();
-        modelBatch.begin(perspectiveCamera);
-        modelBatch.render(instance, environment);
-        modelBatch.end();
-
-        // 2D texture with alpha & ETC1
-        Gdx.gl.glViewport(0, 0, pw, ph);
-        orthoCamera.viewportWidth = pw;
-        orthoCamera.viewportHeight = ph;
-        orthoCamera.update();
-        batch.setProjectionMatrix(orthoCamera.combined);
-        batch.begin();
-        float s = 0.1f + 0.5f * (1 + MathUtils.sinDeg(time * 90.0f));
-        float w = s * image.getWidth(), h = s * image.getHeight() / 2, x = -w / 2, y = -h / 2;
-        batch.setShader(null);
-        batch.disableBlending();
-        batch.draw(image, -pw / 2, -ph / 2, pw, ph, 0, 1, 1, 0);
-        batch.setShader(etc1aShader);
-        batch.enableBlending();
-        batch.draw(image, x, y, w, h, 0, 0.5f, 1, 0);
-        batch.end();
-
-    }
 
     @Override
     public void resize(int width, int height) {
@@ -197,24 +262,15 @@ public class Test extends InputAdapter implements Screen {
 
     }
 
-    public boolean needsGL20 () {
-        return true;
-    }
-
     @Override
     public void hide() {
 
     }
 
     @Override
-    public void dispose() {
-
+    public void dispose () {
         modelBatch.dispose();
         model.dispose();
-        cubemap.dispose();
-        image.dispose();
-        batch.dispose();
-        etc1aShader.dispose();
-
     }
 }
+
