@@ -30,7 +30,7 @@ public class MainGameScreen extends com.badlogic.gdx.Game {
         spriteBatch = new SpriteBatch();
         assets=new Assets();
 //        this.setScreen(new SplashScreen(this,spriteBatch,assets));
-        this.setScreen(new Test());
+        this.setScreen(new TiledTest());
     }
 
     @Override
